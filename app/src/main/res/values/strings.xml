@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">GoaKhabar</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="home">होम</string>
+    <string name="goa">गोवा</string>
+    <string name="desh">देश</string>
+    <string name="videsh">विदेश</string>
+    <string name="rajkaran">राजकारण</string>
+    <string name="business">बिज़नेस</string>
+    <string name="manoranjan">मनोरंजन</string>
+    <string name="krida">क्रीड़ा</string>
+    <string name="sampadkiya">संपादकीय</string>
+    <string name="english_khabar">इंग्लिश खबर</string>
+    <string name="digital">डिजिटल</string>
+    <string name="foram">फोरम</string>
+    <string name="sampark">संपर्क</string>
+
+
+</resources>

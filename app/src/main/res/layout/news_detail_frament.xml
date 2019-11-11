@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    style="@style/textview16verdana_bold"
+                    android:inputType="textMultiLine"
+                    android:text="बजाज ऑटोने गोव्यात सादर केली ऑल न्यू चेतक"
+                    >
+                </TextView>
+
+
+                <ImageView
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"
+                    android:src="@drawable/news1"
+                    >
+                </ImageView>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textview12verdana"
+                    android:text="न्यूज़ वेब टीम"
+                    android:singleLine="false"
+                    android:inputType="textMultiLine"
+                    >
+                </TextView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textview08verdana"
+                    android:textColor="@color/grey"
+                    android:text="14-05-2019"
+                    android:singleLine="false"
+                    android:inputType="textMultiLine"
+                    >
+                </TextView>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    style="@style/textview14verdana"
+                    android:text="चेतकचे आता इलेक्ट्रिक अवतारामध्ये पुनरागमन
+                    पणजी ते पुणे “चेतक इलेक्ट्रिक यात्रा”ला प्रारंभ, आकर्षक रचना, काटेकोरपणाचा अभियांत्रिकी नमुना, अचूक निर्मिती प्रक्रिया याद्वारे हे अद्ययावत, अग्रगण्य उत्पादन साकारलेले आहे. न्यू चेतकचे अनावरण हा एक उद्घाटनाचा क्षण नाही, तर वैभवशाली इतिहासाला उजाळा देतानाच आश्वासक भविष्याची नांदी ठरणारा हा क्षण आहे. चेतक इलेक्ट्रिक यात्रेच्या चौथ्या टप्प्यास बजाज ऑटो लि.च्या अर्बनाइट बिझनेस विभागाचे अध्यक्ष श्री. एरिक वास यांनी हिरवा झेंडा दाखवला. आता ही यात्रा दक्षिण महाराष्ट्रातील विविध प्रमुख शहरांना भेटी देऊन अखेरीस पुण्यात पोचणार आहे."
+                    android:singleLine="false"
+                    android:inputType="textMultiLine"
+                    >
+                </TextView>
+
+
+                <LinearLayout
+                    android:weightSum="1"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_comment"
+                        android:layout_weight="0.33"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comment"
+                        android:textColor="@color/goldenrod"
+                        android:drawableLeft="@drawable/comment"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        >
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_weight="0.33"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Share"
+                        android:textColor="@color/goldenrod"
+                        android:drawableLeft="@drawable/ic_share_black_24dp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_gravity="center"
+
+                        >
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_weight="0.33"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bookmark"
+                        android:textColor="@color/goldenrod"
+                        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        >
+
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_8sdp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    style="@style/textview16verdana_bold"
+                    android:inputType="textMultiLine"
+                    android:text="Recommended News"
+                    >
+                </TextView>
+
+
+                <include
+                    layout="@layout/recommended_news"
+                    >
+
+                </include>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

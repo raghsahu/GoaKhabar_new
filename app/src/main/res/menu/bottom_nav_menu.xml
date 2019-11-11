@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_home"
+        app:showAsAction="withText"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/epaper_icon"
+        android:title="ई पेपर" />
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/video_icon"
+        android:title="वीडियो गैलरी" />
+
+    <item
+        android:id="@+id/navigation_photo"
+        android:icon="@drawable/ic_photo_camera_black_24dp"
+        android:title="फोटो शूट" />
+
+</menu>

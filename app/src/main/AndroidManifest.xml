@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.news.goakhabar">
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/goakhabar"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/goakhabar"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".VideoPlayActivity"></activity>
+        <activity android:name=".E_PaperActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
