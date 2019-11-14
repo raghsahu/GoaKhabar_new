@@ -9,6 +9,7 @@
     <color name="app_theme">#1E90FF</color>
     <color name="light_blue">#32A9F8</color>#82CAFF
     <color name="ll_blue">#82CAFF</color>
+    <color name="bg_light_white">#D5F0EDED</color>
 
     <color name="yellow">#fff952</color>
     <color name="yelow">#FCE903</color>

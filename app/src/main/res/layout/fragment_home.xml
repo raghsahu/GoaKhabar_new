@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/bg_light_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,7 +10,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="@color/bg_light_white"
         app:tabMode="scrollable">
 
     </com.google.android.material.tabs.TabLayout>
@@ -28,21 +29,46 @@
         >
 
         <LinearLayout
+            android:background="@color/white"
             android:id="@+id/ll_news_details"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            style="@style/textview16verdana_bold"
-            android:inputType="textMultiLine"
-            android:text="बजाज ऑटोने गोव्यात सादर केली ऑल न्यू चेतक"
-            >
-        </TextView>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_weight="0.1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    style="@style/textview16verdana_bold"
+                    android:inputType="textMultiLine"
+                    android:text="बजाज ऑटोने गोव्यात सादर केली ऑल न्यू चेतक"
+                    >
+                </TextView>
+
+            <TextView
+                android:layout_weight="0.9"
+                android:id="@+id/textViewOptions"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="&#8942;"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,16 +86,61 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:scaleType="fitXY"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_150sdp"
                 android:src="@drawable/news1"
                 >
             </ImageView>
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/ll_news_details1"
+        <TextView
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            style="@style/textview16verdana_bold"
+            android:text="@string/breaking_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/ll_news_details11"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <include
+                layout="@layout/recommended_news">
+            </include>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="#FF5722"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp">
+
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Banner ads"
+                >
+
+            </TextView>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/ll_news_details1"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,12 +151,26 @@
                 layout="@layout/news_item">
             </include>
 
-
-
         </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="#FF5722"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp">
 
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Banner ads"
+                >
+
+            </TextView>
+
+        </LinearLayout>
 
 
     </LinearLayout>

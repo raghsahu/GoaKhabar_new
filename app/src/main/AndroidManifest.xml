@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VideoPlayActivity"></activity>
+        <activity android:name=".E_paper_detailsActivity"></activity>
+        <activity android:name=".VideoPlayActivity" />
         <activity android:name=".E_PaperActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".SettingsActivity" />
