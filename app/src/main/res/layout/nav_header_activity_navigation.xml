@@ -18,7 +18,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/goakhabar"
+        android:src="@drawable/gk"
         app:civ_border_color="@color/blue"
         app:civ_border_width="@dimen/_2sdp" />
 
