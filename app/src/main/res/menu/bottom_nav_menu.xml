@@ -10,6 +10,7 @@
         android:title="@string/home" />
 
     <item
+        android:visible="false"
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/epaper_icon"
         android:title="ई पेपर" />

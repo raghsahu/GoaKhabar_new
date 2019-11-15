@@ -225,7 +225,23 @@
                     style="@style/tx_vu"
                     />
 
-
+            <Button
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/button"
+                android:textAllCaps="false"
+                android:text="Twitter"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:drawableLeft="@drawable/twitter_icon"
+                android:drawablePadding="2dip"
+                android:paddingLeft="70dip"
+                android:paddingRight="60dip"
+                android:singleLine="true"
+                android:gravity="center"
+                style="@style/tx_vu"
+                />
 
 <!--            </LinearLayout>-->
 
