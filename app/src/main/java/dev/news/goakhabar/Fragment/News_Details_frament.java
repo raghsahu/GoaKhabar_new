@@ -19,7 +19,7 @@ import dev.news.goakhabar.R;
  */
 public class News_Details_frament extends Fragment {
 
-    TextView tv_comment;
+    TextView tv_comment,tv_share;
 
     @Nullable
     @Override
@@ -30,6 +30,7 @@ public class News_Details_frament extends Fragment {
         getActivity().setTitle(R.string.home);
         // backpress = (ImageView) view.findViewById(R.id.back_press);
         tv_comment =  view.findViewById(R.id.tv_comment);
+        tv_share =  view.findViewById(R.id.tv_share);
 
 //        backpress.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -48,6 +49,30 @@ public class News_Details_frament extends Fragment {
             }
         });
 
+        tv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ShareNews();
+
+            }
+        });
+
         return view;
+    }
+
+    private void ShareNews() {
+
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
+            String shareMessage= "\nबजाज ऑटोने गोव्यात सादर केली ऑल न्यू चेतक\n";
+            shareMessage = shareMessage + "http://www.goakhabar.com/";
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
     }
 }
