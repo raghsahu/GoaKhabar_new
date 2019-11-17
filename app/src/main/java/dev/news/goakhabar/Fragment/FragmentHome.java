@@ -35,6 +35,8 @@ public class FragmentHome extends Fragment {
     LinearLayout ll_news_details1,ll_news_details;
     private TabLayout tabLayout;
     public ArrayList<DrawerItem> List_Item=new ArrayList<>();
+    ImageView iv_option;
+    TextView txt;
 
 
     @Nullable
@@ -46,8 +48,9 @@ public class FragmentHome extends Fragment {
         getActivity().setTitle(R.string.home);
         ll_news_details1=view.findViewById(R.id.ll_news_details1);
         ll_news_details=view.findViewById(R.id.ll_news_details);
+        iv_option=view.findViewById(R.id.iv_option);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        TextView txt = view.findViewById(R.id.text);
+        txt = view.findViewById(R.id.text);
         final TextView textViewOptions = view.findViewById(R.id.textViewOptions);
         txt.setSelected(true);
 
@@ -65,6 +68,53 @@ public class FragmentHome extends Fragment {
         tv_title.setVisibility(View.GONE);
 
         //**************************
+
+        txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment  fragment1 = new Breaking_new_fragment();
+                tv_title.setText(R.string.breaking_news);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame, fragment1)
+                        .commit();
+                fragmentManager.beginTransaction().addToBackStack(null);
+
+            }
+        });
+
+        iv_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(getActivity(), iv_option);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.options_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_share:
+                                //handle menu1 click
+                                ShareNews();
+                                return true;
+                            case R.id.navigation_bookmark:
+                                //handle menu2 click
+                                return true;
+
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                //displaying the popup
+                popup.show();
+
+            }
+    });
+
         textViewOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +205,9 @@ public class FragmentHome extends Fragment {
         }
 
         return view;
+    }
+
+    private void openOption() {
     }
 
     private void ShareNews() {

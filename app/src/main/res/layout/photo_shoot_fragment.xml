@@ -63,6 +63,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/textViewOptions"
             android:layout_margin="@dimen/_5sdp"
             android:gravity="center"
             android:layout_weight="0.9"

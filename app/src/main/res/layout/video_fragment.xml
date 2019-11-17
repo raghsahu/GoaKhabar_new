@@ -46,14 +46,13 @@
                 android:padding="2dp"
                 >
 
+
                 <ImageView
-                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_120sdp"
-                    android:src="@drawable/news1"
+                    android:layout_gravity="center"
                     android:scaleType="fitXY"
-                    />
-
+                    android:src="@drawable/nnnqq" />
 
                 <TextView
                     android:layout_margin="@dimen/_10sdp"
@@ -75,8 +74,17 @@
                     android:src="@drawable/vid_play"
                     android:layout_centerInParent="true"
                     >
-
                 </ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
+                </ImageView>
+
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
@@ -128,6 +136,15 @@
                     android:layout_centerInParent="true"
                     >
 
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
                 </ImageView>
             </RelativeLayout>
 
@@ -194,6 +211,15 @@
                     >
 
                 </ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
+                </ImageView>
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
@@ -219,7 +245,7 @@
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_120sdp"
-                    android:src="@drawable/news1"
+                    android:src="@drawable/nnnqq"
                     android:scaleType="fitXY"
                     />
 
@@ -245,6 +271,15 @@
                     android:layout_centerInParent="true"
                     >
 
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
                 </ImageView>
             </RelativeLayout>
 
@@ -312,6 +347,14 @@
                     >
 
                 </ImageView>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
+                </ImageView>
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
@@ -364,20 +407,21 @@
                     >
 
                 </ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    android:layout_alignParentRight="true"
+                    >
+                </ImageView>
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>
-
-
-
-
-
-
-
-
 
 
     </LinearLayout>

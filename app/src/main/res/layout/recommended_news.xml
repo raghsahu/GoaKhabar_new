@@ -25,16 +25,36 @@
                     android:layout_height="@dimen/_200sdp">
 
 
-                    <ImageView
+                    <RelativeLayout
                         android:layout_weight="0.3"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <ImageView
+
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/news1"
+                        android:src="@drawable/nnnqq"
                         android:scaleType="fitXY"
                         >
 
                     </ImageView>
 
+
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_share_black_24dp"
+                        android:scaleType="fitXY"
+                        >
+
+                    </ImageView>
+
+
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_weight="0.7"
@@ -48,6 +68,9 @@
                     </TextView>
 
 
+
+
+
                 </LinearLayout>
 
             <LinearLayout
@@ -58,15 +81,36 @@
                 android:layout_height="@dimen/_200sdp">
 
 
-                <ImageView
+                <RelativeLayout
                     android:layout_weight="0.3"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/news1"
-                    android:scaleType="fitXY"
+                    android:layout_height="wrap_content"
                     >
 
-                </ImageView>
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/nnnqq"
+                        android:scaleType="fitXY"
+                        >
+
+                    </ImageView>
+
+
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_share_black_24dp"
+                        android:scaleType="fitXY"
+                        >
+
+                    </ImageView>
+
+
+                </RelativeLayout>
 
 
                 <TextView
@@ -91,15 +135,36 @@
                 android:layout_height="@dimen/_200sdp">
 
 
-                <ImageView
+                <RelativeLayout
                     android:layout_weight="0.3"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/news1"
-                    android:scaleType="fitXY"
+                    android:layout_height="wrap_content"
                     >
 
-                </ImageView>
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/news1"
+                        android:scaleType="fitXY"
+                        >
+
+                    </ImageView>
+
+
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_share_black_24dp"
+                        android:scaleType="fitXY"
+                        >
+
+                    </ImageView>
+
+
+                </RelativeLayout>
 
 
                 <TextView

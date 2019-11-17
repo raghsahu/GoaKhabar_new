@@ -15,21 +15,26 @@ import androidx.fragment.app.Fragment;
 
 import dev.news.goakhabar.R;
 
-/**
- * Created by Raghvendra Sahu on 10-Nov-19.
- */
-public class Photo_Shoot_Fragment extends Fragment {
+import static dev.news.goakhabar.MainActivity.iv_logo;
+import static dev.news.goakhabar.MainActivity.tv_title;
 
+/**
+ * Created by Raghvendra Sahu on 17-Nov-19.
+ */
+public class Breaking_new_fragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.photo_shoot_fragment, container, false);
+        View view = inflater.inflate(R.layout.breaking_news, container, false);
+        getActivity().setTitle(R.string.breaking_news);
 
-       // getActivity().setTitle(R.string.home);
-        // backpress = (ImageView) view.findViewById(R.id.back_press);
         final TextView textViewOptions = view.findViewById(R.id.textViewOptions);
+        iv_logo.setVisibility(View.GONE);
+        tv_title.setVisibility(View.VISIBLE);
+        tv_title.setText(R.string.breaking_news);
+       // tabLayout.setVisibility(View.GONE);
         //**************************
         textViewOptions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,21 +69,11 @@ public class Photo_Shoot_Fragment extends Fragment {
         });
 
 
-
-
-//        backpress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity)getActivity()).onBackPressed();
-//            }
-//        });
-//
-
-
         return view;
-    }
+}
 
     private void ShareNews() {
+
 
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -92,5 +87,6 @@ public class Photo_Shoot_Fragment extends Fragment {
             //e.toString();
         }
     }
+
 
 }

@@ -25,22 +25,44 @@
 
     </androidx.cardview.widget.CardView>
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        >
+
+
+    <ImageView
+        android:id="@+id/iv_option"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_more_horiz_black_24dp"
+        android:layout_gravity="right"
+        >
+
+    </ImageView>
+
     <TextView
         android:id = "@+id/text"
         android:textSize = "20dp"
-        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        style="@style/textview16verdana_bold"
         android:textAlignment = "center"
         android:layout_width = "match_parent"
         android:ellipsize = "marquee"
         android:fadingEdge = "horizontal"
         android:marqueeRepeatLimit = "marquee_forever"
         android:scrollHorizontally = "true"
-        android:textColor = "@color/blue"
+        android:textColor = "@color/white"
+       android:paddingBottom="@dimen/_10sdp"
         android:text = "ब्रेकिंग न्यूज़:  11 व्या ब्रिक्स शिखर परिषदेच्या पार्श्वभूमीवर पंतप्रधान नरेंद्र मोदी यांनी 13 नोव्हेंबरला ब्राझीलचे राष्ट्राध्यक्ष जेयर मेसियस बोल्सोनोरो यांची भेट घेतली."
         android:layout_height = "wrap_content"
         android:singleLine = "true" />
 
 
+    </LinearLayout>
 
 
     <ScrollView
