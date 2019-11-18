@@ -27,6 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+import dev.news.goakhabar.Fragment.Breaking_new_fragment;
 import dev.news.goakhabar.Fragment.FragmentHome;
 import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
@@ -293,11 +294,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
 //            mDrawerLayout.closeDrawer(mDrawerList);
 
-        }else if (Item_Name.equals("डिजिटल")) {
-            tv_title.setText("डिजिटल");
+        }else if (Item_Name.equals("ब्रेकिंग खबर")) {
+            tv_title.setText("ब्रेकिंग खबर");
             iv_logo.setVisibility(View.GONE);
             //titletxt.setText("Home");
-            Fragment  fragment1 = new News_Fragment();
+            Fragment  fragment1 = new Breaking_new_fragment();
             // imgheader.setVisibility(View.GONE);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
@@ -331,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List_Item.clear();
 
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.home), R.drawable.ic_expand));
+        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.breaking_news), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.goa), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.desh), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.videsh), R.drawable.ic_expand));
@@ -342,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.krida), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampadkiya), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.english_khabar), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.digital), R.drawable.ic_expand));
+       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.digital), R.drawable.ic_expand));
       //  List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.foram), R.drawable.ic_expand));
        // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampark), R.drawable.ic_expand));
         List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.brand), R.drawable.ic_expand));
