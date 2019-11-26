@@ -1,7 +1,9 @@
 package dev.news.goakhabar.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,21 +11,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import dev.news.goakhabar.BuildConfig;
+import dev.news.goakhabar.Adapter.HomeAdapter;
+import dev.news.goakhabar.Api_Call.APIClient;
+import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.DrawerItem;
-import dev.news.goakhabar.MainActivity;
+import dev.news.goakhabar.Pojo.Category_Home_Model;
 import dev.news.goakhabar.R;
+import dev.news.goakhabar.Utils.Connectivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dev.news.goakhabar.MainActivity.iv_logo;
 import static dev.news.goakhabar.MainActivity.tv_title;
@@ -37,6 +50,9 @@ public class FragmentHome extends Fragment {
     public ArrayList<DrawerItem> List_Item=new ArrayList<>();
     ImageView iv_option;
     TextView txt;
+    RecyclerView recycler_news;
+   List<Category_Home_Model> dataArrayList;
+   HomeAdapter homeAdapter;
 
 
     @Nullable
@@ -51,6 +67,7 @@ public class FragmentHome extends Fragment {
         iv_option=view.findViewById(R.id.iv_option);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         txt = view.findViewById(R.id.text);
+        recycler_news = view.findViewById(R.id.recycler_news);
         final TextView textViewOptions = view.findViewById(R.id.textViewOptions);
         txt.setSelected(true);
 
@@ -67,7 +84,16 @@ public class FragmentHome extends Fragment {
         iv_logo.setVisibility(View.VISIBLE);
         tv_title.setVisibility(View.GONE);
 
-        //**************************
+        //****************************************************
+        if (Connectivity.isConnected(getContext())){
+
+            getCategory();
+
+        }else {
+            Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
+        }
+
+        //*******************************************************
 
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,6 +234,8 @@ public class FragmentHome extends Fragment {
         return view;
     }
 
+
+
     private void openOption() {
     }
 
@@ -224,6 +252,56 @@ public class FragmentHome extends Fragment {
         } catch(Exception e) {
             //e.toString();
         }
+    }
+
+
+    private void getCategory() {
+        dataArrayList = new ArrayList<>();
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient.getClient().create(Api_Call.class);
+
+        Call<List<Category_Home_Model>> call = apiInterface.GetCategory();
+
+        call.enqueue(new Callback<List<Category_Home_Model>>() {
+            @Override
+            public void onResponse(Call<List<Category_Home_Model>> call, Response<List<Category_Home_Model>> response) {
+
+                try{
+                    if (response!=null){
+                        dataArrayList= response.body();
+                        Log.e("get_cate",""+response.body().get(0).getName());
+                       // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
+
+
+                        homeAdapter = new HomeAdapter(dataArrayList, getActivity());
+                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+                        recycler_news.setAdapter(homeAdapter);
+                        recycler_news.setFocusable(false);
+                        homeAdapter.notifyDataSetChanged();
+
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_cate", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<List<Category_Home_Model>> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+
     }
 
 
