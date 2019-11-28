@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         //mDrawerLayout.setDrawerListener(toggle);
+      // actionbar.setDisplayHomeAsUpEnabled(true)
         toggle.syncState();
 
         View header = getLayoutInflater().inflate(R.layout.nav_header_activity_navigation, null);

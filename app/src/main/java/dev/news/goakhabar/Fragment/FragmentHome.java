@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,15 +25,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import dev.news.goakhabar.Adapter.HomeAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.Api_Call;
+import dev.news.goakhabar.Api_Call.Base_Url;
 import dev.news.goakhabar.DrawerItem;
+import dev.news.goakhabar.NewsDetailsActivity;
 import dev.news.goakhabar.Pojo.Category_Home_Model;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Utils.Connectivity;
@@ -52,8 +69,18 @@ public class FragmentHome extends Fragment {
     TextView txt;
     RecyclerView recycler_news;
    List<Category_Home_Model> dataArrayList;
+   //List<Post_Home_Model> postArrayList=new ArrayList<>();
    HomeAdapter homeAdapter;
+    ListView postList;
 
+    List<Object> list;
+    Gson gson;
+    ProgressDialog progressDialog;
+    //ListView postList;
+    Map<String,Object> mapPost;
+    Map<String,Object> mapTitle;
+    int postID;
+    String postTitle[];
 
     @Nullable
     @Override
@@ -63,6 +90,7 @@ public class FragmentHome extends Fragment {
 
         getActivity().setTitle(R.string.home);
         ll_news_details1=view.findViewById(R.id.ll_news_details1);
+        postList = (ListView)view.findViewById(R.id.postList);
         ll_news_details=view.findViewById(R.id.ll_news_details);
         iv_option=view.findViewById(R.id.iv_option);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
@@ -87,14 +115,27 @@ public class FragmentHome extends Fragment {
         //****************************************************
         if (Connectivity.isConnected(getContext())){
 
-            getCategory();
+          // getCategory();
+            getpost();
 
         }else {
             Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
         }
 
         //*******************************************************
+        postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mapPost = (Map<String,Object>)list.get(position);
+                postID = ((Double)mapPost.get("id")).intValue();
 
+                Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+                intent.putExtra("id", ""+postID);
+                startActivity(intent);
+            }
+        });
+
+//***********************************************************
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,6 +275,50 @@ public class FragmentHome extends Fragment {
         return view;
     }
 
+    private void getpost() {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Base_Url.BaseUrl_Post,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        progressDialog.dismiss();
+                        Log.d("kkkk", s.toString());
+
+                        gson = new Gson();
+                        list = (List) gson.fromJson(s, List.class);
+                        postTitle = new String[list.size()];
+
+                        for(int i=0;i<list.size();++i){
+                            mapPost = (Map<String,Object>)list.get(i);
+                            mapTitle = (Map<String, Object>) mapPost.get("title");
+                            postTitle[i] = (String) mapTitle.get("rendered");
+                        }
+
+                        postList.setAdapter(new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,postTitle));
+                        progressDialog.dismiss();
+
+
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("k_error", error.toString());
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
+
+
+
+    }
 
 
     private void openOption() {

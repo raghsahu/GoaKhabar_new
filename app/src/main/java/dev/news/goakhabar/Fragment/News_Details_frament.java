@@ -1,15 +1,28 @@
 package dev.news.goakhabar.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import java.util.Map;
 
 import dev.news.goakhabar.CommentActivity;
 import dev.news.goakhabar.R;
@@ -20,6 +33,13 @@ import dev.news.goakhabar.R;
 public class News_Details_frament extends Fragment {
 
     TextView tv_comment,tv_share;
+    TextView title;
+    WebView content;
+    ProgressDialog progressDialog;
+    Gson gson;
+    Map<String, Object> mapPost;
+    Map<String, Object> mapTitle;
+    Map<String, Object> mapContent;
 
     @Nullable
     @Override
@@ -31,6 +51,9 @@ public class News_Details_frament extends Fragment {
         // backpress = (ImageView) view.findViewById(R.id.back_press);
         tv_comment =  view.findViewById(R.id.tv_comment);
         tv_share =  view.findViewById(R.id.tv_share);
+
+        title = (TextView) view.findViewById(R.id.title);
+        content = (WebView)view.findViewById(R.id.content);
 
 //        backpress.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -57,8 +80,44 @@ public class News_Details_frament extends Fragment {
 
             }
         });
+        //*************************************************
+        final String id = getArguments().getString("id");
+                //getIntent().getExtras().getString("id");
+        String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
+
+        GetNewsDetails(url);
 
         return view;
+    }
+
+    private void GetNewsDetails(String url) {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                gson = new Gson();
+                mapPost = (Map<String, Object>) gson.fromJson(s, Map.class);
+                mapTitle = (Map<String, Object>) mapPost.get("title");
+                mapContent = (Map<String, Object>) mapPost.get("content");
+
+                title.setText(mapTitle.get("rendered").toString());
+                content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
+
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+               progressDialog.dismiss();
+               // Toast.makeText(Post.this, id, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        RequestQueue rQueue = Volley.newRequestQueue(getActivity());
+        rQueue.add(request);
+
     }
 
     private void ShareNews() {
