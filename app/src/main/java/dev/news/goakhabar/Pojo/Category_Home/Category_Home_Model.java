@@ -1,4 +1,4 @@
-package dev.news.goakhabar.Pojo;
+package dev.news.goakhabar.Pojo.Category_Home;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

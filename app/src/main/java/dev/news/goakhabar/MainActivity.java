@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,12 +27,23 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import dev.news.goakhabar.Api_Call.APIClient;
+import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.Fragment.Breaking_new_fragment;
 import dev.news.goakhabar.Fragment.FragmentHome;
 import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
 import dev.news.goakhabar.Fragment.Photo_Shoot_Fragment;
+import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
+import dev.news.goakhabar.Session.SessionManager;
+import dev.news.goakhabar.Utils.Connectivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -49,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView iv_search,iv_setting;
     public static TextView tv_title;
     public static ImageView iv_logo;
+    public static List<Category_Home_Model> dataArrayList;
+    SessionManager sessionManager;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -112,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sessionManager =new SessionManager(MainActivity.this);
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
         iv_drawer = findViewById(R.id.iv_drawer);
@@ -150,6 +166,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
         mDrawerLayout.closeDrawer(mDrawerList);
+
+
+        //****************************************************
+        if (Connectivity.isConnected(MainActivity.this)){
+
+            getCategory();
+            // getpost();
+
+        }else {
+            Toast.makeText(MainActivity.this, "Please check Internet", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void getCategory() {
+
+        dataArrayList = new ArrayList<>();
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient.getClient().create(Api_Call.class);
+
+        Call<List<Category_Home_Model>> call = apiInterface.GetCategory();
+
+        call.enqueue(new Callback<List<Category_Home_Model>>() {
+            @Override
+            public void onResponse(Call<List<Category_Home_Model>> call, Response<List<Category_Home_Model>> response) {
+
+                try{
+                    if (response!=null){
+                        dataArrayList= response.body();
+                        Log.e("get_cate",""+response.body().get(0).getName());
+                        // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
+
+//                        homeAdapter = new HomeAdapter(dataArrayList, getActivity());
+//                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+//                        recycler_news.setAdapter(homeAdapter);
+//                        recycler_news.setFocusable(false);
+//                        homeAdapter.notifyDataSetChanged();
+
+
+//                        try {
+//                            for (int j = 0; j < dataArrayList.size(); j++) {
+//
+//                                tabLayout.addTab(tabLayout.newTab().setText(dataArrayList.get(j).getName()));
+//                            }
+//                        }catch (Exception e){
+//
+//                        }
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_cate", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<List<Category_Home_Model>> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
     }
@@ -377,8 +459,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
         case R.id.nav_img_profile:
+            if (sessionManager.isLoggedIn()){
+                intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+
+            }else {
                 intent = new Intent(MainActivity.this, SignupActivity.class);
                 startActivity(intent);
+            }
+
 
                 break;
 

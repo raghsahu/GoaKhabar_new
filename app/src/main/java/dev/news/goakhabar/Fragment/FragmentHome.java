@@ -21,58 +21,68 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import dev.news.goakhabar.Adapter.HomeAdapter;
+import dev.news.goakhabar.Adapter.HomeNewsAdapter;
+import dev.news.goakhabar.Adapter.MyAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
+import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.Api_Call.Base_Url;
 import dev.news.goakhabar.DrawerItem;
 import dev.news.goakhabar.NewsDetailsActivity;
-import dev.news.goakhabar.Pojo.Category_Home_Model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.ShowNewsHomeModel;
+import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Utils.Connectivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static dev.news.goakhabar.MainActivity.dataArrayList;
 import static dev.news.goakhabar.MainActivity.iv_logo;
 import static dev.news.goakhabar.MainActivity.tv_title;
 
 /**
  * Created by Raghvendra Sahu on 10-Nov-19.
  */
-public class FragmentHome extends Fragment {
+public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedListener{
     LinearLayout ll_news_details1,ll_news_details;
-    private TabLayout tabLayout;
+    public TabLayout tabLayout;
     public ArrayList<DrawerItem> List_Item=new ArrayList<>();
+
     ImageView iv_option;
     TextView txt;
     RecyclerView recycler_news;
    List<Category_Home_Model> dataArrayList;
+    HomeNewsAdapter homeNewsAdapter;
+    List<Home_categ_news_model> catByNews = new ArrayList<>();
    //List<Post_Home_Model> postArrayList=new ArrayList<>();
    HomeAdapter homeAdapter;
     ListView postList;
-
+    private ArrayList<ShowNewsHomeModel> showNewsHomeModels=new ArrayList<>();
     List<Object> list;
     Gson gson;
     ProgressDialog progressDialog;
@@ -115,12 +125,13 @@ public class FragmentHome extends Fragment {
         //****************************************************
         if (Connectivity.isConnected(getContext())){
 
-          // getCategory();
-            getpost();
+           getCategory();
+           // getpost();
 
         }else {
             Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
         }
+
 
         //*******************************************************
         postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -238,67 +249,171 @@ public class FragmentHome extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
                 fragmentManager.beginTransaction().addToBackStack(null);
+            }
+        });
+
+        //*********************************************
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // viewPager.setCurrentItem(tab.getPosition());
+                int position = tab.getPosition();
+                Integer id = dataArrayList.get(position).getId();
+
+                Log.d("mmm",id.toString());
+                String cate_url="http://www.goakhabar.com/wp-json/wp/v2/posts?categories="+id;
+
+                if (Connectivity.isConnected(getActivity())){
+                    //GetCategoryNews(id);
+                    getpost(cate_url);
+                }else Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+
+        });
 
 
+
+//        List_Item.clear();
+//
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.home), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.breaking_news), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.goa), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.desh), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.videsh), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.crime_news), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.maharatra_news), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.rajkaran), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.business), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.manoranjan), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.krida), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampadkiya), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.english_khabar), R.drawable.ic_expand));
+//      //  List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.digital), R.drawable.ic_expand));
+//       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.foram), R.drawable.ic_expand));
+//       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampark), R.drawable.ic_expand));
+//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.brand), R.drawable.ic_expand));
+//
+//
+//
+//        for (int j = 0; j < List_Item.size(); j++) {
+//
+//           // tabLayout.addTab(tabLayout.newTab().setText(List_Item.get(j).getItemName()));
+//        }
+
+        return view;
+    }
+
+    private void GetCategoryNews(int id) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
+
+        Call<List<Home_categ_news_model>> call = apiInterface.GetCategoryNews(id);
+
+        call.enqueue(new Callback<List<Home_categ_news_model>>() {
+            @Override
+            public void onResponse(Call<List<Home_categ_news_model>> call, Response<List<Home_categ_news_model>> response) {
+
+                try{
+                    catByNews.clear();
+                    if (response!=null){
+                        catByNews= response.body();
+                        for (int i=0; i<catByNews.size();i++){
+
+                            Log.e("main ", " title "+ response.body().get(i).getTitle().getRendered() + " "+
+                                    response.body().get(i).getId());
+
+                            String tempdetails =  response.body().get(i).getExcerpt().getRendered().toString();
+                            tempdetails = tempdetails.replace("<p>","");
+                            tempdetails = tempdetails.replace("</p>","");
+                            tempdetails = tempdetails.replace("[&hellip;]","");
+
+                                                                        //image nikalna hai
+//                            showNewsHomeModels.add(i, new ShowNewsHomeModel(   response.body().get(i).getTitle().getRendered(),
+//                                    tempdetails,
+//                                    response.body().get(i).getLinks().getWpFeaturedmedia().get(0).getHref())  );
+//
+
+                        }
+                       // Log.e("show_news_model",""+showNewsHomeModels.size());
+
+
+                        homeNewsAdapter = new HomeNewsAdapter( catByNews, getActivity());
+                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+                        recycler_news.setAdapter(homeNewsAdapter);
+                        //recycler_news.setFocusable(false);
+                        homeNewsAdapter.notifyDataSetChanged();
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_cate1", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<List<Home_categ_news_model>> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
-        List_Item.clear();
 
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.home), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.breaking_news), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.goa), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.desh), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.videsh), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.crime_news), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.maharatra_news), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.rajkaran), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.business), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.manoranjan), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.krida), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampadkiya), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.english_khabar), R.drawable.ic_expand));
-      //  List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.digital), R.drawable.ic_expand));
-       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.foram), R.drawable.ic_expand));
-       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampark), R.drawable.ic_expand));
-        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.brand), R.drawable.ic_expand));
-
-
-
-        for (int j = 0; j < List_Item.size(); j++) {
-
-            tabLayout.addTab(tabLayout.newTab().setText(List_Item.get(j).getItemName()));
-        }
-
-        return view;
     }
 
-    private void getpost() {
+    private void getpost(String cate_url) {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Base_Url.BaseUrl_Post,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, cate_url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         progressDialog.dismiss();
                         Log.d("kkkk", s.toString());
-
                         gson = new Gson();
                         list = (List) gson.fromJson(s, List.class);
+
                         postTitle = new String[list.size()];
 
                         for(int i=0;i<list.size();++i){
                             mapPost = (Map<String,Object>)list.get(i);
                             mapTitle = (Map<String, Object>) mapPost.get("title");
                             postTitle[i] = (String) mapTitle.get("rendered");
+
+                           // showNewsHomeModels.add(i, new ShowNewsHomeModel(   mapTitle.get("rendered")   ));
+
+
                         }
 
-                        postList.setAdapter(new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,postTitle));
-                        progressDialog.dismiss();
+
+                       // postList.setAdapter(new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,postTitle));
+
+                        MyAdapter myAdapter=new MyAdapter(getActivity(),R.layout.list_view_items,list);
+                        postList.setAdapter(myAdapter);
+
+//                        homeNewsAdapter = new HomeNewsAdapter( list, getActivity());
+//                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+//                        recycler_news.setAdapter(homeNewsAdapter);
+//                        recycler_news.setFocusable(false);
+//                        homeNewsAdapter.notifyDataSetChanged();
 
 
 
@@ -309,7 +424,26 @@ public class FragmentHome extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("k_error", error.toString());
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        NetworkResponse response = error.networkResponse;
+                        if (error instanceof ServerError && response != null) {
+                            try {
+                                String res = new String(response.data,
+                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                // Now you can use any deserializer to make sense of data
+                                JSONObject obj = new JSONObject(res);
+                            } catch (UnsupportedEncodingException e1) {
+                                // Couldn't properly decode data to string
+                                e1.printStackTrace();
+                            } catch (JSONException e2) {
+                                // returned data is not JSONObject?
+                                e2.printStackTrace();
+                            }
+                        }
+
+
+
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -357,16 +491,19 @@ public class FragmentHome extends Fragment {
                 try{
                     if (response!=null){
                         dataArrayList= response.body();
-                        Log.e("get_cate",""+response.body().get(0).getName());
+
                        // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
 
+//                        homeAdapter = new HomeAdapter(dataArrayList, getActivity());
+//                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+//                        recycler_news.setAdapter(homeAdapter);
+//                        recycler_news.setFocusable(false);
+//                        homeAdapter.notifyDataSetChanged();
 
-                        homeAdapter = new HomeAdapter(dataArrayList, getActivity());
-                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-                        recycler_news.setAdapter(homeAdapter);
-                        recycler_news.setFocusable(false);
-                        homeAdapter.notifyDataSetChanged();
-
+                        for (int j = 0; j < response.body().size(); j++) {
+                            Log.e("get_cate",""+response.body().get(j).getName());
+                            tabLayout.addTab(tabLayout.newTab().setText(response.body().get(j).getName()));
+                        }
 
                     }
                 }catch (Exception e){
@@ -378,7 +515,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onFailure(Call<List<Category_Home_Model>> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.e("error_category",t.getMessage());
+                Log.e("error_category1",t.getMessage());
                 //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
             }
@@ -390,4 +527,30 @@ public class FragmentHome extends Fragment {
     }
 
 
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+
+        int position = tab.getPosition();
+        Integer id = dataArrayList.get(position).getId();
+
+        Log.d("mmm",id.toString());
+        String cate_url="http://www.goakhabar.com/wp-json/wp/v2/posts?categories="+id;
+
+        if (Connectivity.isConnected(getActivity())){
+            //GetCategoryNews(id);
+            getpost(cate_url);
+        }else Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
 }

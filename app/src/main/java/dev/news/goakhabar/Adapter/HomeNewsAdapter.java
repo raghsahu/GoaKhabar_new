@@ -1,6 +1,5 @@
 package dev.news.goakhabar.Adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,27 +10,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import dev.news.goakhabar.Api_Call.APIClient1;
-import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.Pojo.Category_Home.Home_categ_news_model;
-import dev.news.goakhabar.Pojo.Category_Home_Model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.ShowNewsHomeModel;
 import dev.news.goakhabar.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Raghvendra Sahu on 25-Nov-19.
  */
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHolder> {
     private List<Home_categ_news_model> category_home_models;
-    private Context context;
+    Context context;
+    Map<String,Object> mapPost;
+    Map<String,Object> mapTitle;
+    int postID;
+    String postTitle[];
 
 
     public HomeNewsAdapter(List<Home_categ_news_model> category_home_models1, Context context) {
@@ -43,7 +41,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_news, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
         /*session = new Session(context);
         user_id = session.getUser().user_id;*/
         return new ViewHolder(itemView);
@@ -51,18 +49,29 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        if (category_home_models.size() > 0) {
+       // if (category_home_models.size() > 0) {
             final Home_categ_news_model categoryHomeModel = category_home_models.get(position);
             holder.tv_title.setText(categoryHomeModel.getTitle().getRendered());
 
-            for (int i=0; i<category_home_models.size();i++){
 
-//                Log.e("href_links",categoryHomeModel.getLinks().getWpPostType().get(i).getHref());
+//        postTitle = new String[category_home_models.size()];
+//
+//        for(int i=0;i<category_home_models.size();++i){
+//            mapPost = (Map<String,Object>)category_home_models.get(i);
+//            mapTitle = (Map<String, Object>) mapPost.get("title");
+//            postTitle[i] = (String) mapTitle.get("rendered");
+//
+//            Log.e("catg-title1",""+mapTitle.get("rendered"));
+//        }
+//        String title = postTitle[position];
+//
+//        Log.e("catg-title",""+title);
+//        holder.tv_title.setText(title);
 
 
-            }
 
 
+            Log.e("catg-size",""+category_home_models.size());
 
 //            if (!post_communityModels.get(position).image.equalsIgnoreCase(null)){
 //
@@ -73,7 +82,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 //                        .into(holder.iv_post_image);
 //            }
 
-        }
+        //}
     }
 
 
@@ -81,7 +90,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     @Override
     public int getItemCount() {
         return category_home_models.size();
-        //return rattingReviewList.size();
 
     }
 

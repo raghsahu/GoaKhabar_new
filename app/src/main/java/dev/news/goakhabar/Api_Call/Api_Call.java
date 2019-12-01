@@ -3,12 +3,10 @@ package dev.news.goakhabar.Api_Call;
 
 import java.util.List;
 
-import dev.news.goakhabar.Pojo.Category_Home.Home_categ_news_model;
-import dev.news.goakhabar.Pojo.Category_Home_Model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Api_Call {
@@ -18,7 +16,7 @@ public interface Api_Call {
 
 
     @GET("posts")
-    Call<List<Home_categ_news_model>> GetCategoryNews(@Query("categories=") String id);
+    Call<List<Home_categ_news_model>> GetCategoryNews(@Query("categories=") int id);
 
 
 //    @FormUrlEncoded

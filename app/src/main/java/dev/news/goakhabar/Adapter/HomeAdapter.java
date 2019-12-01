@@ -17,11 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.Pojo.Category_Home.Home_categ_news_model;
-import dev.news.goakhabar.Pojo.Category_Home_Model;
+import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabar.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +61,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
                 Log.e("href_links",""+categoryHomeModel.getId());
 
-                getParticularCategoryNews(holder.recycler_news_new,categoryHomeModel.getId());
+               // getParticularCategoryNews(holder.recycler_news_new,categoryHomeModel.getId());
           //  }
 
 //            homeNewsAdapter = new HomeAdapter(categoryHomeModel.getLinks().get, context);
@@ -90,7 +89,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
 
-        Call<List<Home_categ_news_model>> call = apiInterface.GetCategoryNews(String.valueOf(id));
+        Call<List<Home_categ_news_model>> call = apiInterface.GetCategoryNews(id);
 
         call.enqueue(new Callback<List<Home_categ_news_model>>() {
             @Override
@@ -106,11 +105,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
                         // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
 
-                        homeNewsAdapter = new HomeNewsAdapter(response.body(), context);
-                        recycler_news_new.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-                        recycler_news_new.setAdapter(homeNewsAdapter);
-                        recycler_news_new.setFocusable(false);
-                        homeNewsAdapter.notifyDataSetChanged();
+//                        homeNewsAdapter = new HomeNewsAdapter(response.body(), context);
+//                        recycler_news_new.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+//                        recycler_news_new.setAdapter(homeNewsAdapter);
+//                        recycler_news_new.setFocusable(false);
+//                        homeNewsAdapter.notifyDataSetChanged();
 
                     }
                 }catch (Exception e){

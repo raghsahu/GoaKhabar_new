@@ -65,9 +65,11 @@
     </LinearLayout>
 
     <ListView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/postList"/>
+
 
     <ScrollView
         android:visibility="gone"
@@ -85,7 +87,6 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/recycler_news"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

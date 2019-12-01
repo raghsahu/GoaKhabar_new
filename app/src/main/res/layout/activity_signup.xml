@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
@@ -42,215 +43,21 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/head1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome back!"
-        style="@style/textview14verdana"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:textSize="10pt"
-        android:layout_below="@id/tbar"
-       
-        />
 
-    <TextView
-        android:visibility="gone"
-        android:layout_weight="0.5"
-        android:id="@+id/new_account"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/simpleTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter your email to sign in your account"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:textSize="13dp"
-        android:layout_below="@+id/head1"
-        android:gravity="center"
-        android:layout_marginTop="5dp"
-        />
+        app:tabBackground="@android:color/darker_gray"
+        app:tabIndicatorColor="#f00"
+        app:tabSelectedTextColor="#f00"
+        app:tabTextColor="#000" />
 
-    <ScrollView
-        android:id="@+id/scrllview"
+    <FrameLayout
+        android:id="@+id/simpleFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10pt"
-        android:fillViewport="true"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/head1"
-        >
-
-        <LinearLayout
-            android:id="@+id/Linr1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:focusable="false"
-            android:focusableInTouchMode="true"
-            >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/black"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mobile"
-                    android:textColorHint="@color/black"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
-                    android:inputType="textEmailAddress"
-                    >
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password (6+ characters)"
-                android:textColorHint="@color/black"
-                app:hintEnabled="true"
-                app:passwordToggleEnabled="true"
-                android:backgroundTint="@color/white"
-                app:passwordToggleTint="@color/white"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="@color/black"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
-                    android:inputType="textPassword"
-                    >
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="match_parent" />
 
 
-            <LinearLayout
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:weightSum="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <TextView
-                    android:id="@+id/tv_take_know"
-                    android:layout_margin="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Login"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    style="@style/textview14verdana"
-                    android:padding="15dp"
-                    android:background="@color/blue"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    />
-
-            </LinearLayout>
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/grey"
-                android:layout_gravity="center"
-               android:layout_margin="20dp"
-                />
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="6dp"-->
-<!--                android:gravity="center"-->
-<!--                android:layout_gravity="center"-->
-<!--                -->
-<!--                >-->
-                <Button
-                    android:layout_margin="20dp"
-                    android:id="@+id/button_gmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/button"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:textAllCaps="false"
-                    android:text="Google"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    android:drawableLeft="@drawable/google_icon"
-                    android:drawablePadding="2dip"
-                    android:paddingLeft="70dip"
-                    android:paddingRight="60dip"
-                    android:singleLine="true"
-                    android:gravity="center"
-                    style="@style/tx_vu"
-                    />
-
-                <Button
-                    android:layout_margin="20dp"
-                    android:id="@+id/button_fb"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/button"
-                    android:textAllCaps="false"
-                    android:text="Facebook"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    android:drawableLeft="@drawable/facebook"
-                    android:drawablePadding="2dip"
-                    android:paddingLeft="70dip"
-                    android:paddingRight="60dip"
-                    android:singleLine="true"
-                    android:gravity="center"
-                    style="@style/tx_vu"
-                    />
-
-            <Button
-                android:layout_margin="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/button"
-                android:textAllCaps="false"
-                android:text="Twitter"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:drawableLeft="@drawable/twitter_icon"
-                android:drawablePadding="2dip"
-                android:paddingLeft="70dip"
-                android:paddingRight="60dip"
-                android:singleLine="true"
-                android:gravity="center"
-                style="@style/tx_vu"
-                />
-
-<!--            </LinearLayout>-->
-
-
-
-
-
-        </LinearLayout>
-    </ScrollView>
-
-
-</RelativeLayout>
+</LinearLayout>
