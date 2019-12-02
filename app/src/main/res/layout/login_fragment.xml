@@ -45,7 +45,6 @@
             android:id="@+id/scrllview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10pt"
             android:fillViewport="true"
             android:scrollbars="vertical"
             android:layout_below="@+id/head1"
@@ -55,7 +54,7 @@
                 android:id="@+id/Linr1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:orientation="vertical"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
@@ -64,16 +63,16 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/black"
+                    android:textColorHint="@color/grey"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Mobile"
-                        android:textColorHint="@color/black"
+                        android:textColorHint="@color/grey"
                         android:textColor="@color/black"
-                        android:backgroundTint="@color/white"
+                        android:backgroundTint="@color/black"
                         android:inputType="textEmailAddress"
                         >
                     </com.google.android.material.textfield.TextInputEditText>
@@ -84,20 +83,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password (6+ characters)"
-                    android:textColorHint="@color/black"
+                    android:textColorHint="@color/grey"
                     app:hintEnabled="true"
                     app:passwordToggleEnabled="true"
-                    android:backgroundTint="@color/white"
-                    app:passwordToggleTint="@color/white"
+                    android:backgroundTint="@color/grey"
+                    app:passwordToggleTint="@color/grey"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
-                        android:textColorHint="@color/black"
+                        android:textColorHint="@color/grey"
                         android:textColor="@color/black"
-                        android:backgroundTint="@color/white"
+                        android:backgroundTint="@color/black"
                         android:inputType="textPassword"
                         >
                     </com.google.android.material.textfield.TextInputEditText>
@@ -156,25 +155,36 @@
                 <!--                android:layout_gravity="center"-->
                 <!--                -->
                 <!--                >-->
-                <Button
+<!--                <Button-->
+<!--                    android:layout_margin="20dp"-->
+<!--                    android:id="@+id/button_gmail"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:background="@drawable/button"-->
+<!--                    android:layout_marginTop="@dimen/_20sdp"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:text="Google"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="16dp"-->
+<!--                    android:drawableLeft="@drawable/google_icon"-->
+<!--                    android:drawablePadding="2dip"-->
+<!--                    android:paddingLeft="70dip"-->
+<!--                    android:paddingRight="60dip"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:gravity="center"-->
+<!--                    style="@style/tx_vu"-->
+<!--                    />-->
+
+                <com.google.android.gms.common.SignInButton
                     android:layout_margin="20dp"
-                    android:id="@+id/button_gmail"
+                    android:layout_weight="0.5"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/button"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:textAllCaps="false"
-                    android:text="Google"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    android:drawableLeft="@drawable/google_icon"
-                    android:drawablePadding="2dip"
-                    android:paddingLeft="70dip"
-                    android:paddingRight="60dip"
-                    android:singleLine="true"
-                    android:gravity="center"
-                    style="@style/tx_vu"
-                    />
+                    android:layout_height="50dp"
+                    android:id="@+id/g_sign_in_button"
+                    >
+
+                </com.google.android.gms.common.SignInButton>
+
 
                 <Button
                     android:layout_margin="20dp"
@@ -196,8 +206,14 @@
                     />
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp">
+
+                </LinearLayout>
 
             </LinearLayout>
+
         </ScrollView>
 
     </LinearLayout>

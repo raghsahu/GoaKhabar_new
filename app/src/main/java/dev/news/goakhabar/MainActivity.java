@@ -37,6 +37,7 @@ import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
 import dev.news.goakhabar.Fragment.Photo_Shoot_Fragment;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
+import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.Utils.Connectivity;
 import retrofit2.Call;
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mDrawerList.addHeaderView(header);
+        nav_tv_name.setText(AppPreference.getName(MainActivity.this));
 
         clickListner();
         //Drawer Item

@@ -58,4 +58,5 @@ dependencies {
     //parsing gson
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.facebook.android:facebook-login:5.11.2'
 }

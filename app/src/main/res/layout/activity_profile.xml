@@ -280,8 +280,9 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tv_logout"
                     android:layout_below="@id/rel_top"
-                    android:layout_margin="@dimen/_30sdp"
+                    android:layout_margin="@dimen/_20sdp"
                     android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
