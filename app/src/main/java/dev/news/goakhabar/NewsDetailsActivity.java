@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +40,15 @@ public class NewsDetailsActivity extends AppCompatActivity {
         back_press=findViewById(R.id.back_press);
         title = (TextView) findViewById(R.id.title);
         content = (WebView)findViewById(R.id.content);
+
+        content.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        WebSettings webSettings = content.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         back_press.setOnClickListener(new View.OnClickListener() {
             @Override
