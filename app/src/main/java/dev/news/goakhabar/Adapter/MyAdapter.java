@@ -2,6 +2,7 @@ package dev.news.goakhabar.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,8 +12,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +47,17 @@ import dev.news.goakhabar.R;
 public class MyAdapter extends ArrayAdapter<Object> {
 
     List<Object> list = new ArrayList<>();
+    List<String> media_img = new ArrayList<>();
     Map<String,Object> mapPost;
+    Map<String,Object> mapPost1;
     Map<String,Object> mapTitle;
+    Map<String,Object> mapGuide;
     Map<String,Object> mapLink;
     String postTitle[];
     String postLink[];
     int featured_media[];
     int postID;
-
+    Gson gson;
     public MyAdapter(Context context, int textViewResourceId, List<Object> objects) {
         super(context, textViewResourceId, objects);
         list = objects;
@@ -58,6 +82,12 @@ public class MyAdapter extends ArrayAdapter<Object> {
         postLink = new String[list.size()];
         featured_media = new int[list.size()];
 
+        try {
+            media_img.clear();
+        }catch (Exception e){
+
+        }
+
         for(int i=0;i<list.size();++i){
             mapPost = (Map<String,Object>)list.get(i);
             mapTitle = (Map<String, Object>) mapPost.get("title");
@@ -68,6 +98,9 @@ public class MyAdapter extends ArrayAdapter<Object> {
 
 
         }
+
+        String img_url="http://www.goakhabar.com/wp-json/wp/v2/media/"+featured_media[position];
+        FindImage(img_url,imageView);
 
        Log.e("featured_media",""+featured_media[position]);
         Log.e("links_news",""+postLink[position]);
@@ -110,6 +143,8 @@ public class MyAdapter extends ArrayAdapter<Object> {
                //  String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
                 String links=postLink[position];
                 String title=postTitle[position];
+               // String img_url=media_img.get(position);
+                Log.e("img_url",media_img.get(position));
                                 ShareNews(links,title);
                                 return true;
                             case R.id.navigation_bookmark:
@@ -134,6 +169,88 @@ public class MyAdapter extends ArrayAdapter<Object> {
 
     }
 
+    private void FindImage(String img_url, final ImageView imageView) {
+
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, img_url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                       // progressDialog.dismiss();
+                        Log.d("kkkk", s.toString());
+                        gson = new Gson();
+//                        list1 = (List) gson.fromJson(s, List.class);
+
+                        try {
+                            JSONObject object = new JSONObject(s);
+                            JSONObject jsonObject=object.getJSONObject("guid");
+                            String rendered=jsonObject.getString("rendered");
+                            Log.d("img_media", rendered);
+
+                            media_img.add(rendered);
+//                            Glide
+//                                    .with(getContext())
+//                                    .load(rendered)
+//                                    //.placeholder(R.drawable.ic_loading)
+//                                    .centerCrop()
+//                                    .into(imageView);
+
+                            Glide.with(getContext())
+                                    .load(rendered)
+                                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                    //.error(R.drawable.glide_app_img_loader)
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            return false;
+                                        }
+
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                            return false;
+                                        }
+                                    }).into(imageView);
+
+                        }catch (Exception e){
+
+                        }
+
+
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("k_error", error.toString());
+                       // progressDialog.dismiss();
+                        // Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        NetworkResponse response = error.networkResponse;
+                        if (error instanceof ServerError && response != null) {
+                            try {
+                                String res = new String(response.data,
+                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                // Now you can use any deserializer to make sense of data
+                                JSONObject obj = new JSONObject(res);
+                            } catch (UnsupportedEncodingException e1) {
+                                // Couldn't properly decode data to string
+                                e1.printStackTrace();
+                            } catch (JSONException e2) {
+                                // returned data is not JSONObject?
+                                e2.printStackTrace();
+                            }
+                        }
+
+
+
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
+
+    }
+
     private void ShareNews(String url, String title) {
 
         try {
@@ -143,7 +260,25 @@ public class MyAdapter extends ArrayAdapter<Object> {
             String shareMessage= title+"\n";
             shareMessage = shareMessage + url;
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+          //  shareIntent.putExtra(Intent.EXTRA_STREAM, img_url);
+           // shareIntent.setType("image/jpeg");
             getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
+
+
+//            Intent shareIntent = new Intent();
+//            shareIntent.setType("image/*");
+//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            shareIntent.setAction(Intent.ACTION_SEND);
+//            //without the below line intent will show error
+//            shareIntent.setType("text/plain");
+//
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, img_url);
+//
+//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
+//
+
+
         } catch(Exception e) {
             //e.toString();
         }

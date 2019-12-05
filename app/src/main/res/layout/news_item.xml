@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/news1"
             android:layout_margin="@dimen/_5sdp"
-            android:src="@drawable/news1"
+
             android:scaleType="fitXY"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_80sdp" />
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     style="@style/textview14verdana"
                     android:padding="@dimen/_2sdp"
-                    android:text="जगातील लोकप्रिय भारतीय दुचाकी म्हणून ओळख कमावलेल्या बजाज ऑटोने आज पणजी येथे इलेक्ट्रिक अवतारामधील ऑल न्यू चेतक सादर केली..."
+                    android:text=".."
                     />
 
                 <TextView

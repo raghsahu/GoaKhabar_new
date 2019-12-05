@@ -14,7 +14,6 @@ public interface Api_Call {
     @GET(Base_Url.categories)
     Call<List<Category_Home_Model>> GetCategory();
 
-
     @GET("posts")
     Call<List<Home_categ_news_model>> GetCategoryNews(@Query("categories=") int id);
 
