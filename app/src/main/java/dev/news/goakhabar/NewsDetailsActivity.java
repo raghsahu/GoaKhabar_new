@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -59,6 +60,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
         final String id = getIntent().getStringExtra("id");
         //getIntent().getExtras().getString("id");
         String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
+
+        Log.e("url_detail",""+url);
 
         GetNewsDetails(url);
 

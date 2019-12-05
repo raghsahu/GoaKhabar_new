@@ -91,6 +91,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     Map<String,Object> mapTitle;
     int postID;
     String postTitle[];
+    int featured_media[];
 
     @Nullable
     @Override
@@ -392,14 +393,15 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                         list = (List) gson.fromJson(s, List.class);
 
                         postTitle = new String[list.size()];
+                        featured_media = new int[list.size()];
 
                         for(int i=0;i<list.size();++i){
                             mapPost = (Map<String,Object>)list.get(i);
                             mapTitle = (Map<String, Object>) mapPost.get("title");
                             postTitle[i] = (String) mapTitle.get("rendered");
+                            featured_media[i]= ((Double) mapPost.get("featured_media")).intValue();
 
                            // showNewsHomeModels.add(i, new ShowNewsHomeModel(   mapTitle.get("rendered")   ));
-
 
                         }
 

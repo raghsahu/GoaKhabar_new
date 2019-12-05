@@ -28,7 +28,10 @@ public class MyAdapter extends ArrayAdapter<Object> {
     List<Object> list = new ArrayList<>();
     Map<String,Object> mapPost;
     Map<String,Object> mapTitle;
+    Map<String,Object> mapLink;
     String postTitle[];
+    String postLink[];
+    int featured_media[];
     int postID;
 
     public MyAdapter(Context context, int textViewResourceId, List<Object> objects) {
@@ -52,14 +55,22 @@ public class MyAdapter extends ArrayAdapter<Object> {
         ImageView imageView = (ImageView) v.findViewById(R.id.news1);
 
         postTitle = new String[list.size()];
+        postLink = new String[list.size()];
+        featured_media = new int[list.size()];
 
         for(int i=0;i<list.size();++i){
             mapPost = (Map<String,Object>)list.get(i);
             mapTitle = (Map<String, Object>) mapPost.get("title");
+            //mapLink = (Map<String, Object>) mapPost.get("link");
             postTitle[i] = (String) mapTitle.get("rendered");
+            postLink[i]= (String)mapPost.get("link");
+            featured_media[i]= ((Double) mapPost.get("featured_media")).intValue();
 
 
         }
+
+       Log.e("featured_media",""+featured_media[position]);
+        Log.e("links_news",""+postLink[position]);
         textView.setText(postTitle[position]);
        // imageView.setImageResource(animalList.get(position).getAnimalImage());
 
@@ -96,9 +107,10 @@ public class MyAdapter extends ArrayAdapter<Object> {
 
                                 mapPost = (Map<String,Object>)list.get(position);
                                 postID = ((Double)mapPost.get("id")).intValue();
-                 String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
-
-                                ShareNews(url);
+               //  String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
+                String links=postLink[position];
+                String title=postTitle[position];
+                                ShareNews(links,title);
                                 return true;
                             case R.id.navigation_bookmark:
                                 //handle menu2 click
@@ -122,14 +134,14 @@ public class MyAdapter extends ArrayAdapter<Object> {
 
     }
 
-    private void ShareNews(String url) {
+    private void ShareNews(String url, String title) {
 
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
-            String shareMessage= url;
-            //shareMessage = shareMessage + "http://www.goakhabar.com/";
+            String shareMessage= title+"\n";
+            shareMessage = shareMessage + url;
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
         } catch(Exception e) {
