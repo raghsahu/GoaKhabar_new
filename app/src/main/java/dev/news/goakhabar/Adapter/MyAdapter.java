@@ -257,9 +257,9 @@ public class MyAdapter extends ArrayAdapter<Object> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
-            String shareMessage= title+"\n";
-            shareMessage = shareMessage + url;
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+         //  String shareMessage= title+"\n";
+           // shareMessage = shareMessage + url;
+            shareIntent.putExtra(Intent.EXTRA_TEXT, url);
           //  shareIntent.putExtra(Intent.EXTRA_STREAM, img_url);
            // shareIntent.setType("image/jpeg");
             getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));

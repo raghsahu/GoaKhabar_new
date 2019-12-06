@@ -28,7 +28,8 @@
     <string name="bookmark">बुकमार्क</string>
 
 
-
+    <string name="facebook_app_id">606362960135476</string>
+    <string name="fb_login_protocol_scheme">fb606362960135476</string>
 
 </resources>
 

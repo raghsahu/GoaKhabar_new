@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,6 +17,9 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.github.florent37.viewanimator.ViewAnimator;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,6 +33,8 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
         splash_image=findViewById(R.id.splash_image);
+
+        printHashKey();
 
         ViewAnimator
                 .animate(splash_image)
@@ -74,7 +83,25 @@ public class SplashActivity extends AppCompatActivity {
         }, 5000);
     }
 
+    private void printHashKey() {
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "dev.news.goakhabar",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+    }
 
 
 }
