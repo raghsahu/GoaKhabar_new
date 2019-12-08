@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -71,6 +72,7 @@ import static dev.news.goakhabar.MainActivity.tv_title;
 public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedListener{
     LinearLayout ll_news_details1,ll_news_details;
     public TabLayout tabLayout;
+    SwipeRefreshLayout pullToRefresh;
     public ArrayList<DrawerItem> List_Item=new ArrayList<>();
 
     ImageView iv_option;
@@ -108,6 +110,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         txt = view.findViewById(R.id.text);
         recycler_news = view.findViewById(R.id.recycler_news);
+       //pullToRefresh = view.findViewById(R.id.pullToRefresh);
         final TextView textViewOptions = view.findViewById(R.id.textViewOptions);
         txt.setSelected(true);
 
@@ -238,8 +241,6 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
 
-
-
             }
         });
 
@@ -253,6 +254,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                 fragmentManager.beginTransaction().addToBackStack(null);
             }
         });
+
 
         //*********************************************
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

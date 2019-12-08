@@ -502,4 +502,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //        }
    // }
+
+
+    @Override
+    public void onBackPressed() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
+        int seletedItemId = bottomNavigationView.getSelectedItemId();
+        if (R.id.navigation_home != seletedItemId) {
+            setHomeItem(MainActivity.this);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    private void setHomeItem(MainActivity mainActivity) {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                mainActivity.findViewById(R.id.nav_view);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+    }
 }

@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         dataBinding {
             enabled = true
         }
@@ -59,4 +60,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.facebook.android:facebook-login:5.11.2'
+    //admob
+    //implementation 'com.google.android.gms:play-services-ads:18.3.0'
+    //multidex
+  //  implementation 'com.android.support:multidex:1.0.3'
 }
