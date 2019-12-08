@@ -90,11 +90,11 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                 if (googleApiClient != null && googleApiClient.isConnected()) {
                     // signed in. Show the "sign out" button and explanation.
                     google_logout();
-                    //disconnectFromFacebook();
+                   disconnectFromFacebook();
                 } else{
                     Log.e("logout_app", "local login logout");
                     // not signed in. Show the "sign in" button and explanation.
-                    //disconnectFromFacebook();
+                    disconnectFromFacebook();
                     manager.logoutUser();
                     AppPreference.setName(ProfileActivity.this, "");
                     Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);

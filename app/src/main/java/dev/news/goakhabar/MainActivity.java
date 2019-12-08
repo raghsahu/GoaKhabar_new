@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     android.app.FragmentManager fragmentManager1 = getFragmentManager();
                     FragmentTransaction ft_home = getSupportFragmentManager().beginTransaction();
                     ft_home.replace(R.id.frame, fragment_home);
+                    ft_home.addToBackStack(null);
                     ft_home.commit();
                     return true;
                 case R.id.navigation_dashboard:
@@ -85,37 +86,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
 
                     return true;
-                case R.id.navigation_notifications:
-                    // mTextMessage.setText(R.string.title_notifications);
-
-//                    Intent intent=new Intent(MainActivity.this, Invite_friend_Activity.class);
-//                    startActivity(intent);
+                case R.id.navigation_video:
 
                     Fragment fragment=new Fragment_Video();
                     android.app.FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
-                    // ft.addToBackStack(null);
+                   ft.addToBackStack(null);
                     ft.commit();
-
 
                     return true;
 
                 case R.id.navigation_photo:
-                    // mTextMessage.setText(R.string.title_notifications);
-
-//                    Intent intent=new Intent(MainActivity.this, Invite_friend_Activity.class);
-//                    startActivity(intent);
 
                     Fragment fragment1=new Photo_Shoot_Fragment();
                     FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
                     ft1.replace(R.id.frame, fragment1);
-                    // ft.addToBackStack(null);
+                    ft1.addToBackStack(null);
                     ft1.commit();
 
-
                     return true;
-
 
             }
             return false;

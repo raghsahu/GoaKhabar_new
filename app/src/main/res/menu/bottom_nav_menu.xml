@@ -16,7 +16,7 @@
         android:title="ई पेपर" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_video"
         android:icon="@drawable/video_icon"
         android:title="वीडियो खबर" />
 

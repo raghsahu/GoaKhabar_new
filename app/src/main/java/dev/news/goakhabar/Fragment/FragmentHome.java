@@ -92,6 +92,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     int postID;
     String postTitle[];
     int featured_media[];
+    public static Integer goa_video_id;
 
     @Nullable
     @Override
@@ -389,27 +390,33 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                     public void onResponse(String s) {
                         progressDialog.dismiss();
                         Log.d("kkkk", s.toString());
-                        gson = new Gson();
-                        list = (List) gson.fromJson(s, List.class);
 
-                        postTitle = new String[list.size()];
-                        featured_media = new int[list.size()];
+                        try {
 
-                        for(int i=0;i<list.size();++i){
-                            mapPost = (Map<String,Object>)list.get(i);
-                            mapTitle = (Map<String, Object>) mapPost.get("title");
-                            postTitle[i] = (String) mapTitle.get("rendered");
-                            featured_media[i]= ((Double) mapPost.get("featured_media")).intValue();
+                            gson = new Gson();
+                            list = (List) gson.fromJson(s, List.class);
 
-                           // showNewsHomeModels.add(i, new ShowNewsHomeModel(   mapTitle.get("rendered")   ));
+                            postTitle = new String[list.size()];
+                            featured_media = new int[list.size()];
+
+                            for(int i=0;i<list.size();++i){
+                                mapPost = (Map<String,Object>)list.get(i);
+                                mapTitle = (Map<String, Object>) mapPost.get("title");
+                                postTitle[i] = (String) mapTitle.get("rendered");
+                                featured_media[i]= ((Double) mapPost.get("featured_media")).intValue();
+
+                                // showNewsHomeModels.add(i, new ShowNewsHomeModel(   mapTitle.get("rendered")   ));
+
+                            }
+                            MyAdapter myAdapter=new MyAdapter(getActivity(),R.layout.list_view_items,list);
+                            postList.setAdapter(myAdapter);
+
+                        }catch (Exception e){
 
                         }
 
 
                        // postList.setAdapter(new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,postTitle));
-
-                        MyAdapter myAdapter=new MyAdapter(getActivity(),R.layout.list_view_items,list);
-                        postList.setAdapter(myAdapter);
 
 //                        homeNewsAdapter = new HomeNewsAdapter( list, getActivity());
 //                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
@@ -505,7 +512,15 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                         for (int j = 0; j < response.body().size(); j++) {
                             Log.e("get_cate",""+response.body().get(j).getName());
                             tabLayout.addTab(tabLayout.newTab().setText(response.body().get(j).getName()));
+
+
+                            if (response.body().get(j).getName().equalsIgnoreCase("गोवा खबर व्हिडीओ")){
+                                goa_video_id=response.body().get(j).getId();
+                                Log.e("goa_video_tab_id",""+goa_video_id);
+
+                            }
                         }
+
 
                     }
                 }catch (Exception e){
