@@ -34,9 +34,12 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import dev.news.goakhabar.MainActivity;
+import dev.news.goakhabar.ProfileActivity;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
+import dev.news.goakhabar.SignupActivity;
 import dev.news.goakhabar.Utils.Connectivity;
 
 /**
@@ -127,8 +130,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                                     //String birthday = object.getString("birthday");
 
                                     AppPreference.setName(getActivity(),name);
+                                    Intent intent=new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
 
                                     sessionManager.setLogin(true);
+                                    Toast.makeText(getActivity(), "successful login", Toast.LENGTH_SHORT).show();
 
 
                                     if (Connectivity.isConnected(getActivity())){
@@ -193,6 +200,9 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             AppPreference.setName(getActivity(),social_name);
 
             sessionManager.setLogin(true);
+            Intent intent=new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
 
             if (acct.getPhotoUrl() != null) {
                 social_img = acct.getPhotoUrl().toString();
