@@ -67,13 +67,14 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mobile"
+                        android:hint="Username"
                         android:textColorHint="@color/grey"
                         android:textColor="@color/black"
                         android:backgroundTint="@color/black"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPersonName"
                         >
                     </com.google.android.material.textfield.TextInputEditText>
 
@@ -82,7 +83,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password (6+ characters)"
+                    android:hint="Password"
                     android:textColorHint="@color/grey"
                     app:hintEnabled="true"
                     app:passwordToggleEnabled="true"
@@ -91,9 +92,9 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColorHint="@color/grey"
                         android:textColor="@color/black"
                         android:backgroundTint="@color/black"
@@ -115,7 +116,7 @@
                     >
 
                     <TextView
-                        android:id="@+id/tv_take_know"
+                        android:id="@+id/tv_login"
                         android:layout_margin="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

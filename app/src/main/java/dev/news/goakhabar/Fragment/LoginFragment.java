@@ -1,17 +1,21 @@
 package dev.news.goakhabar.Fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -27,20 +31,30 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
+import dev.news.goakhabar.Adapter.HomeNewsAdapter;
+import dev.news.goakhabar.Api_Call.APIClient1;
+import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.MainActivity;
+import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import dev.news.goakhabar.ProfileActivity;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.SignupActivity;
 import dev.news.goakhabar.Utils.Connectivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Raghvendra Sahu on 01-Dec-19.
@@ -53,6 +67,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     private String social_name = "", social_id = "", social_email = "", social_img = "";
     SessionManager sessionManager;
     LoginButton fb_login_button;
+    TextInputEditText et_username,et_password;
+    TextView tv_login;
 
 
     public LoginFragment() {
@@ -73,6 +89,9 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         callbackManager = CallbackManager.Factory.create();
         sign_in_button=root.findViewById(R.id.g_sign_in_button);
         fb_login_button=root.findViewById(R.id.fb_login_button);
+        et_password=root.findViewById(R.id.et_password);
+        et_username=root.findViewById(R.id.et_username);
+        tv_login=root.findViewById(R.id.tv_login);
 
         fb_login_button.setPermissions("email", "public_profile");
 
@@ -97,10 +116,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             }
         });
 
-
         // fb login
         fb_login_button.registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {@Override
+                new FacebookCallback<LoginResult>() {
+                    @Override
                 public void onSuccess(LoginResult loginResult) {
 
                     System.out.println("onSuccess");
@@ -169,7 +188,63 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     }
                 });
 
+
+        //*****manual login button
+        tv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String Et_Username=et_username.getText().toString();
+                String Et_Password=et_password.getText().toString();
+
+                if (!Et_Password.isEmpty() && !Et_Username.isEmpty()){
+
+                  //  LoginApi(Et_Password,Et_Username);
+                }else {
+                    Toast.makeText(getActivity(), "Please enter username and password", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     return root;
+    }
+
+    private void LoginApi(String et_password, String et_username) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
+
+        Call<Login_model> call = apiInterface.GetLogin(et_username,et_password);
+
+        call.enqueue(new Callback<Login_model>() {
+            @Override
+            public void onResponse(Call<Login_model> call, Response<Login_model> response) {
+
+                try{
+
+                    if (response!=null){
+
+                        }
+
+
+
+                }catch (Exception e){
+                    Log.e("error_cate1", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Login_model> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override

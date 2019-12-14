@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.facebook.CallbackManager;
 import com.google.android.material.tabs.TabLayout;
 
 import dev.news.goakhabar.Fragment.LoginFragment;
@@ -19,12 +20,13 @@ public class SignupActivity extends AppCompatActivity {
     ImageView back_press;
     FrameLayout simpleFrameLayout;
     TabLayout tabLayout;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
+        callbackManager = CallbackManager.Factory.create();
         back_press=findViewById(R.id.back_press);
         simpleFrameLayout = (FrameLayout) findViewById(R.id.simpleFrameLayout);
         tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,8 +49,7 @@ import dev.news.goakhabar.Adapter.MyAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.Api_Call.Base_Url;
-import dev.news.goakhabar.DrawerItem;
+import dev.news.goakhabar.Pojo.DrawerItem;
 import dev.news.goakhabar.NewsDetailsActivity;
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
 import dev.news.goakhabar.Pojo.CategoryWise_new.ShowNewsHomeModel;
@@ -62,7 +60,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static dev.news.goakhabar.MainActivity.dataArrayList;
 import static dev.news.goakhabar.MainActivity.iv_logo;
 import static dev.news.goakhabar.MainActivity.tv_title;
 
@@ -285,34 +282,6 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
         });
 
-
-
-//        List_Item.clear();
-//
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.home), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getResources().getString(R.string.breaking_news), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.goa), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.desh), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.videsh), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.crime_news), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.maharatra_news), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.rajkaran), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.business), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.manoranjan), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.krida), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampadkiya), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.english_khabar), R.drawable.ic_expand));
-//      //  List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.digital), R.drawable.ic_expand));
-//       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.foram), R.drawable.ic_expand));
-//       // List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.sampark), R.drawable.ic_expand));
-//        List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, getString(R.string.brand), R.drawable.ic_expand));
-//
-//
-//
-//        for (int j = 0; j < List_Item.size(); j++) {
-//
-//           // tabLayout.addTab(tabLayout.newTab().setText(List_Item.get(j).getItemName()));
-//        }
 
         return view;
     }

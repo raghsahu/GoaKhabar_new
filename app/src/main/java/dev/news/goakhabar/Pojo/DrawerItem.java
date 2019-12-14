@@ -1,4 +1,4 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Pojo;
 
 /**
  * Created by Raghvendra Sahu on 10-Nov-19.

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.news.goakhabar.Api_Call.APIClient;
+import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.Fragment.Breaking_new_fragment;
 import dev.news.goakhabar.Fragment.FragmentHome;
@@ -37,6 +37,8 @@ import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
 import dev.news.goakhabar.Fragment.Photo_Shoot_Fragment;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
+import dev.news.goakhabar.Pojo.DrawerItem;
+import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.Utils.Connectivity;
@@ -150,9 +152,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clickListner();
         //Drawer Item
-        DrawerItem();
-        //Setup Drawer
-        SetupDrawer();
+       // DrawerItem();
+        getHeaderMenu();
+
 
         Fragment  fragment1 = new FragmentHome();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -166,9 +168,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getCategory();
             // getpost();
 
+
         }else {
             Toast.makeText(MainActivity.this, "Please check Internet", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void getHeaderMenu() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
+
+        Call<HeaderMenuModel> call = apiInterface.GetMenu();
+
+        call.enqueue(new Callback<HeaderMenuModel>() {
+            @Override
+            public void onResponse(Call<HeaderMenuModel> call, Response<HeaderMenuModel> response) {
+
+                try{
+                    if (response!=null){
+                        Log.e("get_menu",""+response.body().getItems().get(0).getTitle());
+                        // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
+
+                        List_Item.clear();
+
+                        try {
+                            for (int j = 0; j < response.body().getItems().size(); j++) {
+
+                                List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, response.body().getItems().get(j).getTitle(), R.drawable.ic_expand));
+                            }
+                        }catch (Exception e){
+
+                        }
+                        //Setup Drawer
+                        SetupDrawer();
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_cate", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<HeaderMenuModel> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_menu1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 

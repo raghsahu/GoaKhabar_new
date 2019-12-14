@@ -5,6 +5,8 @@ import java.util.List;
 
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
+import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
+import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -16,6 +18,12 @@ public interface Api_Call {
 
     @GET("posts")
     Call<List<Home_categ_news_model>> GetCategoryNews(@Query("categories=") int id);
+
+    @GET("wp-api-menus/v2/menus/4")
+    Call<HeaderMenuModel> GetMenu();
+
+
+    Call<Login_model> GetLogin(String et_username, String et_password);
 
 
 //    @FormUrlEncoded
