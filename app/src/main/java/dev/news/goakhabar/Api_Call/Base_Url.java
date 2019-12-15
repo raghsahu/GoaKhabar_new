@@ -9,6 +9,11 @@ public interface Base_Url {
     String BaseUrl_Category="http://www.goakhabar.com/wp-json/wp/v2/";
     String BaseUrl_Post="http://www.goakhabar.com/wp-json/wp/v2/posts";
     String BaseUrl_MenuHeader="https://www.goakhabar.com/wp-json/";
+    String BaseUrl_MenuHeader_news="http://www.goakhabar.com/api/";
+    String BaseUrl_login="https://www.goakhabar.com/api/user/";
+
+
+    //get_category_posts?slug=संपादकीय
 
 
     String categories="categories";

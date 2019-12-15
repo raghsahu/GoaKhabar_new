@@ -15,6 +15,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/ll_details"
         android:layout_margin="@dimen/_3sdp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -23,7 +24,6 @@
         <ImageView
             android:id="@+id/news1"
             android:layout_margin="@dimen/_5sdp"
-
             android:scaleType="fitXY"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_80sdp" />
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     style="@style/textview14verdana"
                     android:padding="@dimen/_2sdp"
-                    android:text=".."
+                    android:text=".rrrr."
                     />
 
                 <TextView

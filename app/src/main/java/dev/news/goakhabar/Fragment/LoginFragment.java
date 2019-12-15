@@ -40,8 +40,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import dev.news.goakhabar.Adapter.HomeNewsAdapter;
 import dev.news.goakhabar.Api_Call.APIClient1;
+import dev.news.goakhabar.Api_Call.APIClient3;
 import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.MainActivity;
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
@@ -151,7 +151,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                                     AppPreference.setName(getActivity(),name);
                                     Intent intent=new Intent(getActivity(), MainActivity.class);
                                     startActivity(intent);
-                                    getActivity().finish();
+                                   // getActivity().finish();
 
                                     sessionManager.setLogin(true);
                                     Toast.makeText(getActivity(), "successful login", Toast.LENGTH_SHORT).show();
@@ -184,7 +184,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     public void onError(FacebookException exception) {
                         System.out.println("onError");
                         Toast.makeText(getActivity(), "fail", Toast.LENGTH_SHORT).show();
-                        Log.v("LoginActivity", exception.getCause().toString());
+                        Log.v("LoginActivity", exception.toString());
                     }
                 });
 
@@ -199,7 +199,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                 if (!Et_Password.isEmpty() && !Et_Username.isEmpty()){
 
-                  //  LoginApi(Et_Password,Et_Username);
+                  LoginApi(Et_Password,Et_Username);
                 }else {
                     Toast.makeText(getActivity(), "Please enter username and password", Toast.LENGTH_SHORT).show();
                 }
@@ -215,7 +215,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
 
-        Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
+        Api_Call apiInterface = APIClient3.getClient().create(Api_Call.class);
 
         Call<Login_model> call = apiInterface.GetLogin(et_username,et_password);
 
@@ -226,6 +226,20 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 try{
 
                     if (response!=null){
+
+                        Log.e("login_status",response.body().getStatus());
+                        if (response.body().getStatus().equalsIgnoreCase("ok")){
+                            AppPreference.setName(getActivity(),response.body().getUser().getFirstname());
+                            AppPreference.setUser_Id(getActivity(), String.valueOf(response.body().getUser().getId()));
+                            Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+
+                            sessionManager.setLogin(true);
+                            Intent intent=new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+
+                        }
+
 
                         }
 

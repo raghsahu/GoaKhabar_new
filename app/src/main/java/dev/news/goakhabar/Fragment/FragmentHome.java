@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -324,11 +325,11 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                        // Log.e("show_news_model",""+showNewsHomeModels.size());
 
 
-                        homeNewsAdapter = new HomeNewsAdapter( catByNews, getActivity());
-                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-                        recycler_news.setAdapter(homeNewsAdapter);
-                        //recycler_news.setFocusable(false);
-                        homeNewsAdapter.notifyDataSetChanged();
+//                        homeNewsAdapter = new HomeNewsAdapter( catByNews, getActivity());
+//                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+//                        recycler_news.setAdapter(homeNewsAdapter);
+//                        //recycler_news.setFocusable(false);
+//                        homeNewsAdapter.notifyDataSetChanged();
 
                     }
                 }catch (Exception e){
@@ -480,18 +481,45 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 //                        recycler_news.setFocusable(false);
 //                        homeAdapter.notifyDataSetChanged();
 
-                        for (int j = 0; j < response.body().size(); j++) {
-                            Log.e("get_cate",""+response.body().get(j).getName());
-                            tabLayout.addTab(tabLayout.newTab().setText(response.body().get(j).getName()));
+                        for (int j = 0; j < dataArrayList.size(); j++) {
+
+                            //Collections.reverse(dataArrayList);
+
+                            if (dataArrayList.get(j).getName().equalsIgnoreCase("IFFI GOA 2017")){
+                                dataArrayList.remove(j);
+                            }
+                            else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
+                                dataArrayList.remove(j);
+                            }
+                           // dataArrayList.remove(0);
+                            Collections.swap(dataArrayList, 0, j);
+
+                        }
+
+                        for (int j = 0; j < dataArrayList.size(); j++) {
 
 
-                            if (response.body().get(j).getName().equalsIgnoreCase("गोवा खबर व्हिडीओ")){
-                                goa_video_id=response.body().get(j).getId();
+                            if (dataArrayList.get(j).getName().equalsIgnoreCase("IFFI GOA 2017")){
+                                dataArrayList.remove(j);
+                            }
+                            else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
+                                dataArrayList.remove(j);
+                            }
+                            // dataArrayList.remove(0);
+                            //Collections.swap(dataArrayList, 0, j);
+
+                        }
+
+                        for (int j = 0; j < dataArrayList.size(); j++) {
+                            Log.e("get_cate",""+dataArrayList.get(j).getName());
+                            tabLayout.addTab(tabLayout.newTab().setText(dataArrayList.get(j).getName()));
+
+                            if (dataArrayList.get(j).getName().equalsIgnoreCase("गोवा खबर व्हिडीओ")){
+                                goa_video_id=dataArrayList.get(j).getId();
                                 Log.e("goa_video_tab_id",""+goa_video_id);
 
                             }
                         }
-
 
                     }
                 }catch (Exception e){
