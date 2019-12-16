@@ -88,7 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Rrrr"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="21sp"
                             android:textStyle="bold" />
@@ -142,11 +142,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_weight=".5"
-                                        android:text="Contact No"
+                                        android:text="Nick name"
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/tv_mobile"
+                                        android:id="@+id/tv_nickname"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -232,6 +232,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
+                                        android:visibility="gone"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_5sdp"

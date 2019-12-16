@@ -91,7 +91,6 @@
         >
 
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_news"
             android:layout_width="match_parent"

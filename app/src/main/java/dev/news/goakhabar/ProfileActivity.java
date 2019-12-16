@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,13 +26,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import dev.news.goakhabar.Api_Call.APIClient3;
+import dev.news.goakhabar.Api_Call.Api_Call;
+import dev.news.goakhabar.Pojo.LoginModel.Login_model;
+import dev.news.goakhabar.Pojo.Profile_model;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
+import dev.news.goakhabar.Utils.Connectivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     ImageView back_press;
-    TextView tv_logout;
+    TextView tv_logout,tv_name,tv_nickname;
 
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
@@ -45,6 +54,14 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
         back_press=findViewById(R.id.back_press);
         tv_logout=findViewById(R.id.tv_logout);
+        tv_name=findViewById(R.id.tv_name);
+        tv_nickname=findViewById(R.id.tv_nickname);
+
+        if (Connectivity.isConnected(this)){
+            getprofile();
+        }else {
+            Toast.makeText(this, "Please check internet", Toast.LENGTH_SHORT).show();
+        }
 
         gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -66,6 +83,52 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onClick(View v) {
                 logout_user();
+
+            }
+        });
+    }
+
+    private void getprofile() {
+        final ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this,R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = APIClient3.getClient().create(Api_Call.class);
+
+        Call<Profile_model> call = apiInterface.GetProfile(AppPreference.getUser_Id(ProfileActivity.this));
+
+        call.enqueue(new Callback<Profile_model>() {
+            @Override
+            public void onResponse(Call<Profile_model> call, Response<Profile_model> response) {
+
+                try{
+
+                    if (response!=null){
+
+                        Log.e("login_status",response.body().getStatus());
+                        if (response.body().getStatus().equalsIgnoreCase("ok")){
+                        tv_name.setText(response.body().getFirstname()+" "+response.body().getLastname());
+                        tv_nickname.setText(response.body().getNickname());
+
+
+                        }
+
+
+                    }
+
+
+
+                }catch (Exception e){
+                    Log.e("error_cate1", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Profile_model> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                Toast.makeText(ProfileActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -97,6 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                     disconnectFromFacebook();
                     manager.logoutUser();
                     AppPreference.setName(ProfileActivity.this, "");
+                    AppPreference.setUser_Id(ProfileActivity.this, "");
                     Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                     startActivity(intent);
                     finish();
@@ -127,6 +191,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                 LoginManager.getInstance().logOut();
                 manager.logoutUser();
                 AppPreference.setName(ProfileActivity.this, "");
+                AppPreference.setUser_Id(ProfileActivity.this, "");
                 Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                 startActivity(intent);
                 finish();
@@ -145,6 +210,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                             Log.e("logout_app_gmail", "google login logout");
                             manager.logoutUser();
                             AppPreference.setName(ProfileActivity.this, "");
+                            AppPreference.setUser_Id(ProfileActivity.this, "");
                             Intent intent=new Intent(ProfileActivity.this,SignupActivity.class);
                             startActivity(intent);
                             finish();

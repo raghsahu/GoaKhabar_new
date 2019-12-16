@@ -8,6 +8,7 @@ import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
 import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import dev.news.goakhabar.Pojo.Menu_Wise_News.Menu_categ_news_model;
+import dev.news.goakhabar.Pojo.Profile_model;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -28,6 +29,15 @@ public interface Api_Call {
 
     @GET("get_category_posts")
     Call<Menu_categ_news_model> GetHeaderNews(@Query("slug") String news_title);
+
+    @GET("get_userinfo")
+    Call<Profile_model> GetProfile(@Query("user_id")String user_id);
+
+    @GET("posts")
+    Call<List<Home_categ_news_model>> GetSearchNews(@Query("filter[category_name]")String होम,
+                                              @Query("per_page") String s,
+                                              @Query("order") String asc,
+                                              @Query("search") String s1);
 
 
 //    @FormUrlEncoded
