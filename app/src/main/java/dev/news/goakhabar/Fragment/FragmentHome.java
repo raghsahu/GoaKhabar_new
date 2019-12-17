@@ -49,12 +49,15 @@ import dev.news.goakhabar.Adapter.HomeNewsAdapter;
 import dev.news.goakhabar.Adapter.MyAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
+import dev.news.goakhabar.Api_Call.ApiClient2;
 import dev.news.goakhabar.Api_Call.Api_Call;
+import dev.news.goakhabar.MainActivity;
 import dev.news.goakhabar.Pojo.DrawerItem;
 import dev.news.goakhabar.NewsDetailsActivity;
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
 import dev.news.goakhabar.Pojo.CategoryWise_new.ShowNewsHomeModel;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
+import dev.news.goakhabar.Pojo.Menu_Wise_News.Menu_categ_news_model;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Utils.Connectivity;
 import retrofit2.Call;
@@ -74,7 +77,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     public ArrayList<DrawerItem> List_Item=new ArrayList<>();
 
     ImageView iv_option;
-    TextView txt;
+    TextView txt_breaking;
     RecyclerView recycler_news;
    List<Category_Home_Model> dataArrayList;
     HomeNewsAdapter homeNewsAdapter;
@@ -93,6 +96,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     String postTitle[];
     int featured_media[];
     public static Integer goa_video_id;
+  
 
     @Nullable
     @Override
@@ -106,11 +110,17 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         ll_news_details=view.findViewById(R.id.ll_news_details);
         iv_option=view.findViewById(R.id.iv_option);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        txt = view.findViewById(R.id.text);
+        txt_breaking = view.findViewById(R.id.text);
         recycler_news = view.findViewById(R.id.recycler_news);
        //pullToRefresh = view.findViewById(R.id.pullToRefresh);
         final TextView textViewOptions = view.findViewById(R.id.textViewOptions);
-        txt.setSelected(true);
+        txt_breaking.setSelected(true);
+
+        try {
+        //    txt_breaking.setText("ब्रेकिंग न्यूज़:  "+toPrint);
+        }catch (Exception e){
+
+        }
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
        // backpress = (ImageView) view.findViewById(R.id.back_press);
@@ -127,7 +137,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
         //****************************************************
         if (Connectivity.isConnected(getContext())){
-
+            getMenuNews("ब्रेकिंग-न्यूज़");
            getCategory();
            // getpost();
 
@@ -150,17 +160,19 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         });
 
 //***********************************************************
-        txt.setOnClickListener(new View.OnClickListener() {
+        txt_breaking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Fragment  fragment1 = new Breaking_new_fragment();
-                tv_title.setText(R.string.breaking_news);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame, fragment1)
-                        .commit();
-                fragmentManager.beginTransaction().addToBackStack(null);
+                Fragment fragment2 = new News_Fragment();
+                tv_title.setText("ब्रेकिंग-न्यूज़");
+                iv_logo.setVisibility(View.GONE);
+                tv_title.setVisibility(View.VISIBLE);
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", "ब्रेकिंग-न्यूज़");
+                FragmentManager fragmentManager2 = getActivity().getSupportFragmentManager();
+                fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+                fragment2.setArguments(bundle);
 
             }
         });
@@ -287,6 +299,66 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         return view;
     }
 
+    private void getMenuNews(String s) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = ApiClient2.getClient().create(Api_Call.class);
+
+        Call<Menu_categ_news_model> call = apiInterface.GetHeaderNews(s);
+
+        call.enqueue(new Callback<Menu_categ_news_model>() {
+            @Override
+            public void onResponse(Call<Menu_categ_news_model> call, Response<Menu_categ_news_model> response) {
+                progressDialog.dismiss();
+                try{
+
+                    if (response!=null){
+                        Log.e("breaking_title_res", response.body().getStatus());
+
+                        if (!response.body().getStatus().equalsIgnoreCase("error")){
+                            for (int i=0; i<response.body().getPosts().size();i++){
+                                Log.e("breaking_title", response.body().getPosts().get(i).getTitle());
+
+                                //String breaking_news= " "+response.body().getPosts().get(i).getTitle();
+
+
+                                // String result = String.join(", ", response.body().getPosts().get(i).getTitle());
+                                String toPrint = "";
+                                toPrint += response.body().getPosts().get(i).getTitle() + " , ";
+                                Log.e("breaking_result",""+toPrint);
+
+                                txt_breaking.setText("ब्रेकिंग न्यूज़:  "+toPrint);
+
+
+                            }
+
+
+                        }else {
+                            // Toast.makeText(MainActivity.this, "No news", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_breaking_title", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Menu_categ_news_model> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
     private void GetCategoryNews(int id) {
 
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),R.style.MyGravity);
@@ -342,7 +414,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
             public void onFailure(Call<List<Home_categ_news_model>> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.e("error_category1",t.getMessage());
-                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -532,7 +604,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
             public void onFailure(Call<List<Category_Home_Model>> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.e("error_category1",t.getMessage());
-                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

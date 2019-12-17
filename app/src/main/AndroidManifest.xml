@@ -24,6 +24,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MenuNewsDetailsActivity"></activity>
+        <activity android:name=".Fragment.About_us_fragment"></activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".NewsDetailsActivity" />
         <activity android:name=".E_paper_detailsActivity" />
@@ -64,6 +65,20 @@
                     tools:ignore="ManifestResource" />
             </intent-filter>
         </activity>
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.myapp.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+
+
     </application>
 
 </manifest>

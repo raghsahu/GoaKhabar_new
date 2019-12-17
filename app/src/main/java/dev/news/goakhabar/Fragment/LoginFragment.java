@@ -287,6 +287,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             social_email = acct.getEmail();
 
             AppPreference.setName(getActivity(),social_name);
+            AppPreference.setEmail(getActivity(),social_email);
 
             sessionManager.setLogin(true);
             Intent intent=new Intent(getActivity(), MainActivity.class);

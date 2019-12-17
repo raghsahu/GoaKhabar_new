@@ -9,6 +9,7 @@ import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
 import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import dev.news.goakhabar.Pojo.Menu_Wise_News.Menu_categ_news_model;
 import dev.news.goakhabar.Pojo.Profile_model;
+import dev.news.goakhabar.Pojo.Signup_model;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -38,6 +39,18 @@ public interface Api_Call {
                                               @Query("per_page") String s,
                                               @Query("order") String asc,
                                               @Query("search") String s1);
+
+
+    @GET("register/")
+    Call<Signup_model> GetSignup(@Query("username") String et_username,
+                                 @Query("user_pass") String et_password,
+                                 @Query("email") String et_email,
+                                 @Query("nonce") String get_nonce,
+                                 @Query("notify")String both,
+                                 @Query("json") String json,
+                                 @Query("controller")String controller,
+                                 @Query("method")String method);
+
 
 
 //    @FormUrlEncoded

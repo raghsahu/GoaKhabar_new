@@ -7,72 +7,67 @@
     android:orientation="vertical"
     >
 
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/tbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue"
         >
 
-        <LinearLayout
-            android:padding="@dimen/_10sdp"
-            android:gravity="center"
-            android:weightSum="1"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="0.4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
 
-        <ImageView
 
-            android:id="@+id/back_press"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            />
-
-            </LinearLayout>
-
-        <AutoCompleteTextView
-            android:layout_weight="0.2"
+        <EditText
             android:id="@+id/search"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
             android:text=""
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:hint="Search"
             android:textSize="9pt"
             android:textAlignment="textStart"
             android:textColor="@color/white"
             />
 
-            <TextView
-                android:layout_weight="0.4"
-                android:id="@+id/tv_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="search"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                />
 
-        </LinearLayout>
-
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/back_press"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:paddingLeft="10dp"
+            />
 
 
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="search"
+            android:textSize="16dp"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:background="@drawable/round_bg"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+
+            />
+
+    </RelativeLayout>
 
 
     <ListView

@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     ImageView back_press;
-    TextView tv_logout,tv_name,tv_nickname;
+    TextView tv_logout,tv_name,tv_nickname,tv_email;
 
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
@@ -56,6 +56,18 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         tv_logout=findViewById(R.id.tv_logout);
         tv_name=findViewById(R.id.tv_name);
         tv_nickname=findViewById(R.id.tv_nickname);
+        tv_email=findViewById(R.id.tv_email);
+
+
+        try {
+            tv_name.setText(AppPreference.getName(ProfileActivity.this));
+            tv_nickname.setText(AppPreference.getName(ProfileActivity.this));
+            tv_email.setText(AppPreference.getEmail(ProfileActivity.this));
+
+        }catch (Exception e){
+
+        }
+
 
         if (Connectivity.isConnected(this)){
             getprofile();
@@ -161,6 +173,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                     manager.logoutUser();
                     AppPreference.setName(ProfileActivity.this, "");
                     AppPreference.setUser_Id(ProfileActivity.this, "");
+                    AppPreference.setEmail(ProfileActivity.this, "");
                     Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                     startActivity(intent);
                     finish();
@@ -192,6 +205,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                 manager.logoutUser();
                 AppPreference.setName(ProfileActivity.this, "");
                 AppPreference.setUser_Id(ProfileActivity.this, "");
+                AppPreference.setEmail(ProfileActivity.this, "");
                 Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                 startActivity(intent);
                 finish();
@@ -211,6 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                             manager.logoutUser();
                             AppPreference.setName(ProfileActivity.this, "");
                             AppPreference.setUser_Id(ProfileActivity.this, "");
+                            AppPreference.setEmail(ProfileActivity.this, "");
                             Intent intent=new Intent(ProfileActivity.this,SignupActivity.class);
                             startActivity(intent);
                             finish();

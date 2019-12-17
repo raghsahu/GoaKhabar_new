@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     style="@style/textview14verdana"
                     android:padding="@dimen/_2sdp"
-                    android:text=".rrrr."
+                    android:text=""
                     />
 
                 <TextView

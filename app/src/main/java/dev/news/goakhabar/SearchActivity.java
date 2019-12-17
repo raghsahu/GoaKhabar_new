@@ -3,6 +3,7 @@ package dev.news.goakhabar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient3;
@@ -33,7 +36,7 @@ import retrofit2.Response;
 public class SearchActivity extends AppCompatActivity {
 
     ImageView back_press;
-    AutoCompleteTextView search;
+    EditText search;
     TextView tv_search;
     ArrayList<String> news_list=new ArrayList<>();
     List<Home_categ_news_model> catByNews = new ArrayList<>();
@@ -63,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
                 String search_url= "http://www.goakhabar.com/wp-json/wp/v2/posts?filter[category_name]=होम&per_page=30&order=asc&search="+s;
                 if (Connectivity.isConnected(SearchActivity.this)){
 
-                   // getNewsSearch(s);
+                    getNewsSearch(s);
 
                 }else {
                     Toast.makeText(SearchActivity.this, "Please check Internet", Toast.LENGTH_SHORT).show();
@@ -71,53 +74,18 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        //*******************************************************
+        postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // mapPost = (Map<String,Object>)list.get(position);
+                //postID = ((Double)mapPost.get("id")).intValue();
 
-                Integer selectedItem= (Integer) search.getAdapter().getItem(position);
-
-                String id1=catByNews.get(selectedItem).getId().toString();
-                Log.e("search_id",id1.toString());
-
+                Intent intent = new Intent(SearchActivity.this, NewsDetailsActivity.class);
+                intent.putExtra("id", ""+catByNews.get(position).getId());
+                startActivity(intent);
             }
         });
-
-
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    //     state_list.clear();
-                    //  stateed.setAdapter(null);
-                    //   StateAdapter.notifyDataSetChanged();
-                    if(catByNews.size() <=0) {
-                       // getNewsSearch(s.toString());
-                    }else {
-                        //Toast.makeText(S.this, "done", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
 
     }
 

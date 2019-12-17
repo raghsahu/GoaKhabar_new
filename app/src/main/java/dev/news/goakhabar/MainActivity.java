@@ -1,6 +1,7 @@
 package dev.news.goakhabar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,9 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,10 +32,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.news.goakhabar.Adapter.HomeNewsAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
+import dev.news.goakhabar.Api_Call.ApiClient2;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.Fragment.Breaking_new_fragment;
 import dev.news.goakhabar.Fragment.FragmentHome;
 import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
@@ -39,6 +44,7 @@ import dev.news.goakhabar.Fragment.Photo_Shoot_Fragment;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabar.Pojo.DrawerItem;
 import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
+import dev.news.goakhabar.Pojo.Menu_Wise_News.Menu_categ_news_model;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.Utils.Connectivity;
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static ImageView iv_logo;
     public static List<Category_Home_Model> dataArrayList;
     SessionManager sessionManager;
+    //public static String toPrint = "";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -101,11 +108,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 case R.id.navigation_photo:
 
-                    Fragment fragment1=new Photo_Shoot_Fragment();
-                    FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-                    ft1.replace(R.id.frame, fragment1);
-                    ft1.addToBackStack(null);
-                    ft1.commit();
+                    Fragment fragment2 = new News_Fragment();
+                    tv_title.setText("ब्रेकिंग-न्यूज़");
+                    iv_logo.setVisibility(View.GONE);
+                    tv_title.setVisibility(View.VISIBLE);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Title", "ब्रेकिंग-न्यूज़");
+                    FragmentManager fragmentManager2 = getSupportFragmentManager();
+                    fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+                    fragment2.setArguments(bundle);
 
                     return true;
 
@@ -152,8 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clickListner();
         //Drawer Item
-       // DrawerItem();
-        getHeaderMenu();
+       DrawerItem();
+        SetupDrawer();
+        //getHeaderMenu();
 
 
         Fragment  fragment1 = new FragmentHome();
@@ -165,13 +177,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //****************************************************
         if (Connectivity.isConnected(MainActivity.this)){
 
-            getCategory();
+           // getCategory();//************
             // getpost();
+
+           // getMenuNews("ब्रेकिंग-न्यूज़");
 
 
         }else {
             Toast.makeText(MainActivity.this, "Please check Internet", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void getMenuNews(String s) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        Api_Call apiInterface = ApiClient2.getClient().create(Api_Call.class);
+
+        Call<Menu_categ_news_model> call = apiInterface.GetHeaderNews(s);
+
+        call.enqueue(new Callback<Menu_categ_news_model>() {
+            @Override
+            public void onResponse(Call<Menu_categ_news_model> call, Response<Menu_categ_news_model> response) {
+                progressDialog.dismiss();
+                try{
+
+                    if (response!=null){
+                        Log.e("breaking_title_res", response.body().getStatus());
+
+                        if (!response.body().getStatus().equalsIgnoreCase("error")){
+                            for (int i=0; i<response.body().getPosts().size();i++){
+                                Log.e("breaking_title", response.body().getPosts().get(i).getTitle());
+
+                                //String breaking_news= " "+response.body().getPosts().get(i).getTitle();
+
+
+                                  // // String result = String.join(", ", response.body().getPosts().get(i).getTitle());
+//                                    toPrint += response.body().getPosts().get(i).getTitle()+" , ";
+//                                    Log.e("breaking_result",""+toPrint);
+
+
+
+
+                            }
+
+
+                        }else {
+                           // Toast.makeText(MainActivity.this, "No news", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }catch (Exception e){
+                    Log.e("error_breaking_title", e.getMessage());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<Menu_categ_news_model> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.e("error_category1",t.getMessage());
+                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -325,8 +398,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("Position......", Item_Name);
         //-********************************
 
-                if (Item_Name.equals("होम")) {
+//                if (Item_Name.equals("होम")) {
+//
+//                    //titletxt.setText("Home");
+//                    Fragment fragment1 = new FragmentHome();
+//                    // imgheader.setVisibility(View.GONE);
+//                    FragmentManager fragmentManager = getSupportFragmentManager();
+//                    fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
+//                    mDrawerLayout.closeDrawer(mDrawerList);
+//
+//                }else {
+//
+//                    Fragment  fragment2 = new News_Fragment();
+//                    tv_title.setText(Item_Name);
+//                    iv_logo.setVisibility(View.GONE);
+//                    tv_title.setVisibility(View.VISIBLE);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("Title", Item_Name);
+//                    FragmentManager fragmentManager2 = getSupportFragmentManager();
+//                    fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+//                    fragment2.setArguments(bundle);
+//                    mDrawerLayout.closeDrawer(mDrawerList);
+//                }
 
+
+
+        //**************************************
+        //Call Fragment on a listview click listner
+        if (Item_Name.equals("होम")) {
                     //titletxt.setText("Home");
                     Fragment fragment1 = new FragmentHome();
                     // imgheader.setVisibility(View.GONE);
@@ -334,140 +433,165 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
                     mDrawerLayout.closeDrawer(mDrawerList);
 
-                }else {
-
+        } else if (Item_Name.equals("गोवा")) {
                     Fragment  fragment2 = new News_Fragment();
-                    tv_title.setText(Item_Name);
+                    tv_title.setText("गोवा-खबर");
                     iv_logo.setVisibility(View.GONE);
                     tv_title.setVisibility(View.VISIBLE);
                     Bundle bundle = new Bundle();
-                    bundle.putString("Title", Item_Name);
+                    bundle.putString("Title", "गोवा-खबर");
                     FragmentManager fragmentManager2 = getSupportFragmentManager();
                     fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
                     fragment2.setArguments(bundle);
                     mDrawerLayout.closeDrawer(mDrawerList);
-                }
 
+        } else if (Item_Name.equals("देश")) {
+                    Fragment  fragment2 = new News_Fragment();
+                    tv_title.setText("देश-खबर");
+                    iv_logo.setVisibility(View.GONE);
+                    tv_title.setVisibility(View.VISIBLE);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Title", "देश-खबर");
+                    FragmentManager fragmentManager2 = getSupportFragmentManager();
+                    fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+                    fragment2.setArguments(bundle);
+                    mDrawerLayout.closeDrawer(mDrawerList);
 
+        }else if (Item_Name.equals("विदेश")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("विदेश-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "विदेश-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
 
-        //**************************************
-        //Call Fragment on a listview click listner
-//        if (Item_Name.equals("होम")) {
-//
-//            //titletxt.setText("Home");
-//          Fragment  fragment1 = new FragmentHome();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        } else if (Item_Name.equals("गोवा")) {
-//            tv_title.setText("गोवा");
-//            iv_logo.setVisibility(View.GONE);
-//            tv_title.setVisibility(View.VISIBLE);
-//            Fragment  fragment1 = new News_Fragment();
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        } else if (Item_Name.equals("देश")) {
-//            tv_title.setText("देश");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("विदेश")) {
-//            tv_title.setText("विदेश");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("राजकारण")) {
-//            tv_title.setText("राजकारण");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("बिज़नेस")) {
-//            tv_title.setText("बिज़नेस");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("मनोरंजन")) {
-//            tv_title.setText("मनोरंजन");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("क्रीड़ा")) {
-//            tv_title.setText("क्रीड़ा");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("संपादकीय")) {
-//            tv_title.setText("संपादकीय");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new News_Fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("ंग्लिश खबर")) {
-//            tv_title.setText("ंग्लिश खबर");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-////            Fragment  fragment1 = new English_Fragment();
-////            // imgheader.setVisibility(View.GONE);
-////            FragmentManager fragmentManager = getSupportFragmentManager();
-////            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-////            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("ब्रेकिंग खबर")) {
-//            tv_title.setText("ब्रेकिंग खबर");
-//            iv_logo.setVisibility(View.GONE);
-//            //titletxt.setText("Home");
-//            Fragment  fragment1 = new Breaking_new_fragment();
-//            // imgheader.setVisibility(View.GONE);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }else if (Item_Name.equals("फोरम")) {
-//
-//
-//        }else if (Item_Name.equals("संपर्क")) {
-//
-//
-//        }
+        }else if (Item_Name.equals("राजकारण")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("राजकारण-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "राजकारण-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
 
+        }else if (Item_Name.equals("बिझनेस")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("बिझनेस-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "बिझनेस-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }else if (Item_Name.equals("मनोरंजन")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("मनोरंजन-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "मनोरंजन-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }else if (Item_Name.equals("क्रीडा")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("क्रीडा-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "क्रीडा-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }else if (Item_Name.equals("संपादकीय")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("संपादकीय");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "संपादकीय");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }else if (Item_Name.equals("इंग्लिश खबर")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("इंग्लिश-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "इंग्लिश-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }else if (Item_Name.equals("ब्रेकिंग खबर")) {
+            Fragment fragment2 = new News_Fragment();
+            tv_title.setText("ब्रेकिंग-न्यूज़");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "ब्रेकिंग-न्यूज़");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+
+            else if (Item_Name.equals("क्राइम खबर")) {
+            Fragment fragment2 = new News_Fragment();
+            tv_title.setText("क्राइम-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "क्राइम-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+             else if (Item_Name.equals("महाराष्ट्र खबर")) {
+            Fragment fragment2 = new News_Fragment();
+            tv_title.setText("महाराष्ट्र-खबर");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "महाराष्ट्र-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }
+            else if (Item_Name.equals("ब्रांड कनेक्ट")) {
+            Fragment  fragment2 = new News_Fragment();
+            tv_title.setText("ब्रांड कनेक्ट");
+            iv_logo.setVisibility(View.GONE);
+            tv_title.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString("Title", "ब्रांड-खबर");
+            FragmentManager fragmentManager2 = getSupportFragmentManager();
+            fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
+            fragment2.setArguments(bundle);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }
 
 
     }

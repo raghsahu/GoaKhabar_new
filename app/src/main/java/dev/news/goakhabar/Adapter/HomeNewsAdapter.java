@@ -2,7 +2,11 @@ package dev.news.goakhabar.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,18 +15,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,12 +85,16 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
             Log.e("catg-size",""+category_home_models.size());
 
-            if (!category_home_models.get(position).getAttachments().get(0).getUrl().equalsIgnoreCase(null)){
+
+            try {
+
+
+            if (!category_home_models.get(position).getAttachments().get(0).getUrl().equalsIgnoreCase(null)) {
 
                 Glide.with(context)
                         .load(category_home_models.get(position).getAttachments().get(0).getUrl())
                         .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        //.error(R.drawable.glide_app_img_loader)
+                        .error(R.drawable.goakhabar)
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -87,7 +106,13 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                                 return false;
                             }
                         }).into(holder.iv_post_image);
+
+
             }
+
+            }catch (Exception e){
+
+                }
 
         holder.textViewOptions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +130,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                                 //handle menu1 click
                                 String links=categoryHomeModel.getUrl();
                                 Log.e("img_url",links);
-                                ShareNews(links,categoryHomeModel.getTitle());
+                                ShareNews(links,categoryHomeModel.getTitle(),category_home_models.get(position).getAttachments().get(0).getUrl());
                                 return true;
 
 
@@ -140,31 +165,68 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
         }
 
-    private void ShareNews(String links, String title) {
+    private void ShareNews(String links, String title, String url) {
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
-            //  String shareMessage= title+"\n";
-            // shareMessage = shareMessage + url;
             shareIntent.putExtra(Intent.EXTRA_TEXT, links);
-            //  shareIntent.putExtra(Intent.EXTRA_STREAM, img_url);
-            // shareIntent.setType("image/jpeg");
             context.startActivity(Intent.createChooser(shareIntent, "choose one"));
+//***************************************************************
+//            try {
+////
+//                URL imageurl = new URL(url);
+//                Bitmap bitmap = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
+////***********************************
+//
+//                Intent intent=new Intent(Intent.ACTION_SEND);
+//                intent.setType("image/*");
+//                intent.putExtra(intent.EXTRA_SUBJECT,"GoaKhabar");
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                intent.putExtra(Intent.EXTRA_TEXT,links);
+//                intent.putExtra(Intent.EXTRA_STREAM,bitmap);
+//              //  intent.setPackage("com.whatsapp");
+//                context.startActivity(Intent.createChooser(intent, "choose one"));
+//                context.startActivity(intent);
+//
+//
+//               // return myBitmap;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                //return null;
+//            }
+
+//            try {
+//
+//                File cachePath = new File(context.getCacheDir(), "images");
+//                cachePath.mkdirs(); // don't forget to make the directory
+//                FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                stream.close();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+//            File imagePath = new File(context.getCacheDir(), "images");
+//            File newFile = new File(imagePath, "image.png");
+//            Uri contentUri = FileProvider.getUriForFile(context, "com.example.myapp.fileprovider", newFile);
+//
+//            if (contentUri != null) {
+//                Intent shareIntent = new Intent();
+//                shareIntent.setAction(Intent.ACTION_SEND);
+//                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+//                shareIntent.setDataAndType(contentUri, context.getContentResolver().getType(contentUri));
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+//                context.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+//            }
 
 
-//            Intent shareIntent = new Intent();
-//            shareIntent.setType("image/*");
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            shareIntent.setAction(Intent.ACTION_SEND);
-//            //without the below line intent will show error
-//            shareIntent.setType("text/plain");
-//
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, img_url);
-//
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
-//
+
+
+
+
+
 
 
         } catch(Exception e) {
