@@ -64,29 +64,12 @@
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_400sdp"
-                android:src="@drawable/e_paper"
+                android:src="@drawable/goakhabar"
                 android:scaleType="fitXY"
                 />
 
 
-            <ImageView
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_400sdp"
-                android:src="@drawable/epaper123"
-                android:scaleType="fitXY"
-                />
 
-
-            <ImageView
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_400sdp"
-                android:src="@drawable/epaper55"
-                android:scaleType="fitXY"
-                />
 
 
         </LinearLayout>

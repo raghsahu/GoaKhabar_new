@@ -3,6 +3,7 @@ package dev.news.goakhabar.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +33,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
@@ -96,7 +104,8 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     String postTitle[];
     int featured_media[];
     public static Integer goa_video_id;
-  
+    private AdView mAdView;
+
 
     @Nullable
     @Override
@@ -122,6 +131,78 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
         }
 
+        //banner ads initialize
+        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+        });
+
+
+          mAdView = (AdView)view.findViewById(R.id.adView);
+        mAdView = new AdView(getActivity());
+        mAdView.setAdSize(AdSize.SMART_BANNER);
+        mAdView.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
+        AdRequest.Builder adRequest = new AdRequest.Builder();
+
+        String ANDROID_ID = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        String deviceId = md5(ANDROID_ID).toUpperCase();
+        Log.e("ANDROID_ID", ""+ANDROID_ID);
+        Log.e("deviceId", ""+deviceId);
+
+        adRequest.addTestDevice(deviceId);
+
+
+        AdRequest request = adRequest.build();
+        mAdView.loadAd(request);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.e("ban_adsload", "Banner");
+               // Toast.makeText(getActivity(), "Banner ads", Toast.LENGTH_SHORT).show();
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.e("ban_ads", ""+errorCode);
+                //Toast.makeText(getActivity(), "Banner fail", Toast.LENGTH_SHORT).show();
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.e("ban_adsopen", "Banner");
+               // Toast.makeText(getActivity(), "Banner open", Toast.LENGTH_SHORT).show();
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                Log.e("ban_adsclick", "Banner");
+                //Toast.makeText(getActivity(), "Banner click", Toast.LENGTH_SHORT).show();
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.e("ban_adsleft", "Banner");
+              //  Toast.makeText(getActivity(), "Banner left", Toast.LENGTH_SHORT).show();
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.e("ban_adsclose", "Banner");
+                //Toast.makeText(getActivity(), "Banner close", Toast.LENGTH_SHORT).show();
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
+
+        //**********************************************************
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
        // backpress = (ImageView) view.findViewById(R.id.back_press);
 
@@ -165,7 +246,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
             public void onClick(View v) {
 
                 Fragment fragment2 = new News_Fragment();
-                tv_title.setText("ब्रेकिंग-न्यूज़");
+                tv_title.setText("ब्रेकिंग खबर");
                 iv_logo.setVisibility(View.GONE);
                 tv_title.setVisibility(View.VISIBLE);
                 Bundle bundle = new Bundle();
@@ -297,6 +378,20 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
 
         return view;
+    }
+
+    public static String md5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
 
     private void getMenuNews(String s) {

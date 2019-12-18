@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.navigation_photo:
 
                     Fragment fragment2 = new News_Fragment();
-                    tv_title.setText("ब्रेकिंग-न्यूज़");
+                    tv_title.setText("ब्रेकिंग खबर");
                     iv_logo.setVisibility(View.GONE);
                     tv_title.setVisibility(View.VISIBLE);
                     Bundle bundle = new Bundle();
@@ -543,7 +543,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }else if (Item_Name.equals("ब्रेकिंग खबर")) {
             Fragment fragment2 = new News_Fragment();
-            tv_title.setText("ब्रेकिंग-न्यूज़");
+            tv_title.setText("ब्रेकिंग खबर");
             iv_logo.setVisibility(View.GONE);
             tv_title.setVisibility(View.VISIBLE);
             Bundle bundle = new Bundle();

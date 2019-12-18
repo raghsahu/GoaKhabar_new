@@ -1,11 +1,19 @@
 package dev.news.goakhabar;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,6 +41,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     Map<String, Object> mapTitle;
     Map<String, Object> mapContent;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +59,55 @@ public class NewsDetailsActivity extends AppCompatActivity {
         });
         WebSettings webSettings = content.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        content.getSettings().setJavaScriptEnabled(true);
+        content.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        content.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        content.getSettings().setMediaPlaybackRequiresUserGesture(false);
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            content.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            CookieManager.getInstance().setAcceptThirdPartyCookies(content, true);
+        }
+
+        if (android.os.Build.VERSION.SDK_INT < 16) {
+            content.setBackgroundColor(0x00000000);
+        } else {
+            content.setBackgroundColor(Color.argb(1, 0, 0, 0));
+        }
+
+        content.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.loadUrl(request.getUrl().toString());
+                }
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public void onPageStarted(WebView webview, String url, Bitmap favicon) {
+                super.onPageStarted(webview, url, favicon);
+                webview.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView webview, String url) {
+
+                webview.setVisibility(View.VISIBLE);
+                super.onPageFinished(webview, url);
+
+            }
+        });
+        content.setWebChromeClient(new WebChromeClient());
+        content.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 2.0; en-us; Droid Build/ESD20) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17");
+
+       // webView.loadUrl("http://media-br-am.crackle.com/1/3/v6/11zlf_480p.mp4");
+
+
 
         back_press.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +138,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 mapContent = (Map<String, Object>) mapPost.get("content");
 
                 title.setText(mapTitle.get("rendered").toString());
-                content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
+               content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
+
 
                 progressDialog.dismiss();
             }
