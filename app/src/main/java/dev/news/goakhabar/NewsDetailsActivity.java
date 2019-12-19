@@ -12,6 +12,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -51,12 +53,27 @@ public class NewsDetailsActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.title);
         content = (WebView)findViewById(R.id.content);
 
-        content.setWebViewClient(new WebViewClient() {
+        //*********url hit
+        back_press.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false;
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
+        final String id = getIntent().getStringExtra("id");
+        //getIntent().getExtras().getString("id");
+        String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
+
+        Log.e("url_detail",""+url);
+
+        GetNewsDetails(url);
+
+//        content.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                return false;
+//            }
+//        });
         WebSettings webSettings = content.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -64,6 +81,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
         content.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         content.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         content.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        content.getSettings().setSupportZoom(true);
+        content.getSettings().setBuiltInZoomControls(true);
 
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -77,6 +96,35 @@ public class NewsDetailsActivity extends AppCompatActivity {
             content.setBackgroundColor(Color.argb(1, 0, 0, 0));
         }
 
+        //******************************************
+        content.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                //progressBar.setProgress(progress);
+            }
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
+            }
+
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                return super.onJsConfirm(view, url, message, result);
+            }
+
+            @Override
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+                return super.onJsPrompt(view, url, message, defaultValue, result);
+            }
+
+            @Override
+            public boolean onJsBeforeUnload(WebView view, String url, String message, JsResult result) {
+                return super.onJsBeforeUnload(view, url, message, result);
+            }
+
+        });
+
+        //webview client
         content.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -109,19 +157,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
 
 
-        back_press.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        final String id = getIntent().getStringExtra("id");
-        //getIntent().getExtras().getString("id");
-        String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
 
-        Log.e("url_detail",""+url);
-
-        GetNewsDetails(url);
 
     }
 

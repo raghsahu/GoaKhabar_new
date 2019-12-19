@@ -659,7 +659,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                                 dataArrayList.remove(j);
                             }
                            // dataArrayList.remove(0);
-                            Collections.swap(dataArrayList, 0, j);
+                            Collections.swap(dataArrayList, 0, 3);
 
                         }
 
