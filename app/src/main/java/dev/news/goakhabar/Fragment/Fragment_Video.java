@@ -66,6 +66,7 @@ public class Fragment_Video extends Fragment {
     int postID;
     private AdView mAdView;
     private AdView mAdView1;
+    AdRequest adRequest;
 
     @Nullable
     @Override
@@ -116,9 +117,12 @@ public class Fragment_Video extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mapPost = (Map<String,Object>)list.get(position);
                 postID = ((Double)mapPost.get("id")).intValue();
+                featured_media[position]= ((Double) mapPost.get("featured_media")).intValue();
 
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
                 intent.putExtra("id", ""+postID);
+                intent.putExtra("video", "video");
+                intent.putExtra("featured_media", "http://www.goakhabar.com/wp-json/wp/v2/media/"+featured_media[position]);
                 startActivity(intent);
             }
         });
@@ -134,6 +138,9 @@ public class Fragment_Video extends Fragment {
 
         mAdView = (AdView)view.findViewById(R.id.adView);
         mAdView1 = (AdView)view.findViewById(R.id.adView1);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView1.loadAd(adRequest);
 
         //***************1st ads
         mAdView = new AdView(getActivity());

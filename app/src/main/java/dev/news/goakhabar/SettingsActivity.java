@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     CardView card_share,card_rateus,card_aboutus,card_followus;
     private AdView mAdView;
     private AdView mAdView1;
+    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +149,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         mAdView = (AdView)findViewById(R.id.adView);
         mAdView1 = (AdView)findViewById(R.id.adView1);
+
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView1.loadAd(adRequest);
 
         //***************1st ads
         mAdView = new AdView(SettingsActivity.this);

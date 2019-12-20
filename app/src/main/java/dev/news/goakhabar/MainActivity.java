@@ -27,6 +27,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static List<Category_Home_Model> dataArrayList;
     SessionManager sessionManager;
     //public static String toPrint = "";
-
+    public static AdRequest adRequestMain;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -139,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         iv_logo = findViewById(R.id.iv_logo);
         tv_title = findViewById(R.id.tv_title);
 
+        //banner ads initialize
+        MobileAds.initialize(MainActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+        });
+
+       // AdView mAdView = (AdView)findViewById(R.id.adView_home);
+        adRequestMain = new AdRequest.Builder().build();
+        //mAdView_home.loadAd(adRequestMain);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -585,7 +599,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             iv_logo.setVisibility(View.GONE);
             tv_title.setVisibility(View.VISIBLE);
             Bundle bundle = new Bundle();
-            bundle.putString("Title", "ब्रांड-खबर");
+            bundle.putString("Title", "ब्रांड-कनेक्ट");
             FragmentManager fragmentManager2 = getSupportFragmentManager();
             fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
             fragment2.setArguments(bundle);

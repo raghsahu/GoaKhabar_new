@@ -215,7 +215,6 @@ public class MyAdapter extends ArrayAdapter<Object> {
                         }
 
 
-
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {

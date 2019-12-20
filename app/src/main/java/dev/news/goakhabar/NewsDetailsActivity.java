@@ -1,11 +1,13 @@
 package dev.news.goakhabar;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -22,18 +24,29 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class NewsDetailsActivity extends AppCompatActivity {
-    ImageView back_press;
+    ImageView back_press,web_img;
     TextView tv_comment,tv_share;
     TextView title;
     WebView content;
@@ -50,6 +63,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_details);
 
         back_press=findViewById(R.id.back_press);
+        web_img=findViewById(R.id.web_img);
         title = (TextView) findViewById(R.id.title);
         content = (WebView)findViewById(R.id.content);
 
@@ -60,13 +74,35 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        final String id = getIntent().getStringExtra("id");
-        //getIntent().getExtras().getString("id");
-        String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
 
-        Log.e("url_detail",""+url);
+        try {
+           String video=getIntent().getStringExtra("video");
 
-        GetNewsDetails(url);
+           if (video.equalsIgnoreCase("video")){
+               web_img.setVisibility(View.GONE);
+           }
+
+        }catch (Exception e){
+
+        }
+
+        try {
+            final String id = getIntent().getStringExtra("id");
+            final String img_url = getIntent().getStringExtra("featured_media");
+            //getIntent().getExtras().getString("id");
+            String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+id+"?fields=title,content";
+
+            Log.e("url_detail",""+url);
+
+            GetNewsDetails(url);
+            FindImage(img_url);
+
+
+        }catch (Exception e){
+
+        }
+
+
 
 //        content.setWebViewClient(new WebViewClient() {
 //            @Override
@@ -153,12 +189,78 @@ public class NewsDetailsActivity extends AppCompatActivity {
         content.setWebChromeClient(new WebChromeClient());
         content.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 2.0; en-us; Droid Build/ESD20) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17");
 
-       // webView.loadUrl("http://media-br-am.crackle.com/1/3/v6/11zlf_480p.mp4");
 
 
 
+    }
+
+    private void FindImage(String img_url) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, img_url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        // progressDialog.dismiss();
+                        Log.d("kkkk", s.toString());
+                        gson = new Gson();
+//                        list1 = (List) gson.fromJson(s, List.class);
+
+                        try {
+                            JSONObject object = new JSONObject(s);
+                            JSONObject jsonObject=object.getJSONObject("guid");
+                            String rendered=jsonObject.getString("rendered");
+                            Log.d("img_media", rendered);
 
 
+                            Glide.with(NewsDetailsActivity.this)
+                                    .load(rendered)
+                                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                    //.error(R.drawable.glide_app_img_loader)
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            return false;
+                                        }
+
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                            return false;
+                                        }
+                                    }).into(web_img);
+
+                        }catch (Exception e){
+
+                        }
+
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("k_error", error.toString());
+                        // progressDialog.dismiss();
+                        // Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        NetworkResponse response = error.networkResponse;
+                        if (error instanceof ServerError && response != null) {
+                            try {
+                                String res = new String(response.data,
+                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                // Now you can use any deserializer to make sense of data
+                                // JSONObject obj = new JSONObject(res);
+                            } catch (UnsupportedEncodingException e1) {
+                                // Couldn't properly decode data to string
+                                e1.printStackTrace();
+                            }
+                        }
+
+
+
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(NewsDetailsActivity.this);
+        //adding the string request to request queue
+        requestQueue.add(stringRequest);
     }
 
     private void GetNewsDetails(String url) {
@@ -174,6 +276,11 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 mapContent = (Map<String, Object>) mapPost.get("content");
 
                 title.setText(mapTitle.get("rendered").toString());
+
+                content.getSettings().setLoadWithOverviewMode(true);
+                content.getSettings().setUseWideViewPort(true);
+                content.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+
                content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
 
 

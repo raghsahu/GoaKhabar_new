@@ -72,6 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static dev.news.goakhabar.MainActivity.adRequestMain;
 import static dev.news.goakhabar.MainActivity.iv_logo;
 import static dev.news.goakhabar.MainActivity.tv_title;
 
@@ -104,7 +105,9 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     String postTitle[];
     int featured_media[];
     public static Integer goa_video_id;
-    private AdView mAdView;
+    AdView mAdView_home;
+    AdRequest adRequest;
+     AdView mAdView1;
 
 
     @Nullable
@@ -138,10 +141,16 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         });
 
 
-          mAdView = (AdView)view.findViewById(R.id.adView);
-        mAdView = new AdView(getActivity());
-        mAdView.setAdSize(AdSize.SMART_BANNER);
-        mAdView.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
+        mAdView_home = (AdView)view.findViewById(R.id.adView_home);
+        mAdView1 = (AdView)view.findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+       // mAdView_home.loadAd(adRequestMain);
+
+//        mAdView_home.setAdSize(AdSize.SMART_BANNER);
+//        mAdView1.setAdSize(AdSize.SMART_BANNER);
+//        mAdView_home.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
+//        mAdView1.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
+
         AdRequest.Builder adRequest = new AdRequest.Builder();
 
         String ANDROID_ID = Settings.Secure.getString(getContext().getContentResolver(),
@@ -154,12 +163,15 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
 
         AdRequest request = adRequest.build();
-        mAdView.loadAd(request);
+        mAdView_home.loadAd(request);
+        mAdView1.loadAd(request);
 
-        mAdView.setAdListener(new AdListener() {
+        mAdView_home.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 Log.e("ban_adsload", "Banner");
+
+
                // Toast.makeText(getActivity(), "Banner ads", Toast.LENGTH_SHORT).show();
                 // Code to be executed when an ad finishes loading.
             }
@@ -227,15 +239,17 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         }
 
 
-        //*******************************************************
+        //**************************list on click*****************************
         postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mapPost = (Map<String,Object>)list.get(position);
                 postID = ((Double)mapPost.get("id")).intValue();
+                featured_media[position]= ((Double) mapPost.get("featured_media")).intValue();
 
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
                 intent.putExtra("id", ""+postID);
+                intent.putExtra("featured_media", "http://www.goakhabar.com/wp-json/wp/v2/media/"+featured_media[position]);
                 startActivity(intent);
             }
         });
@@ -425,7 +439,7 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
                                 toPrint += response.body().getPosts().get(i).getTitle() + " , ";
                                 Log.e("breaking_result",""+toPrint);
 
-                                txt_breaking.setText("ब्रेकिंग न्यूज़:  "+toPrint);
+                                txt_breaking.setText("ब्रेकिंग खबर:  "+toPrint);
 
 
                             }

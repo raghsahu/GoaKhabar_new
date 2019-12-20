@@ -55,6 +55,7 @@ public class News_Fragment extends Fragment {
     RecyclerView recycler_news;
     private AdView mAdView;
     private AdView mAdView1;
+    AdRequest adRequest;
 
 
     @Nullable
@@ -102,6 +103,9 @@ public class News_Fragment extends Fragment {
 
             mAdView = (AdView)view.findViewById(R.id.adView);
             mAdView1 = (AdView)view.findViewById(R.id.adView1);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView1.loadAd(adRequest);
 
             //***************1st ads
             mAdView = new AdView(getActivity());

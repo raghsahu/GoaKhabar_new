@@ -71,8 +71,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
-        /*session = new Session(context);
-        user_id = session.getUser().user_id;*/
         return new ViewHolder(itemView);
     }
 
@@ -83,12 +81,9 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
             holder.tv_title.setText(categoryHomeModel.getTitle());
 
 
-            Log.e("catg-size",""+category_home_models.size());
-
-
             try {
 
-
+                Log.e("catg-size",""+category_home_models.size());
             if (!category_home_models.get(position).getAttachments().get(0).getUrl().equalsIgnoreCase(null)) {
 
                 Glide.with(context)
@@ -114,6 +109,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
                 }
 
+            //*******3 dot menu share option
         holder.textViewOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +142,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
         });
 
 
-
             //****************************************
         holder.ll_details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +152,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                 Intent intent = new Intent(context, MenuNewsDetailsActivity.class);
                 intent.putExtra("news_title", news_title);
                 intent.putExtra("news_Discription", news_Discription);
+                intent.putExtra("news_image", category_home_models.get(position).getAttachments().get(0).getUrl());
                 context.startActivity(intent);
 
             }
@@ -220,12 +216,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 //                shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
 //                context.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
 //            }
-
-
-
-
-
-
 
 
 

@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import dev.news.goakhabar.R;
 
 import static dev.news.goakhabar.MainActivity.iv_logo;
@@ -25,6 +28,8 @@ import static dev.news.goakhabar.MainActivity.tv_title;
  */
 public class About_us_fragment extends AppCompatActivity {
     ImageView back_press;
+    private AdView mAdView;
+    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,37 @@ public class About_us_fragment extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
     }
 
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
