@@ -124,9 +124,16 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                         switch (item.getItemId()) {
                             case R.id.navigation_share:
                                 //handle menu1 click
-                                String links=categoryHomeModel.getUrl();
-                                Log.e("img_url",links);
-                                ShareNews(links,categoryHomeModel.getTitle(),category_home_models.get(position).getAttachments().get(0).getUrl());
+                                try {
+                                    String links=categoryHomeModel.getUrl();
+                                    Log.e("img_url",links);
+                                    ShareNews(links,categoryHomeModel.getTitle(),category_home_models.get(position).getAttachments().get(0).getUrl());
+
+
+                                }catch (Exception e){
+
+                                }
+
                                 return true;
 
 

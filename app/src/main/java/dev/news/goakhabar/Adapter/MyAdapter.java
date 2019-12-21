@@ -138,14 +138,21 @@ public class MyAdapter extends ArrayAdapter<Object> {
                             case R.id.navigation_share:
                                 //handle menu1 click
 
-                                mapPost = (Map<String,Object>)list.get(position);
-                                postID = ((Double)mapPost.get("id")).intValue();
-               //  String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
-                String links=postLink[position];
-                String title=postTitle[position];
-               // String img_url=media_img.get(position);
-                Log.e("img_url",media_img.get(position));
-                                ShareNews(links,title);
+                               // try {
+                                    mapPost = (Map<String,Object>)list.get(position);
+                                    postID = ((Double)mapPost.get("id")).intValue();
+                                    //  String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
+                                    String links=postLink[position];
+                                    String title=postTitle[position];
+                                    // String img_url=media_img.get(position);
+                                  //  Log.e("img_url",media_img.get(position));
+                                    ShareNews(links,title);
+
+                               // }catch (Exception e){
+
+                               // }
+
+
                                 return true;
                             case R.id.navigation_bookmark:
                                 //handle menu2 click

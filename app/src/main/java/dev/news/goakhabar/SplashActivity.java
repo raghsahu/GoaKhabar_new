@@ -87,7 +87,7 @@ public class SplashActivity extends AppCompatActivity {
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "dev.news.goakhabar",
+                    "dev.news.goakhabarr",
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");

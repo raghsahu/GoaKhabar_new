@@ -184,7 +184,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     public void onError(FacebookException exception) {
                         System.out.println("onError");
                         Toast.makeText(getActivity(), "fail", Toast.LENGTH_SHORT).show();
-                        Log.v("LoginActivity", exception.toString());
+                        Log.e("LoginActivity", exception.toString());
+                        Log.e("LoginActivity1", exception.getMessage());
                     }
                 });
 
