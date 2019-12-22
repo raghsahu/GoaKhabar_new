@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -35,7 +34,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -59,9 +57,9 @@ import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.ApiClient2;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.MainActivity;
+import dev.news.goakhabar.News_Details_frament;
 import dev.news.goakhabar.Pojo.DrawerItem;
-import dev.news.goakhabar.NewsDetailsActivity;
+import dev.news.goakhabar.Activity.NewsDetailsActivity;
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
 import dev.news.goakhabar.Pojo.CategoryWise_new.ShowNewsHomeModel;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
@@ -72,9 +70,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static dev.news.goakhabar.MainActivity.adRequestMain;
-import static dev.news.goakhabar.MainActivity.iv_logo;
-import static dev.news.goakhabar.MainActivity.tv_title;
+import static dev.news.goakhabar.Activity.MainActivity.iv_logo;
+import static dev.news.goakhabar.Activity.MainActivity.tv_title;
 
 /**
  * Created by Raghvendra Sahu on 10-Nov-19.

@@ -1,17 +1,14 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,14 +17,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import dev.news.goakhabar.Api_Call.APIClient;
-import dev.news.goakhabar.Api_Call.APIClient3;
 import dev.news.goakhabar.Api_Call.Api_Call;
 import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
-import dev.news.goakhabar.Pojo.Profile_model;
-import dev.news.goakhabar.Session.AppPreference;
+import dev.news.goakhabar.R;
 import dev.news.goakhabar.Utils.Connectivity;
 import retrofit2.Call;
 import retrofit2.Callback;

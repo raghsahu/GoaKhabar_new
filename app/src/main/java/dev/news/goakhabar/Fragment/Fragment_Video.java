@@ -42,8 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import dev.news.goakhabar.Adapter.MyAdapter;
-import dev.news.goakhabar.CommentActivity;
-import dev.news.goakhabar.NewsDetailsActivity;
+import dev.news.goakhabar.Activity.NewsDetailsActivity;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Utils.Connectivity;
 import dev.news.goakhabar.VideoPlayActivity;

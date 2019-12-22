@@ -1,4 +1,4 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import dev.news.goakhabar.Pojo.DrawerItem;
+import dev.news.goakhabar.R;
 
 /**
  * Created by Raghvendra Sahu on 10-Nov-19.

@@ -1,7 +1,6 @@
 package dev.news.goakhabar.Fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +15,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import dev.news.goakhabar.Api_Call.APIClient3;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.MainActivity;
-import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import dev.news.goakhabar.Pojo.Signup_model;
 import dev.news.goakhabar.R;
-import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;

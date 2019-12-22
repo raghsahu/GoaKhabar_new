@@ -1,6 +1,5 @@
 package dev.news.goakhabar.Fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,19 +34,14 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
-import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.APIClient3;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.MainActivity;
-import dev.news.goakhabar.Pojo.CategoryWise_new.Home_categ_news_model;
+import dev.news.goakhabar.Activity.MainActivity;
 import dev.news.goakhabar.Pojo.LoginModel.Login_model;
-import dev.news.goakhabar.ProfileActivity;
 import dev.news.goakhabar.R;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
-import dev.news.goakhabar.SignupActivity;
 import dev.news.goakhabar.Utils.Connectivity;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -24,19 +24,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MenuNewsDetailsActivity"></activity>
-        <activity android:name=".Fragment.About_us_fragment"></activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".NewsDetailsActivity" />
+        <activity android:name=".Activity.MenuNewsDetailsActivity"></activity>
+        <activity android:name=".Activity.About_us_Activity"></activity>
+        <activity android:name=".Activity.ProfileActivity" />
+        <activity android:name=".Activity.NewsDetailsActivity" />
         <activity android:name=".E_paper_detailsActivity" />
         <activity android:name=".VideoPlayActivity" />
         <activity android:name=".E_PaperActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".Activity.SignupActivity" />
+        <activity android:name=".Activity.SettingsActivity" />
+        <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".CommentActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,9 +1,7 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -15,6 +13,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -24,30 +23,35 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import dev.news.goakhabar.Fragment.About_us_fragment;
-import dev.news.goakhabar.Fragment.News_Fragment;
+import dev.news.goakhabar.BuildConfig;
+import dev.news.goakhabar.R;
+import dev.news.goakhabar.Session.SessionManager;
 
 import static dev.news.goakhabar.Fragment.FragmentHome.md5;
 
 public class SettingsActivity extends AppCompatActivity {
     ImageView back_press,iv_fb,iv_twitter,iv_instagram;
-    CardView card_share,card_rateus,card_aboutus,card_followus;
+    CardView card_share,card_rateus,card_aboutus,card_followus,card_login;
+    TextView tv_login;
     private AdView mAdView;
     private AdView mAdView1;
     AdRequest adRequest;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        sessionManager =new SessionManager(SettingsActivity.this);
         back_press=findViewById(R.id.back_press);
         card_share=findViewById(R.id.card_share);
         card_rateus=findViewById(R.id.card_rateus);
         card_aboutus=findViewById(R.id.card_aboutus);
+        card_login=findViewById(R.id.card_login);
         iv_instagram=findViewById(R.id.iv_instagram);
         iv_twitter=findViewById(R.id.iv_twitter);
         iv_fb=findViewById(R.id.iv_fb);
+        tv_login=findViewById(R.id.tv_login);
 
         back_press.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        if (sessionManager.isLoggedIn()){
+            tv_login.setText("Profile");
+        }else {
+            tv_login.setText("Login");
+        }
 
         card_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +82,24 @@ public class SettingsActivity extends AppCompatActivity {
         card_aboutus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent=new Intent(SettingsActivity.this, About_us_fragment.class);
+            Intent intent=new Intent(SettingsActivity.this, About_us_Activity.class);
             startActivity(intent);
+
+            }
+        });
+
+        card_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                if (sessionManager.isLoggedIn()){
+                    intent = new Intent(SettingsActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+
+                }else {
+                    intent = new Intent(SettingsActivity.this, SignupActivity.class);
+                    startActivity(intent);
+                }
 
             }
         });
@@ -84,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try
                 {
-                    Intent followIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/goa.khabar"));
+                    Intent followIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/1975171392696881/videos/1334101473438672/"));
                     startActivity(followIntent);
 
                     final Handler handler = new Handler();
@@ -92,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
                     {
                         @Override
                         public void run() {
-                            Intent followIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/goa.khabar"));
+                            Intent followIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/1975171392696881/videos/1334101473438672/"));
                             startActivity(followIntent);
                         }
                     }, 1000 * 2);
@@ -100,7 +125,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 catch (Exception e)
                 {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/goa.khabar")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/1975171392696881/videos/1334101473438672/")));
                     String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
                     Log.e("FacebookAppNotFound" ,errorMessage);
                 }

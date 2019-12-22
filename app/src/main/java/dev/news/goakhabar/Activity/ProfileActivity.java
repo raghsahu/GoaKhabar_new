@@ -1,4 +1,4 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +28,8 @@ import com.google.android.gms.common.api.Status;
 
 import dev.news.goakhabar.Api_Call.APIClient3;
 import dev.news.goakhabar.Api_Call.Api_Call;
-import dev.news.goakhabar.Pojo.LoginModel.Login_model;
 import dev.news.goakhabar.Pojo.Profile_model;
+import dev.news.goakhabar.R;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.Utils.Connectivity;

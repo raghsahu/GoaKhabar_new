@@ -1,7 +1,6 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,12 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -37,19 +32,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.news.goakhabar.Adapter.HomeNewsAdapter;
 import dev.news.goakhabar.Api_Call.APIClient;
 import dev.news.goakhabar.Api_Call.APIClient1;
 import dev.news.goakhabar.Api_Call.ApiClient2;
 import dev.news.goakhabar.Api_Call.Api_Call;
+import dev.news.goakhabar.E_PaperActivity;
 import dev.news.goakhabar.Fragment.FragmentHome;
 import dev.news.goakhabar.Fragment.Fragment_Video;
 import dev.news.goakhabar.Fragment.News_Fragment;
-import dev.news.goakhabar.Fragment.Photo_Shoot_Fragment;
+import dev.news.goakhabar.Adapter.LeftDrawerAdapter;
 import dev.news.goakhabar.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabar.Pojo.DrawerItem;
 import dev.news.goakhabar.Pojo.Header_menu.HeaderMenuModel;
 import dev.news.goakhabar.Pojo.Menu_Wise_News.Menu_categ_news_model;
+import dev.news.goakhabar.R;
 import dev.news.goakhabar.Session.AppPreference;
 import dev.news.goakhabar.Session.SessionManager;
 import dev.news.goakhabar.Utils.Connectivity;
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return true;
                 case R.id.navigation_dashboard:
 
-                    Intent intent=new Intent(MainActivity.this,E_PaperActivity.class);
+                    Intent intent=new Intent(MainActivity.this, E_PaperActivity.class);
                     startActivity(intent);
 
                     return true;

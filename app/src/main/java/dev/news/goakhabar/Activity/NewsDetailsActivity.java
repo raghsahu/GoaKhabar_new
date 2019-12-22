@@ -1,4 +1,4 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -23,6 +22,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -43,7 +43,11 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
+
+import dev.news.goakhabar.R;
+import dev.news.goakhabar.Utils.Connectivity;
 
 public class NewsDetailsActivity extends AppCompatActivity {
     ImageView back_press,web_img;
@@ -94,22 +98,20 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
             Log.e("url_detail",""+url);
 
-            GetNewsDetails(url);
-            FindImage(img_url);
+            if (Connectivity.isConnected(NewsDetailsActivity.this)){
+
+                GetNewsDetails(url);
+                FindImage(img_url);
+            }else {
+                Toast.makeText(this, "Please check internet", Toast.LENGTH_SHORT).show();
+            }
+
 
 
         }catch (Exception e){
 
         }
 
-
-
-//        content.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                return false;
-//            }
-//        });
         WebSettings webSettings = content.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -132,7 +134,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             content.setBackgroundColor(Color.argb(1, 0, 0, 0));
         }
 
-        //******************************************
+        //**************webcrome client****************************
         content.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 //progressBar.setProgress(progress);
@@ -281,7 +283,19 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 content.getSettings().setUseWideViewPort(true);
                 content.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
 
-               content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
+                WebSettings webSettings = content.getSettings();
+                webSettings.setDefaultTextEncodingName("utf-8");
+              //  content.loadData(mapContent.get("rendered").toString(), "text/html; charset=utf-8", null);
+                try {
+                    content.loadData(URLEncoder.encode(mapContent.get("rendered").toString(), "utf-8").replaceAll("\\+"," "), "text/html", "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                // content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
+
 
 
                 progressDialog.dismiss();

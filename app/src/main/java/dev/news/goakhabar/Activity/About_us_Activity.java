@@ -1,32 +1,20 @@
-package dev.news.goakhabar.Fragment;
+package dev.news.goakhabar.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import dev.news.goakhabar.R;
 
-import static dev.news.goakhabar.MainActivity.iv_logo;
-import static dev.news.goakhabar.MainActivity.tv_title;
-
 /**
  * Created by Raghvendra Sahu on 17-Nov-19.
  */
-public class About_us_fragment extends AppCompatActivity {
+public class About_us_Activity extends AppCompatActivity {
     ImageView back_press;
     private AdView mAdView;
     AdRequest adRequest;

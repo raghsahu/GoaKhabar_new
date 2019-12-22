@@ -1,4 +1,4 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import dev.news.goakhabar.Fragment.LoginFragment;
 import dev.news.goakhabar.Fragment.SignupFragment;
+import dev.news.goakhabar.R;
 
 public class SignupActivity extends AppCompatActivity {
     ImageView back_press;

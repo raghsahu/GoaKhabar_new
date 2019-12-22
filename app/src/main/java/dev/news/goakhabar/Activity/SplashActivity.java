@@ -1,8 +1,7 @@
-package dev.news.goakhabar;
+package dev.news.goakhabar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,13 +12,14 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import dev.news.goakhabar.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 Animatoo.animateZoom(SplashActivity.this);
 
-                Intent intent1=new Intent(SplashActivity.this,MainActivity.class);
+                Intent intent1=new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent1);
                         finish();
 

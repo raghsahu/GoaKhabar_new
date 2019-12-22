@@ -1,4 +1,4 @@
-package dev.news.goakhabar.Fragment;
+package dev.news.goakhabar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
