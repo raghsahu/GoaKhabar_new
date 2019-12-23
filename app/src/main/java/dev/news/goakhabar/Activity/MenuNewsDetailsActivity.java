@@ -27,6 +27,9 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import dev.news.goakhabar.R;
 
 public class MenuNewsDetailsActivity extends AppCompatActivity {
@@ -62,10 +65,19 @@ public class MenuNewsDetailsActivity extends AppCompatActivity {
 
                 title.setText(news_title);
 
+
                 content.getSettings().setLoadWithOverviewMode(true);
                 content.getSettings().setUseWideViewPort(true);
                 content.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
-                content.loadData(news_content,"text/html","UTF-8");
+
+                WebSettings webSettings = content.getSettings();
+                webSettings.setDefaultTextEncodingName("utf-8");
+                //  content.loadData(mapContent.get("rendered").toString(), "text/html; charset=utf-8", null);
+                try {
+                    content.loadData(URLEncoder.encode(news_content, "utf-8").replaceAll("\\+"," "), "text/html", "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
 
                 if(news_image!=null && !news_image.isEmpty()){
