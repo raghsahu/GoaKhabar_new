@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "802542512712",
+    "firebase_url": "https://goakhabar-499a2.firebaseio.com",
+    "project_id": "goakhabar-499a2",
+    "storage_bucket": "goakhabar-499a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802542512712:android:4ebaed2ac9df137167067d",
+        "android_client_info": {
+          "package_name": "dev.news.goakhabarr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802542512712-cls2loqovdqp175gt8kfclvutaan2c1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoRoc1Kz4yhMxp4WZpJqks-msocPwGYrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802542512712-cls2loqovdqp175gt8kfclvutaan2c1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

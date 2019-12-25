@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sessionManager =new SessionManager(MainActivity.this);
 
+        Log.e("tokennnnnn",sessionManager.getTokenId());
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
         iv_drawer = findViewById(R.id.iv_drawer);

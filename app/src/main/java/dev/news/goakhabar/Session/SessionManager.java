@@ -31,6 +31,9 @@ public class SessionManager {
     private static final String IS_SKIPPED = "IsSlipped";
     private static final String Image_NAME = "image_name";
     private static final String IS_PRACTICE_RULES = "IsPracticeRules";
+    private static final String Token_Id = "token";
+
+
 
 
     // Constructor
@@ -107,6 +110,24 @@ public class SessionManager {
         editor.putString(QUIZ_ID, quizId);
         editor.commit();
     }
+
+    public void saveToken(String token) {
+
+        editor.putString(Token_Id, token);
+        editor.apply();
+        editor.commit();
+    }
+
+
+    public String getTokenId() {
+        return pref.getString(Token_Id, "");
+    }
+
+
+
+
+
+
 
 
     public String getUsername() {
