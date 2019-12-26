@@ -21,10 +21,12 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import dev.news.goakhabar.Activity.MainActivity;
 import dev.news.goakhabar.R;
@@ -37,10 +39,7 @@ import dev.news.goakhabar.Utils.Constants;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
-    private String click = "";
-    private String message = "";
-    private String type = "";
-    private String click_event = "";
+    private String title_msg = "";
     RemoteMessage remoteMessage;
     private String user_id = "";
 
@@ -57,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
-        Log.e(TAG, "Data_Payload: " + remoteMessage.getData().toString());
+        //Log.e(TAG, "Data_Payload: " + remoteMessage.getData().toString());
 
         if (remoteMessage.getData().size() > 0) {
             Log.e(TAG, "Data_Payload: " + remoteMessage.getData().toString());
@@ -65,19 +64,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
            // String check = remoteMessage.getData().get("click");
             this.remoteMessage = remoteMessage;
             try {
-//                if (!check.equalsIgnoreCase("null")) {
-//                    //{register_id=foPNBAQXEIk:APA91bH_wIoQcuxp4c26lX_IdSuRzRUa28wWAsZ4OKpBB6hNJg-UUDqJEs7wwCPboO_kA6b6ub_GMJLvGwr-4cSDkZpEdjoJjLb6BhGeuuhQAReiNM7F_FWII2A7UZyDLc_ClDdIlw44, type=You got a notification from Single Mingle, click=click, message=Hi ravi,  You Got Like From aryansumit276}
-//                    //register_id = remoteMessage.getData().get("register_id");
-//                    click = remoteMessage.getData().get("click");
-//                    message = remoteMessage.getData().get("message");
-//                    type = remoteMessage.getData().get("type");
-//                    click_event = remoteMessage.getData().get("click_event");
-//                    user_id = remoteMessage.getData().get("user_id");
-//
-//                   // sendNotification(message, type, click_event, "Goakhabar", user_id);
-//
-//
-//                }
+                Map<String, String> params = remoteMessage.getData();
+                JSONObject object = new JSONObject(params);
+                Log.e("JSON_OBJECT_notifi", object.toString());
+
+                JSONArray jsonArray=object.getJSONArray("posts");
+
+                for (int i=0; i<jsonArray.length();i++){
+
+                    JSONObject jsonObject=jsonArray.getJSONObject(i);
+
+                    String id = jsonObject.getString("id");
+                     title_msg = jsonObject.getString("title");
+                    String thumbnail = jsonObject.getString("thumbnail");
+
+                }
+
+
+                    sendNotification(title_msg, "Goakhabar");
+
             } catch (Throwable e) {
                 SetFirebaseMessage();
 
@@ -89,59 +94,45 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification_Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(message);
+            handleNotification(title_msg);
         }
     }
 
     private void SetFirebaseMessage() {
 
-        String fcmId = remoteMessage.getData().get("fcmId");
-        //String udid = remoteMessage.getData().get("Udid");
-        String userId = remoteMessage.getData().get("userId");
-        String userName = remoteMessage.getData().get("userName");
-        message = remoteMessage.getData().get("message");
+        try {
+            Map<String, String> params = remoteMessage.getData();
+            JSONObject object = new JSONObject(params);
+            Log.e("JSON_Offf_notifi", object.toString());
 
-        sendNotificationFirebase(message, userName, "Goa khabar");
+            JSONArray jsonArray=object.getJSONArray("posts");
 
-        /*Intent intent = new Intent("custom-event-name");
-        intent.putExtra("message", message);
-        intent.putExtra("Udid", udid);*/
-        // LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            for (int i=0; i<jsonArray.length();i++){
 
-        /*DatabaseHelper db = new DatabaseHelper(this);
-        ChatUserModal modal = new ChatUserModal();
-        modal.setFcmId(fcmId);
-        modal.setUdid(udid);
-        modal.setMessage(message);
-        modal.setName(userName);
-        modal.setUserid(userId);
-        //Log.e("nudid", udid);
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
 
-        if (db.checkUser(userId)) {
-            db.updateUser(modal);
-        } else {
-            db.addUser(modal);
+                String id = jsonObject.getString("id");
+                title_msg = jsonObject.getString("title");
+                String thumbnail = jsonObject.getString("thumbnail");
+
+            }
+        } catch (Throwable e) {
+            SetFirebaseMessage();
+
         }
-        Log.e(TAG, "Data From Local: " + db.getAllUser());*/
 
-                  /*else if (!check.equalsIgnoreCase("null")) {
-                  //{register_id=foPNBAQXEIk:APA91bH_wIoQcuxp4c26lX_IdSuRzRUa28wWAsZ4OKpBB6hNJg-UUDqJEs7wwCPboO_kA6b6ub_GMJLvGwr-4cSDkZpEdjoJjLb6BhGeuuhQAReiNM7F_FWII2A7UZyDLc_ClDdIlw44, type=You got a notification from Single Mingle, click=click, message=Hi ravi,  You Got Like From aryansumit276}
-                  //register_id = remoteMessage.getData().get("register_id");
-                  click = remoteMessage.getData().get("click");
-                  message = remoteMessage.getData().get("message");
-                  type = remoteMessage.getData().get("type");
-              }*/
+        sendNotificationFirebase(title_msg, "Goa khabar");
 
 
     }
 
 
-    private void sendNotificationFirebase(String message, String userName, String title) {
+    private void sendNotificationFirebase(String message, String title) {
         PendingIntent pendingIntent = null;
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("message", message);
-        intent.putExtra("userName", userName);
+       // intent.putExtra("userName", userName);
         intent.putExtra("title", title);
         intent.putExtra("NOTIFICATION", "NOTIFICATION");
 
@@ -153,7 +144,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
-        String CHANNEL_ID = "com.dating.datesinglegetmingle";// The id of the channel.
+        String CHANNEL_ID = "dev.news.goakhabarr";// The id of the channel.
         CharSequence name = "MyChannal";// The user-visible name of the channel.
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = null;
@@ -161,7 +152,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.goakhabar)
-                .setContentTitle(userName)
+                .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setAutoCancel(true)
@@ -189,35 +180,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
 
-    /*private void sendNotification(String message, String type, String click_event, String title) {
+    private void sendNotification(String message, String title) {
         PendingIntent pendingIntent = null;
 
-        if (click_event.equalsIgnoreCase("4")) {
-            Intent intent = new Intent(this, Account.class);
-            intent.putExtra("message", message);
-            intent.putExtra("type", type);
-            intent.putExtra("title", title);
-        *//*intent.putExtra("sound", sound);
-        intent.putExtra("click_action", click_action);*//*
+
+            Intent intent = new Intent(this, MainActivity.class);
+           // intent.putExtra("message", message);
+            //intent.putExtra("type", type);
+            //intent.putExtra("title", title);
 
             playNotificationSound();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        } else {
-            Intent intent = new Intent(this, Home.class);
-            intent.putExtra("message", message);
-            intent.putExtra("type", type);
-            intent.putExtra("title", title);
-        *//*intent.putExtra("sound", sound);
-        intent.putExtra("click_action", click_action);*//*
-
-            playNotificationSound();
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        }
 
 
-        String CHANNEL_ID = "com.dating.datesinglegetmingle";// The id of the channel.
+        String CHANNEL_ID = "dev.news.goakhabarr";// The id of the channel.
         CharSequence name = "MyChannal";// The user-visible name of the channel.
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = null;
@@ -232,10 +209,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.logo);
+            notificationBuilder.setSmallIcon(R.drawable.goakhabar);
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         } else {
-            notificationBuilder.setSmallIcon(R.drawable.logo);
+            notificationBuilder.setSmallIcon(R.drawable.goakhabar);
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -247,7 +224,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         assert notificationManager != null;
         notificationManager.notify(1, notificationBuilder.build());
-    }*/
+    }
 
     /**
      * Playing notification sound
@@ -375,107 +352,107 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    /*private void handleNotification(String message) {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            format = simpleDateFormat.format(new Date());
+//    private void handleNotification(String message) {
+//        try {
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            format = simpleDateFormat.format(new Date());
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+//            // app is in foreground, broadcast the push message
+//            Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
+//            pushNotification.putExtra("message", message);
+//            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+//            // play notification sound
+//            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+//            notificationUtils.playNotificationSound();
+//
+//        } else {
+//            // If the app is in background, firebase itself handles the notification
+//        }
+//    }
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-            // play notification sound
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-
-        } else {
-            // If the app is in background, firebase itself handles the notification
-        }
-    }
-
-    private void handleDataMessage(JSONObject json) {
-        Log.e(TAG, "push json: " + json.toString());
-        System.out.println("----------------------json----------------" + json);
-
-        try {
-
-            JSONObject data = json.getJSONObject("message");
-            System.out.println("----------------------json----------------" + data);
-            String result = data.getString("result");
-            String key = data.getString("key");
-            String username = data.getString("username");
-            String msg = data.getString("msg");
-            Intent resultIntent = new Intent(getApplicationContext(), Home.class);
-
-            try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                format = simpleDateFormat.format(new Date());
-                Log.e(TAG, "push json: " + json.toString());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                // app is in foreground, broadcast the push message
-                Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-                pushNotification.putExtra("message", data.toString());
-                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-                if (key.equalsIgnoreCase("You have a geofencing message")) {
-                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
-
-                }
-
-                if (key.equalsIgnoreCase("You have a push notification")) {
-                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
-
-                }
-
-
-            } else {
-
-                // app is in background, show the notification in notification tray
-                Log.e("hello like", "else");
-
-                if (key.equalsIgnoreCase("You have a push notification")) {
-                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
-
-                }
-
-                if (key.equalsIgnoreCase("You have a geofencing message")) {
-                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
-
-                }
-
-
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
-        }
-    }
-
-    *//**
-     * Showing notification with text only
-     *//*
-    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
-    }
-
-    *//**
-     * Showing notification with text and image
-     *//*
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
-    }*/
+//    private void handleDataMessage(JSONObject json) {
+//        Log.e(TAG, "push json: " + json.toString());
+//        System.out.println("----------------------json----------------" + json);
+//
+//        try {
+//
+//            JSONObject data = json.getJSONObject("message");
+//            System.out.println("----------------------json----------------" + data);
+//            String result = data.getString("result");
+//            String key = data.getString("key");
+//            String username = data.getString("username");
+//            String msg = data.getString("msg");
+//            Intent resultIntent = new Intent(getApplicationContext(), Home.class);
+//
+//            try {
+//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                format = simpleDateFormat.format(new Date());
+//                Log.e(TAG, "push json: " + json.toString());
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+//                // app is in foreground, broadcast the push message
+//                Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
+//                pushNotification.putExtra("message", data.toString());
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+//
+//                if (key.equalsIgnoreCase("You have a geofencing message")) {
+//                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
+//
+//                }
+//
+//                if (key.equalsIgnoreCase("You have a push notification")) {
+//                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
+//
+//                }
+//
+//
+//            } else {
+//
+//                // app is in background, show the notification in notification tray
+//                Log.e("hello like", "else");
+//
+//                if (key.equalsIgnoreCase("You have a push notification")) {
+//                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
+//
+//                }
+//
+//                if (key.equalsIgnoreCase("You have a geofencing message")) {
+//                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
+//
+//                }
+//
+//
+//            }
+//        } catch (Exception e) {
+//            Log.e(TAG, "Exception: " + e.getMessage());
+//        }
+//    }
+//
+////    *//**
+////     * Showing notification with text only
+////     *//*
+//    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
+//        notificationUtils = new NotificationUtils(context);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
+//    }
+//
+////    *//**
+////     * Showing notification with text and image
+////     *//*
+//    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
+//        notificationUtils = new NotificationUtils(context);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
+//    }
 
 }
