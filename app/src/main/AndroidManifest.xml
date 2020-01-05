@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="dev.news.goakhabar">
+    package="dev.news.goakhabarr">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:name=".Utils.MyApplication"
+        android:name="dev.news.goakhabarr.Utils.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/goakhabar"
@@ -24,19 +24,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.MenuNewsDetailsActivity"></activity>
-        <activity android:name=".Activity.About_us_Activity"></activity>
-        <activity android:name=".Activity.ProfileActivity" />
-        <activity android:name=".Activity.NewsDetailsActivity" />
-        <activity android:name=".E_paper_detailsActivity" />
-        <activity android:name=".VideoPlayActivity" />
-        <activity android:name=".E_PaperActivity" />
-        <activity android:name=".Activity.SignupActivity" />
-        <activity android:name=".Activity.SettingsActivity" />
-        <activity android:name=".Activity.SearchActivity" />
-        <activity android:name=".CommentActivity" />
-        <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.SplashActivity">
+        <activity android:name="dev.news.goakhabarr.Activity.MenuNewsDetailsActivity"></activity>
+        <activity android:name="dev.news.goakhabarr.Activity.About_us_Activity"></activity>
+        <activity android:name="dev.news.goakhabarr.Activity.ProfileActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.NewsDetailsActivity" />
+        <activity android:name="dev.news.goakhabarr.E_paper_detailsActivity" />
+        <activity android:name="dev.news.goakhabarr.VideoPlayActivity" />
+        <activity android:name="dev.news.goakhabarr.E_PaperActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.SignupActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.SettingsActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.SearchActivity" />
+        <activity android:name="dev.news.goakhabarr.CommentActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.MainActivity" />
+        <activity android:name="dev.news.goakhabarr.Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,7 +95,7 @@
         <meta-data android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent"/>
 
-    <service android:name=".Service.MyFirebaseMessagingService"
+    <service android:name="dev.news.goakhabarr.Service.MyFirebaseMessagingService"
             android:exported="true"
             android:enabled="true">
     <intent-filter>
