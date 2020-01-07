@@ -102,9 +102,9 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
     String postTitle[];
     int featured_media[];
     public static Integer goa_video_id;
-    AdView mAdView_home;
-    AdRequest adRequest;
-     AdView mAdView1;
+//    AdView mAdView_home;
+//    AdRequest adRequest;
+//     AdView mAdView1;
 
 
     @Nullable
@@ -132,15 +132,15 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
         }
 
         //banner ads initialize
-        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-        });
+//        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+//        });
 
 
-        mAdView_home = (AdView)view.findViewById(R.id.adView_home);
-        mAdView1 = (AdView)view.findViewById(R.id.adView);
-        adRequest = new AdRequest.Builder().build();
+//        mAdView_home = (AdView)view.findViewById(R.id.adView_home);
+//        mAdView1 = (AdView)view.findViewById(R.id.adView);
+//        adRequest = new AdRequest.Builder().build();
        // mAdView_home.loadAd(adRequestMain);
 
 //        mAdView_home.setAdSize(AdSize.SMART_BANNER);
@@ -148,68 +148,68 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 //        mAdView_home.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
 //        mAdView1.setAdUnitId("ca-app-pub-5014601384589531/1947070900");
 
-        AdRequest.Builder adRequest = new AdRequest.Builder();
+      //  AdRequest.Builder adRequest = new AdRequest.Builder();
 
-        String ANDROID_ID = Settings.Secure.getString(getContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        String deviceId = md5(ANDROID_ID).toUpperCase();
-        Log.e("ANDROID_ID", ""+ANDROID_ID);
-        Log.e("deviceId", ""+deviceId);
-
-        adRequest.addTestDevice(deviceId);
-
-
-        AdRequest request = adRequest.build();
-        mAdView_home.loadAd(request);
-        mAdView1.loadAd(request);
-
-        mAdView_home.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.e("ban_adsload", "Banner");
+//        String ANDROID_ID = Settings.Secure.getString(getContext().getContentResolver(),
+//                Settings.Secure.ANDROID_ID);
+//        String deviceId = md5(ANDROID_ID).toUpperCase();
+//        Log.e("ANDROID_ID", ""+ANDROID_ID);
+//        Log.e("deviceId", ""+deviceId);
+//
+//        adRequest.addTestDevice(deviceId);
 
 
-               // Toast.makeText(getActivity(), "Banner ads", Toast.LENGTH_SHORT).show();
-                // Code to be executed when an ad finishes loading.
-            }
+//        AdRequest request = adRequest.build();
+//        mAdView_home.loadAd(request);
+//        mAdView1.loadAd(request);
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Log.e("ban_ads", ""+errorCode);
-                //Toast.makeText(getActivity(), "Banner fail", Toast.LENGTH_SHORT).show();
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                Log.e("ban_adsopen", "Banner");
-               // Toast.makeText(getActivity(), "Banner open", Toast.LENGTH_SHORT).show();
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                Log.e("ban_adsclick", "Banner");
-                //Toast.makeText(getActivity(), "Banner click", Toast.LENGTH_SHORT).show();
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Log.e("ban_adsleft", "Banner");
-              //  Toast.makeText(getActivity(), "Banner left", Toast.LENGTH_SHORT).show();
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                Log.e("ban_adsclose", "Banner");
-                //Toast.makeText(getActivity(), "Banner close", Toast.LENGTH_SHORT).show();
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
+//        mAdView_home.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdLoaded() {
+//                Log.e("ban_adsload", "Banner");
+//
+//
+//               // Toast.makeText(getActivity(), "Banner ads", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when an ad finishes loading.
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+//                Log.e("ban_ads", ""+errorCode);
+//                //Toast.makeText(getActivity(), "Banner fail", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when an ad request fails.
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                Log.e("ban_adsopen", "Banner");
+//               // Toast.makeText(getActivity(), "Banner open", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when an ad opens an overlay that
+//                // covers the screen.
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                Log.e("ban_adsclick", "Banner");
+//                //Toast.makeText(getActivity(), "Banner click", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when the user clicks on an ad.
+//            }
+//
+//            @Override
+//            public void onAdLeftApplication() {
+//                Log.e("ban_adsleft", "Banner");
+//              //  Toast.makeText(getActivity(), "Banner left", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when the user has left the app.
+//            }
+//
+//            @Override
+//            public void onAdClosed() {
+//                Log.e("ban_adsclose", "Banner");
+//                //Toast.makeText(getActivity(), "Banner close", Toast.LENGTH_SHORT).show();
+//                // Code to be executed when the user is about to return
+//                // to the app after tapping on an ad.
+//            }
+//        });
 
         //**********************************************************
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
