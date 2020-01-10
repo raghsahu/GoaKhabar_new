@@ -93,7 +93,7 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/comment"/>
+                        android:src="@drawable/user_name"/>
 
                     <TextView
                         android:id="@+id/tv_login"
@@ -231,7 +231,7 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/comment"/>
+                        android:src="@drawable/ic_share_black_24dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -298,7 +298,7 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/comment"/>
+                        android:src="@drawable/ic_star_black_24dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -331,7 +331,7 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/comment"/>
+                        android:src="@drawable/ic_more_black_24dp"/>
 
                     <TextView
                         android:layout_width="match_parent"

@@ -665,26 +665,30 @@ public class FragmentHome extends Fragment implements TabLayout.OnTabSelectedLis
 
                             if (dataArrayList.get(j).getName().equalsIgnoreCase("IFFI GOA 2017")){
                                 dataArrayList.remove(j);
-                            }
-                            else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
+                            }else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
                                 dataArrayList.remove(j);
                             }
-                           // dataArrayList.remove(0);
-                            Collections.swap(dataArrayList, 0, 3);
+
+                            else if (dataArrayList.get(j).getName().equalsIgnoreCase("गोवा खबर")){
+                                int i=j;
+                                Collections.swap(dataArrayList, 0, i);
+
+                            }
+
 
                         }
 
                         for (int j = 0; j < dataArrayList.size(); j++) {
-
-
                             if (dataArrayList.get(j).getName().equalsIgnoreCase("IFFI GOA 2017")){
                                 dataArrayList.remove(j);
-                            }
-                            else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
+                            }else if (dataArrayList.get(j).getName().equalsIgnoreCase("UNCATEGORIZED")){
                                 dataArrayList.remove(j);
                             }
-                            // dataArrayList.remove(0);
-                            //Collections.swap(dataArrayList, 0, j);
+                            if (dataArrayList.get(j).getName().equalsIgnoreCase("इंग्लिश खबर")){
+                                int i=j;
+                                Collections.swap(dataArrayList, i, dataArrayList.size()-1);
+
+                            }
 
                         }
 
