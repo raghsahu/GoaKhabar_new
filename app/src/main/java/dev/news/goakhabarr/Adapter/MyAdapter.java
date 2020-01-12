@@ -107,19 +107,6 @@ public class MyAdapter extends ArrayAdapter<Object> {
 
         Log.e("post_title",postTitle[position].toString());
 
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mapPost = (Map<String,Object>)list.get(position);
-//                postID = ((Double)mapPost.get("id")).intValue();
-//
-//                Intent intent = new Intent(getContext(), NewsDetailsActivity.class);
-//                intent.putExtra("id", ""+postID);
-//                getContext().startActivity(intent);
-//
-//            }
-//
-//        });
 
         textViewOptions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,13 +129,8 @@ public class MyAdapter extends ArrayAdapter<Object> {
                                     //  String url = "http://www.goakhabar.com/wp-json/wp/v2/posts/"+postID+"?fields=title,content";
                                     String links=postLink[position];
                                     String title=postTitle[position];
-                                    // String img_url=media_img.get(position);
-                                  //  Log.e("img_url",media_img.get(position));
+
                                     ShareNews(links,title);
-
-                               // }catch (Exception e){
-
-                               // }
 
 
                                 return true;
@@ -192,12 +174,6 @@ public class MyAdapter extends ArrayAdapter<Object> {
                             Log.d("img_media", rendered);
 
                             media_img.add(rendered);
-//                            Glide
-//                                    .with(getContext())
-//                                    .load(rendered)
-//                                    //.placeholder(R.drawable.ic_loading)
-//                                    .centerCrop()
-//                                    .into(imageView);
 
                             Glide.with(getContext())
                                     .load(rendered)
@@ -258,27 +234,8 @@ public class MyAdapter extends ArrayAdapter<Object> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
-         //  String shareMessage= title+"\n";
-           // shareMessage = shareMessage + url;
             shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-          //  shareIntent.putExtra(Intent.EXTRA_STREAM, img_url);
-           // shareIntent.setType("image/jpeg");
             getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
-
-
-//            Intent shareIntent = new Intent();
-//            shareIntent.setType("image/*");
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            shareIntent.setAction(Intent.ACTION_SEND);
-//            //without the below line intent will show error
-//            shareIntent.setType("text/plain");
-//
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, img_url);
-//
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
-//
-
 
         } catch(Exception e) {
             //e.toString();

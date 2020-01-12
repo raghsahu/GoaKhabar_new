@@ -12,10 +12,6 @@ public interface Base_Url {
     String BaseUrl_MenuHeader_news="http://www.goakhabar.com/api/";
     String BaseUrl_login="https://www.goakhabar.com/api/user/";
 
-
-    //get_category_posts?slug=संपादकीय
-
-
     String categories="categories";
     String posts="posts";
 }

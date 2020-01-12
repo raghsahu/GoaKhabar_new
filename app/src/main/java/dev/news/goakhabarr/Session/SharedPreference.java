@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import org.json.JSONArray;
 
-public class AppPreference {
+public class SharedPreference {
     public static final String SHARED_PREFERENCE_NAME = "EXPENSEMGT";
     public static final String NAME = "name";
     public static final String EMAIL = "email";

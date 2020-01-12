@@ -18,8 +18,4 @@ public class Constants {
 
     public static final String SHARED_PREF = "ah_firebase";
 
-    public static final int MY_PERMISSIONS_REQUEST_CEMERA_OR_GALLERY = 105;
-    public final static int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    public final static int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    public static final int MY_PERMISSIONS_REQUEST_CEMERA = 103;
 }

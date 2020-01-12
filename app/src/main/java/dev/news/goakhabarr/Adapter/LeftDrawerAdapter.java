@@ -75,8 +75,6 @@ public class LeftDrawerAdapter extends BaseAdapter {
         //Selected Item  Highlighted
         if (selectedIndex != -1 && index == selectedIndex) {
 
-            //Log.e("test123455",""+drawerItem.getItemName());
-
             //PP call selectedIcon method
             setSelectedIconImage();
 
@@ -109,34 +107,6 @@ public class LeftDrawerAdapter extends BaseAdapter {
                 icon_profile.setImageResource(R.drawable.ic_home_black_24dp);
                 break;
 
-//            case "My Account":
-//                icon_profile.setImageResource(R.drawable.ic_user_w);
-//                break;
-//
-//            case "Change Location":
-//                icon_profile.setImageResource(R.drawable.ic_location_white);
-//                break;
-//
-//            case "Contact Us":
-//                icon_profile.setImageResource(R.drawable.ic_phone_w);
-//                break;
-//
-//            case "About Us":
-//                icon_profile.setImageResource(R.drawable.ic_about_us_w);
-//                break;
-//
-//            case "Setting":
-//                icon_profile.setImageResource(R.drawable.ic_settings_white);
-//                break;
-//
-//            case "Share App":
-//                icon_profile.setImageResource(R.drawable.ic_menu_share_w);
-//                break;
-//
-//            case "LogOut":
-//                icon_profile.setImageResource(R.drawable.ic_logout_w);
-
-               // break;
         }
     }
 

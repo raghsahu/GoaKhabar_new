@@ -3,14 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.news.goakhabarr">
 
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.CAMERA" />-->
     <uses-permission android:name="android.permission.INTERNET" />
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
 
     <application
         android:name="dev.news.goakhabarr.Utils.MyApplication"
@@ -28,13 +21,9 @@
         <activity android:name="dev.news.goakhabarr.Activity.About_us_Activity"></activity>
         <activity android:name="dev.news.goakhabarr.Activity.ProfileActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.NewsDetailsActivity" />
-        <activity android:name="dev.news.goakhabarr.E_paper_detailsActivity" />
-        <activity android:name="dev.news.goakhabarr.VideoPlayActivity" />
-        <activity android:name="dev.news.goakhabarr.E_PaperActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.SignupActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.SettingsActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.SearchActivity" />
-        <activity android:name="dev.news.goakhabarr.CommentActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.MainActivity" />
         <activity android:name="dev.news.goakhabarr.Activity.SplashActivity">
             <intent-filter>

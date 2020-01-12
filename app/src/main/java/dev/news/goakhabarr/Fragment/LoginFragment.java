@@ -40,7 +40,7 @@ import dev.news.goakhabarr.Api_Call.Api_Call;
 import dev.news.goakhabarr.Activity.MainActivity;
 import dev.news.goakhabarr.Pojo.LoginModel.Login_model;
 import dev.news.goakhabarr.R;
-import dev.news.goakhabarr.Session.AppPreference;
+import dev.news.goakhabarr.Session.SharedPreference;
 import dev.news.goakhabarr.Session.SessionManager;
 import dev.news.goakhabarr.Utils.Connectivity;
 import retrofit2.Call;
@@ -139,7 +139,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                                     //  String gender = object.getString("gender");
                                     //String birthday = object.getString("birthday");
 
-                                    AppPreference.setName(getActivity(),name);
+                                    SharedPreference.setName(getActivity(),name);
                                     Intent intent=new Intent(getActivity(), MainActivity.class);
                                     startActivity(intent);
                                    // getActivity().finish();
@@ -221,8 +221,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
                         Log.e("login_status",response.body().getStatus());
                         if (response.body().getStatus().equalsIgnoreCase("ok")){
-                            AppPreference.setName(getActivity(),response.body().getUser().getFirstname());
-                            AppPreference.setUser_Id(getActivity(), String.valueOf(response.body().getUser().getId()));
+                            SharedPreference.setName(getActivity(),response.body().getUser().getFirstname());
+                            SharedPreference.setUser_Id(getActivity(), String.valueOf(response.body().getUser().getId()));
                             Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
 
                             sessionManager.setLogin(true);
@@ -278,8 +278,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             social_name = acct.getDisplayName();
             social_email = acct.getEmail();
 
-            AppPreference.setName(getActivity(),social_name);
-            AppPreference.setEmail(getActivity(),social_email);
+            SharedPreference.setName(getActivity(),social_name);
+            SharedPreference.setEmail(getActivity(),social_email);
 
             sessionManager.setLogin(true);
             Intent intent=new Intent(getActivity(), MainActivity.class);

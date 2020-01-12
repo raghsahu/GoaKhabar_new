@@ -300,21 +300,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("Udid", udid);
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
-            /*DatabaseHelper db=new DatabaseHelper(this);
-            ChatUserModal modal=new ChatUserModal();
-            modal.setFcmId(fcmId);
-            modal.setUdid(udid);
-            modal.setMessage(message);
-            modal.setUserName(userName);
-            modal.setUserId(userId);
-            Log.e("nudid",udid);
 
-            if (db.checkUser(userId)){
-                db.updateUser(modal);
-            }else {
-                db.addUser(modal);
-            }
-            Log.e(TAG, "Data From Local: " + db.getAllUser());*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -347,108 +333,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(1, b.build());
     }
 
-
-//    private void handleNotification(String message) {
-//        try {
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            format = simpleDateFormat.format(new Date());
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-//            // app is in foreground, broadcast the push message
-//            Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-//            pushNotification.putExtra("message", message);
-//            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-//            // play notification sound
-//            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-//            notificationUtils.playNotificationSound();
-//
-//        } else {
-//            // If the app is in background, firebase itself handles the notification
-//        }
-//    }
-
-//    private void handleDataMessage(JSONObject json) {
-//        Log.e(TAG, "push json: " + json.toString());
-//        System.out.println("----------------------json----------------" + json);
-//
-//        try {
-//
-//            JSONObject data = json.getJSONObject("message");
-//            System.out.println("----------------------json----------------" + data);
-//            String result = data.getString("result");
-//            String key = data.getString("key");
-//            String username = data.getString("username");
-//            String msg = data.getString("msg");
-//            Intent resultIntent = new Intent(getApplicationContext(), Home.class);
-//
-//            try {
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                format = simpleDateFormat.format(new Date());
-//                Log.e(TAG, "push json: " + json.toString());
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-//                // app is in foreground, broadcast the push message
-//                Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-//                pushNotification.putExtra("message", data.toString());
-//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-//
-//                if (key.equalsIgnoreCase("You have a geofencing message")) {
-//                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
-//
-//                }
-//
-//                if (key.equalsIgnoreCase("You have a push notification")) {
-//                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
-//
-//                }
-//
-//
-//            } else {
-//
-//                // app is in background, show the notification in notification tray
-//                Log.e("hello like", "else");
-//
-//                if (key.equalsIgnoreCase("You have a push notification")) {
-//                    showNotificationMessage(getApplicationContext(), "Message from " + username, msg, format, resultIntent);
-//
-//                }
-//
-//                if (key.equalsIgnoreCase("You have a geofencing message")) {
-//                    showNotificationMessage(getApplicationContext(), "geofencing Message from " + username, msg, format, resultIntent);
-//
-//                }
-//
-//
-//            }
-//        } catch (Exception e) {
-//            Log.e(TAG, "Exception: " + e.getMessage());
-//        }
-//    }
-//
-////    *//**
-////     * Showing notification with text only
-////     *//*
-//    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
-//        notificationUtils = new NotificationUtils(context);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
-//    }
-//
-////    *//**
-////     * Showing notification with text and image
-////     *//*
-//    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-//        notificationUtils = new NotificationUtils(context);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
-//    }
 
 }

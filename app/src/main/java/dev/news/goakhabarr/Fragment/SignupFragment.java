@@ -94,8 +94,8 @@ public class SignupFragment extends Fragment {
 
                         Log.e("login_status",response.body().getStatus());
                         if (response.body().getStatus().equalsIgnoreCase("ok")){
-                           // AppPreference.setName(getActivity(),response.body().getUser().getFirstname());
-                            //AppPreference.setUser_Id(getActivity(), String.valueOf(response.body().getUser().getId()));
+                           // SharedPreference.setName(getActivity(),response.body().getUser().getFirstname());
+                            //SharedPreference.setUser_Id(getActivity(), String.valueOf(response.body().getUser().getId()));
                             Toast.makeText(getActivity(), ""+response.body().getStatus(), Toast.LENGTH_SHORT).show();
 
                             sessionManager.setLogin(true);

@@ -292,12 +292,6 @@ public class NewsDetailsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
-
-                // content.loadData(mapContent.get("rendered").toString(),"text/html","UTF-8");
-
-
-
                 progressDialog.dismiss();
             }
         }, new Response.ErrorListener() {

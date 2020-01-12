@@ -30,7 +30,7 @@ import dev.news.goakhabarr.Api_Call.APIClient3;
 import dev.news.goakhabarr.Api_Call.Api_Call;
 import dev.news.goakhabarr.Pojo.Profile_model;
 import dev.news.goakhabarr.R;
-import dev.news.goakhabarr.Session.AppPreference;
+import dev.news.goakhabarr.Session.SharedPreference;
 import dev.news.goakhabarr.Session.SessionManager;
 import dev.news.goakhabarr.Utils.Connectivity;
 import retrofit2.Call;
@@ -60,9 +60,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
 
         try {
-            tv_name.setText(AppPreference.getName(ProfileActivity.this));
-            tv_nickname.setText(AppPreference.getName(ProfileActivity.this));
-            tv_email.setText(AppPreference.getEmail(ProfileActivity.this));
+            tv_name.setText(SharedPreference.getName(ProfileActivity.this));
+            tv_nickname.setText(SharedPreference.getName(ProfileActivity.this));
+            tv_email.setText(SharedPreference.getEmail(ProfileActivity.this));
 
         }catch (Exception e){
 
@@ -107,7 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
         Api_Call apiInterface = APIClient3.getClient().create(Api_Call.class);
 
-        Call<Profile_model> call = apiInterface.GetProfile(AppPreference.getUser_Id(ProfileActivity.this));
+        Call<Profile_model> call = apiInterface.GetProfile(SharedPreference.getUser_Id(ProfileActivity.this));
 
         call.enqueue(new Callback<Profile_model>() {
             @Override
@@ -171,9 +171,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                     // not signed in. Show the "sign in" button and explanation.
                     disconnectFromFacebook();
                     manager.logoutUser();
-                    AppPreference.setName(ProfileActivity.this, "");
-                    AppPreference.setUser_Id(ProfileActivity.this, "");
-                    AppPreference.setEmail(ProfileActivity.this, "");
+                    SharedPreference.setName(ProfileActivity.this, "");
+                    SharedPreference.setUser_Id(ProfileActivity.this, "");
+                    SharedPreference.setEmail(ProfileActivity.this, "");
                     Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                     startActivity(intent);
                     finish();
@@ -203,9 +203,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
                 LoginManager.getInstance().logOut();
                 manager.logoutUser();
-                AppPreference.setName(ProfileActivity.this, "");
-                AppPreference.setUser_Id(ProfileActivity.this, "");
-                AppPreference.setEmail(ProfileActivity.this, "");
+                SharedPreference.setName(ProfileActivity.this, "");
+                SharedPreference.setUser_Id(ProfileActivity.this, "");
+                SharedPreference.setEmail(ProfileActivity.this, "");
                 Intent intent=new Intent(ProfileActivity.this, SignupActivity.class);
                 startActivity(intent);
                 finish();
@@ -223,9 +223,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                             Toast.makeText(ProfileActivity.this, "logout success", Toast.LENGTH_SHORT).show();
                             Log.e("logout_app_gmail", "google login logout");
                             manager.logoutUser();
-                            AppPreference.setName(ProfileActivity.this, "");
-                            AppPreference.setUser_Id(ProfileActivity.this, "");
-                            AppPreference.setEmail(ProfileActivity.this, "");
+                            SharedPreference.setName(ProfileActivity.this, "");
+                            SharedPreference.setUser_Id(ProfileActivity.this, "");
+                            SharedPreference.setEmail(ProfileActivity.this, "");
                             Intent intent=new Intent(ProfileActivity.this,SignupActivity.class);
                             startActivity(intent);
                             finish();

@@ -33,26 +33,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.news.goakhabarr.Api_Call.APIClient;
-import dev.news.goakhabarr.Api_Call.APIClient1;
-import dev.news.goakhabarr.Api_Call.ApiClient2;
 import dev.news.goakhabarr.Api_Call.Api_Call;
-import dev.news.goakhabarr.E_PaperActivity;
 import dev.news.goakhabarr.Fragment.FragmentHome;
 import dev.news.goakhabarr.Fragment.Fragment_Video;
 import dev.news.goakhabarr.Fragment.News_Fragment;
 import dev.news.goakhabarr.Adapter.LeftDrawerAdapter;
 import dev.news.goakhabarr.Pojo.Category_Home.Category_Home_Model;
 import dev.news.goakhabarr.Pojo.DrawerItem;
-import dev.news.goakhabarr.Pojo.Header_menu.HeaderMenuModel;
-import dev.news.goakhabarr.Pojo.Menu_Wise_News.Menu_categ_news_model;
 import dev.news.goakhabarr.R;
-import dev.news.goakhabarr.Session.AppPreference;
+import dev.news.goakhabarr.Session.SharedPreference;
 import dev.news.goakhabarr.Session.SessionManager;
 import dev.news.goakhabarr.Utils.Connectivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -71,9 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView iv_search,iv_setting;
     public static TextView tv_title;
     public static ImageView iv_logo;
-    public static List<Category_Home_Model> dataArrayList;
+    public List<Category_Home_Model> dataArrayList;
     SessionManager sessionManager;
-    //public static String toPrint = "";
+    public static Integer goa_video_id;
     public static AdRequest adRequestMain;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -90,12 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ft_home.addToBackStack(null);
                     ft_home.commit();
                     return true;
-                case R.id.navigation_dashboard:
 
-                    Intent intent=new Intent(MainActivity.this, E_PaperActivity.class);
-                    startActivity(intent);
-
-                    return true;
                 case R.id.navigation_video:
 
                     Fragment fragment=new Fragment_Video();
@@ -148,18 +137,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onInitializationComplete(InitializationStatus initializationStatus) {}
         });
 
-       // AdView mAdView = (AdView)findViewById(R.id.adView_home);
-        adRequestMain = new AdRequest.Builder().build();
-        //mAdView_home.loadAd(adRequestMain);
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
-        //mDrawerLayout.setDrawerListener(toggle);
-      // actionbar.setDisplayHomeAsUpEnabled(true)
+
         toggle.syncState();
 
         View header = getLayoutInflater().inflate(R.layout.nav_header_activity_navigation, null);
@@ -171,15 +155,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mDrawerList.addHeaderView(header);
-        nav_tv_name.setText(AppPreference.getName(MainActivity.this));
+        nav_tv_name.setText(SharedPreference.getName(MainActivity.this));
 
         clickListner();
         //Drawer Item
        DrawerItem();
         SetupDrawer();
-        //getHeaderMenu();
 
-
+        //***set default open fragment
         Fragment  fragment1 = new FragmentHome();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
@@ -188,130 +171,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //****************************************************
         if (Connectivity.isConnected(MainActivity.this)){
-
-           // getCategory();//************
-            // getpost();
-
-           // getMenuNews("ब्रेकिंग-न्यूज़");
-
-
+            getCategory();//find video news id
         }else {
             Toast.makeText(MainActivity.this, "Please check Internet", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void getMenuNews(String s) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
-        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        progressDialog.show();
-
-        Api_Call apiInterface = ApiClient2.getClient().create(Api_Call.class);
-
-        Call<Menu_categ_news_model> call = apiInterface.GetHeaderNews(s);
-
-        call.enqueue(new Callback<Menu_categ_news_model>() {
-            @Override
-            public void onResponse(Call<Menu_categ_news_model> call, Response<Menu_categ_news_model> response) {
-                progressDialog.dismiss();
-                try{
-
-                    if (response!=null){
-                        Log.e("breaking_title_res", response.body().getStatus());
-
-                        if (!response.body().getStatus().equalsIgnoreCase("error")){
-                            for (int i=0; i<response.body().getPosts().size();i++){
-                                Log.e("breaking_title", response.body().getPosts().get(i).getTitle());
-
-                                //String breaking_news= " "+response.body().getPosts().get(i).getTitle();
-
-
-                                  // // String result = String.join(", ", response.body().getPosts().get(i).getTitle());
-//                                    toPrint += response.body().getPosts().get(i).getTitle()+" , ";
-//                                    Log.e("breaking_result",""+toPrint);
-
-
-
-
-                            }
-
-
-                        }else {
-                           // Toast.makeText(MainActivity.this, "No news", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    }
-                }catch (Exception e){
-                    Log.e("error_breaking_title", e.getMessage());
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<Menu_categ_news_model> call, Throwable t) {
-                progressDialog.dismiss();
-                Log.e("error_category1",t.getMessage());
-                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-    private void getHeaderMenu() {
-
-        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
-        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        progressDialog.show();
-
-        Api_Call apiInterface = APIClient1.getClient().create(Api_Call.class);
-
-        Call<HeaderMenuModel> call = apiInterface.GetMenu();
-
-        call.enqueue(new Callback<HeaderMenuModel>() {
-            @Override
-            public void onResponse(Call<HeaderMenuModel> call, Response<HeaderMenuModel> response) {
-
-                try{
-                    if (response!=null){
-                        Log.e("get_menu",""+response.body().getItems().get(0).getTitle());
-                        // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
-
-                        List_Item.clear();
-
-                        try {
-                            for (int j = 0; j < response.body().getItems().size(); j++) {
-
-                                List_Item.add(new DrawerItem(R.drawable.ic_home_black_24dp, response.body().getItems().get(j).getTitle(), R.drawable.ic_expand));
-                            }
-                        }catch (Exception e){
-
-                        }
-                        //Setup Drawer
-                        SetupDrawer();
-
-                    }
-                }catch (Exception e){
-                    Log.e("error_cate", e.getMessage());
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<HeaderMenuModel> call, Throwable t) {
-                progressDialog.dismiss();
-                Log.e("error_menu1",t.getMessage());
-                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
 
     private void getCategory() {
-
         dataArrayList = new ArrayList<>();
         final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,R.style.MyGravity);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -328,24 +197,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try{
                     if (response!=null){
                         dataArrayList= response.body();
-                        Log.e("get_cate",""+response.body().get(0).getName());
-                        // Log.e("get_cate1",""+response.body().getLinks().getWpPostType().get(0).getHref());
 
-//                        homeAdapter = new HomeAdapter(dataArrayList, getActivity());
-//                        recycler_news.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-//                        recycler_news.setAdapter(homeAdapter);
-//                        recycler_news.setFocusable(false);
-//                        homeAdapter.notifyDataSetChanged();
+                        for (int j = 0; j < dataArrayList.size(); j++) {
+                            Log.e("get_cate",""+dataArrayList.get(j).getName());
 
+                            if (dataArrayList.get(j).getName().equalsIgnoreCase("गोवा खबर व्हिडीओ")){
+                                goa_video_id=dataArrayList.get(j).getId();
+                                Log.e("goa_video_tab_id",""+goa_video_id);
 
-//                        try {
-//                            for (int j = 0; j < dataArrayList.size(); j++) {
-//
-//                                tabLayout.addTab(tabLayout.newTab().setText(dataArrayList.get(j).getName()));
-//                            }
-//                        }catch (Exception e){
-//
-//                        }
+                            }
+                        }
 
                     }
                 }catch (Exception e){
@@ -358,13 +219,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(Call<List<Category_Home_Model>> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.e("error_category1",t.getMessage());
-                //Toast.makeText(AllCountries.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
+
+
     }
+
 
     private void clickListner() {
 
@@ -410,32 +274,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("Position......", Item_Name);
         //-********************************
 
-//                if (Item_Name.equals("होम")) {
-//
-//                    //titletxt.setText("Home");
-//                    Fragment fragment1 = new FragmentHome();
-//                    // imgheader.setVisibility(View.GONE);
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    fragmentManager.beginTransaction().replace(R.id.frame, fragment1).commit();
-//                    mDrawerLayout.closeDrawer(mDrawerList);
-//
-//                }else {
-//
-//                    Fragment  fragment2 = new News_Fragment();
-//                    tv_title.setText(Item_Name);
-//                    iv_logo.setVisibility(View.GONE);
-//                    tv_title.setVisibility(View.VISIBLE);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("Title", Item_Name);
-//                    FragmentManager fragmentManager2 = getSupportFragmentManager();
-//                    fragmentManager2.beginTransaction().replace(R.id.frame, fragment2).commit();
-//                    fragment2.setArguments(bundle);
-//                    mDrawerLayout.closeDrawer(mDrawerList);
-//                }
-
-
-
-        //**************************************
         //Call Fragment on a listview click listner
         if (Item_Name.equals("होम")) {
                     //titletxt.setText("Home");
@@ -604,8 +442,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDrawerLayout.closeDrawer(mDrawerList);
 
         }
-
-
     }
 
     //Drawer Item Array
@@ -673,42 +509,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Log.e("pos", "" + ScreenPos);
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//
-//        } else if (ScreenPos == 0) {
-//
-//            if (doubleBackToExitPressedOnce) {
-//                super.onBackPressed();
-//                return;
-//            }
-//
-//            this.doubleBackToExitPressedOnce = true;
-//            Toast.makeText(this, "Please Press Back again to exit the app", Toast.LENGTH_SHORT).show();
-//
-//            new Handler().postDelayed(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//
-//                    doubleBackToExitPressedOnce = false;
-//                }
-//            }, 2000);
-//
-//        } else {
-//
-//            //Call home fragment
-//            SelectOption(0);
-//
-//        }
-   // }
 
 
     @Override

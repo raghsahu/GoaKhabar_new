@@ -57,27 +57,6 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(intent1);
                         finish();
 
-//                if (session.isLoggedIn()) {
-//
-//                    if (session.getUserId()!= null && !session.getUserId().equalsIgnoreCase("")) {
-//                        Log.e("sess_logi", ""+session.isLoggedIn());
-//                        Intent intent1=new Intent(ActivitySplash.this,ActivityNavigation.class);
-//                        startActivity(intent1);
-//                        finish();
-//
-//                        Animatoo.animateFade(ActivitySplash.this);
-//                    } else
-//                        Toast.makeText(ActivitySplash.this, "User not exist", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//                    Log.e("sess_logi", ""+session.isLoggedIn());
-//                    Intent intent1 = new Intent(ActivitySplash.this, ActivityWelcome.class);
-//                    startActivity(intent1);
-//                    finish();
-//                    Animatoo.animateFade(ActivitySplash.this);
-//                }
-
-
 
             }
         }, 5000);

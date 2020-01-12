@@ -53,16 +53,7 @@ public class News_Fragment extends Fragment {
 
             View view = inflater.inflate(R.layout.menu_news_fragment, container, false);
 
-
-            // backpress = (ImageView) view.findViewById(R.id.back_press);
             recycler_news = view.findViewById(R.id.recycler_news);
-
-//        backpress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity)getActivity()).onBackPressed();
-//            }
-//        });
 
             iv_logo.setVisibility(View.GONE);
             tv_title.setVisibility(View.VISIBLE);

@@ -6,15 +6,29 @@ package dev.news.goakhabarr.Pojo;
 public class DrawerItem {
     private long iconImg;
     private String itemName;
-    //private String itemDesc;
+   private String item_id;
     private long iconId;
 
 
     public DrawerItem(long iconImg, String itemName, long iconId) {
         this.iconImg = iconImg;
         this.itemName = itemName;
-        //this.itemDesc = itemDesc;
         this.iconId = iconId;
+    }
+
+
+    public DrawerItem(String s_id, String s_name) {
+        this.itemName = s_name;
+        this.item_id = s_id;
+    }
+
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
     }
 
     public long getIconImg() {

@@ -35,33 +35,25 @@ public interface Api_Call {
     Call<Profile_model> GetProfile(@Query("user_id")String user_id);
 
     @GET("posts")
-    Call<List<Home_categ_news_model>> GetSearchNews(@Query("filter[category_name]")String होम,
-                                              @Query("per_page") String s,
-                                              @Query("order") String asc,
-                                              @Query("search") String s1);
+    Call<List<Home_categ_news_model>> GetSearchNews(
+            @Query("filter[category_name]")String होम,
+            @Query("per_page") String s,
+            @Query("order") String asc,
+            @Query("search") String s1);
 
 
     @GET("register/")
-    Call<Signup_model> GetSignup(@Query("username") String et_username,
-                                 @Query("user_pass") String et_password,
-                                 @Query("email") String et_email,
-                                 @Query("nonce") String get_nonce,
-                                 @Query("notify")String both,
-                                 @Query("json") String json,
-                                 @Query("controller")String controller,
-                                 @Query("method")String method);
+    Call<Signup_model> GetSignup(
+            @Query("username") String et_username,
+            @Query("user_pass") String et_password,
+            @Query("email") String et_email,
+            @Query("nonce") String get_nonce,
+            @Query("notify")String both,
+            @Query("json") String json,
+            @Query("controller")String controller,
+            @Query("method")String method);
 
 
-
-//    @FormUrlEncoded
-//    @POST(Base_Url.get_community_detail)
-//    Call<CommunityDeailsModel> GetCommunityDetails(
-//            @Field("id") String community_id) ;
-
-
-//
-//    @GET(Base_Url.get_countries)
-//    Call<CountryDeailsModel> GetAllCountry();
 
 
 }

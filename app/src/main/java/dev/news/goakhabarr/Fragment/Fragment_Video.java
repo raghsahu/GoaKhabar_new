@@ -45,16 +45,14 @@ import dev.news.goakhabarr.Adapter.MyAdapter;
 import dev.news.goakhabarr.Activity.NewsDetailsActivity;
 import dev.news.goakhabarr.R;
 import dev.news.goakhabarr.Utils.Connectivity;
-import dev.news.goakhabarr.VideoPlayActivity;
 
-import static dev.news.goakhabarr.Fragment.FragmentHome.goa_video_id;
+import static dev.news.goakhabarr.Activity.MainActivity.goa_video_id;
 import static dev.news.goakhabarr.Fragment.FragmentHome.md5;
 
 /**
  * Created by Raghvendra Sahu on 10-Nov-19.
  */
 public class Fragment_Video extends Fragment {
-    LinearLayout ll_vid_play;
     List<Object> list;
     Gson gson;
     Map<String,Object> mapPost;
@@ -74,27 +72,8 @@ public class Fragment_Video extends Fragment {
         View view = inflater.inflate(R.layout.video_fragment, container, false);
 
         getActivity().setTitle(R.string.home);
-        // backpress = (ImageView) view.findViewById(R.id.back_press);
-         ll_vid_play =  view.findViewById(R.id.ll_vid_play);
         postList = (ListView)view.findViewById(R.id.postList);
 
-
-//        backpress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity)getActivity()).onBackPressed();
-//            }
-//        });
-        ll_vid_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent=new Intent(getActivity(), VideoPlayActivity.class);
-                startActivity(intent);
-
-            }
-        });
-//
 
         //**************************************
         try {
@@ -103,7 +82,6 @@ public class Fragment_Video extends Fragment {
             String cate_url="http://www.goakhabar.com/wp-json/wp/v2/posts?categories="+goa_video_id;
 
             if (Connectivity.isConnected(getActivity())){
-                //GetCategoryNews(id);
                 getpost(cate_url);
             }else Toast.makeText(getActivity(), "Please check Internet", Toast.LENGTH_SHORT).show();
         }catch (Exception e){

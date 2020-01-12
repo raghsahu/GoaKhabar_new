@@ -36,11 +36,6 @@ import dev.news.goakhabarr.R;
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHolder> {
     private List<MenuPostNews> category_home_models;
     Context context;
-    Map<String,Object> mapPost;
-    Map<String,Object> mapTitle;
-    int postID;
-    String postTitle[];
-
 
     public HomeNewsAdapter(List<MenuPostNews> category_home_models1, Context context) {
         this.category_home_models = category_home_models1;
@@ -134,14 +129,30 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
         holder.ll_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String news_title=category_home_models.get(position).getTitle();
-                String news_Discription=category_home_models.get(position).getContent();
 
-                Intent intent = new Intent(context, MenuNewsDetailsActivity.class);
-                intent.putExtra("news_title", news_title);
-                intent.putExtra("news_Discription", news_Discription);
-                intent.putExtra("news_image", category_home_models.get(position).getAttachments().get(0).getUrl());
-                context.startActivity(intent);
+                try {
+                    String news_image=category_home_models.get(position).getAttachments().get(0).getUrl();
+                    String news_title=category_home_models.get(position).getTitle();
+                    String news_Discription=category_home_models.get(position).getContent();
+
+                    Intent intent = new Intent(context, MenuNewsDetailsActivity.class);
+                    intent.putExtra("news_title", news_title);
+                    intent.putExtra("news_Discription", news_Discription);
+                    intent.putExtra("news_image", news_image);
+                    context.startActivity(intent);
+                }catch (Exception e){
+
+                    String news_title=category_home_models.get(position).getTitle();
+                    String news_Discription=category_home_models.get(position).getContent();
+
+                    Intent intent = new Intent(context, MenuNewsDetailsActivity.class);
+                    intent.putExtra("news_title", news_title);
+                    intent.putExtra("news_Discription", news_Discription);
+                    intent.putExtra("news_image", "");
+                    context.startActivity(intent);
+
+                }
+
 
             }
         });
@@ -156,56 +167,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoaKhabar");
             shareIntent.putExtra(Intent.EXTRA_TEXT, links);
             context.startActivity(Intent.createChooser(shareIntent, "choose one"));
-//***************************************************************
-//            try {
-////
-//                URL imageurl = new URL(url);
-//                Bitmap bitmap = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
-////***********************************
-//
-//                Intent intent=new Intent(Intent.ACTION_SEND);
-//                intent.setType("image/*");
-//                intent.putExtra(intent.EXTRA_SUBJECT,"GoaKhabar");
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                intent.putExtra(Intent.EXTRA_TEXT,links);
-//                intent.putExtra(Intent.EXTRA_STREAM,bitmap);
-//              //  intent.setPackage("com.whatsapp");
-//                context.startActivity(Intent.createChooser(intent, "choose one"));
-//                context.startActivity(intent);
-//
-//
-//               // return myBitmap;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                //return null;
-//            }
-
-//            try {
-//
-//                File cachePath = new File(context.getCacheDir(), "images");
-//                cachePath.mkdirs(); // don't forget to make the directory
-//                FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
-//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                stream.close();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-//            File imagePath = new File(context.getCacheDir(), "images");
-//            File newFile = new File(imagePath, "image.png");
-//            Uri contentUri = FileProvider.getUriForFile(context, "com.example.myapp.fileprovider", newFile);
-//
-//            if (contentUri != null) {
-//                Intent shareIntent = new Intent();
-//                shareIntent.setAction(Intent.ACTION_SEND);
-//                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
-//                shareIntent.setDataAndType(contentUri, context.getContentResolver().getType(contentUri));
-//                shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-//                context.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
-//            }
-
-
 
         } catch(Exception e) {
             //e.toString();

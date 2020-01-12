@@ -72,9 +72,6 @@ public class SearchActivity extends AppCompatActivity {
         postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // mapPost = (Map<String,Object>)list.get(position);
-                //postID = ((Double)mapPost.get("id")).intValue();
-
                 Intent intent = new Intent(SearchActivity.this, NewsDetailsActivity.class);
                 intent.putExtra("id", ""+catByNews.get(position).getId());
                 startActivity(intent);
@@ -111,12 +108,6 @@ public class SearchActivity extends AppCompatActivity {
 
                         postList.setAdapter(new ArrayAdapter(SearchActivity.this,android.R.layout.simple_list_item_1,news_list));
 
-//                        ArrayAdapter<String> NewsAdapter = new ArrayAdapter<String>(SearchActivity.this,
-//                                android.R.layout.simple_spinner_dropdown_item, news_list);
-//                        // CountryAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-//                        search.setThreshold(1);
-//                        search.setAdapter(NewsAdapter);
-//                        search.showDropDown();
 
                     }
 
