@@ -218,14 +218,14 @@ public class FragmentHome extends Fragment {
     private void SetMenuOption() {
         List_Item.clear();
         List_Item.add(new DrawerItem("गोवा-खबर", getString(R.string.goa)));
-        List_Item.add(new DrawerItem("महाराष्ट्र-खबर", getString(R.string.maharatra_news)));
-        List_Item.add(new DrawerItem("क्राइम-खबर", getString(R.string.crime_news)));
-        List_Item.add(new DrawerItem("क्रीडा-खबर", getString(R.string.krida)));
         List_Item.add(new DrawerItem("देश-खबर", getString(R.string.desh)));
         List_Item.add(new DrawerItem("विदेश-खबर", getString(R.string.videsh)));
         List_Item.add(new DrawerItem("राजकारण-खबर", getString(R.string.rajkaran)));
         List_Item.add(new DrawerItem("बिझनेस-खबर", getString(R.string.business)));
         List_Item.add(new DrawerItem("मनोरंजन-खबर", getString(R.string.manoranjan)));
+        List_Item.add(new DrawerItem("क्रीडा-खबर", getString(R.string.krida)));
+        List_Item.add(new DrawerItem("महाराष्ट्र-खबर", getString(R.string.maharatra_news)));
+        List_Item.add(new DrawerItem("क्राइम-खबर", getString(R.string.crime_news)));
         List_Item.add(new DrawerItem("संपादकीय", getString(R.string.sampadkiya)));
         List_Item.add(new DrawerItem("इंग्लिश-खबर", getString(R.string.english_khabar)));
         List_Item.add(new DrawerItem("ब्रांड-कनेक्ट", getString(R.string.brand)));
